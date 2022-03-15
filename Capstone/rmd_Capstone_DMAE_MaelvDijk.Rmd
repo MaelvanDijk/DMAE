@@ -1,0 +1,221 @@
+---
+title: "Capstone_MaelvDijk_DMaE"
+author: "Maël"
+date: '2022-03-15'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Inleiding
+In dit capstone project wordt de ontwikkeling naar de vraag van hardskills en rollen binnen het data domein onderzocht. Het project is ontsprongen naar aanleiding van een gerelateerde vraag vanuit House of Bèta. Bij aanvang van dit project was de wens een onderzoek te doen naar drivers en kenmerken van uitstroom van onze consultants. Wegens juridische beperkingen en het hier uit volgende tijdsgebrek is gekozen voor het onderzoeken van een alternatieve vraag, namelijk: **"Hoe ontwikkelt de vraag naar 'data specialisten' zich kijkende naar de gevraagde vaardigheden en het geboden loon"**.
+
+Deze nieuw geformuleerde vraag helpt deels de originele vraag te beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor het geboden loon en ondersteunen in het samenstellen van een (deel van) het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de vraag naar "data personeel" en de daarbijhorende opdrachtgevers.
+
+
+## Business understanding
+
+### House of Bèta
+House of Bèta (HoB) is een detacheerder en consultancy op het gebied van business IT. Er zijn diverse specialisatie richtingen waartussen een consultant kan kiezen. HoB richt zich op starters op de arbeidsmarkt en staat open voor consultants met en zonder formele IT opleiding. Naast het matchen tussen vraag en aanbod van consultants en opdrachtgevers zorgt HoB voor een breed aanbod aan opleidingen zodat consultants zich kunnen blijven ontwikkelen op het gebied van hard-, en softskills. Een consultancy staat of valt met de expertise en kennis van haar medewerkers, dit maakt retentie van medewerkers belangrijk. De uitstroom van HoB's zusterbedrijf Talent&Pro in 2021 is aanleiding voor HoB om hier meer grip op te krijgen. Na een kort voor onderzoek is gebleken dat met de beschikbare tijd en midellen de uitstroom analyseren en potentiëel voorspellen nog niet mogelijk is. Hierop is voorgesteld om naar de vacature ontwikkeling te kijken. Deze analyse kan een bijdragen leveren aan het onderzoek omtrent uitstroom, daarnaast geeft het HoB de mogelijkheid om haar huidige compensatie aan medewerkers op waarde te schatten.
+
+### Businessvraag
+De vraag die bij de business ligt: **"Hoe ontwikkelt de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?"** komt vanuit de commercieel directeur van HoB. Het probleemgebied heeft betrekking op: commercie, businessdevelopement en HR. Dit maakt dat de uiteindelijke inzichten op meer plekken in de organisatie gedragen zal worden.
+
+Om deze vraag te beantwoorden moeten er een aantal deelvragen beantwoord worden:
+1. Hoe ontwikkelt de vraag naar individuele skills zich?
+2. Hoe verhoudt de kennis breedte (aantal skills) zich tot de loon en rolverdeling?
+3. In welke zit de grootste vraag (ontwikkeling)?
+
+### data gebruik
+Er vinden nog geen datamining activiteiten plaats binnen HoB. Naast de analyse wordt er dan ook een stuk code geleverd om een vacatures te minen. Dit kan vrij door HoB gebruikt worden indien gewenst. Omdat voor dit capstone project de tijd beperkt is zijn er een aantal keuzes gemaakt m.b.t de data en het minen hier van:
+1. Voor vacatures wordt alleen data van Indeed gebruikt
+2. De vacatures zijn beschikbaar vanaf 8 februari 2022
+3. Als referentie dataset voor benodigde (hard)skills wordt de [Indeed dataset van Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer) gebruikt.
+
+### Business Success criteria
+Kwantitatieve doelstelling voor het beantwoorden van deze vraag is niet direct mogelijk. Daarom wordt er gekeken naar kwalitatieve eisen. Minimaal wordt er een inkomens benchmark verwacht en een indicatie van de hoeveelheid vraag bij bedrijven. Een bijkomende wens is om het arbeidsvoorwaardenpakket op waarden te kunnen schatten. Dit is een uitdaging waar nog niet duidelijk van is of dit gaat lukken.
+
+## Data understanding
+In dit hoofdstuk wordt gekeken naar de locatie en de basis kenmerken van de data. Zoals in business understanding gesteld wordt gebruik gemaakt van de [indeed dataset van Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer) en gescrapte indeed data.
+
+Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te vinden in *.\\Data_raw*):
+|dataset ID | dataset name | format | beschrijving| dataset owner |
+|---|---|---|---|---|
+|D001 | indeed_job_dataset.csv | CSV | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers.| Elroy |
+|D002 | <DATE> scraped indeed data.csv | CSV | scraped data voor functies met het woord "data" in nederland| Maël |
+
+Deze datasets worden gebruikt door de analyse heen. D001 is gedownload van kaggle.com, D002 is gescraped door gebruik te maken van de **indeed_scraper** te vinden in *.\\suporting_code*
+
+### data scope
+Bij een eerste verkenning van de mogelijke datasets zijn meerdere opties geconstateerd om aan data te komen, nameijk: gebruik makend van een API, downloaden van voor bewerkte datasets, zelf scrapen van data.
+
+Aangezien de voor bewerkte datasets veelal van toepassing zijn op de amerikaanse markt of beperkte rijen hebben met data vacatures is er voor gekozen deze datasets niet te gebruiken (buiten de D001).
+
+Wat betreft de API's bleken deze veelal niet meer werkzaam of betaald te zijn, deze optie viel daarom na enkele tests af.
+
+het zelf scrapen van Indeed data is de overgebleven optie. Dit helpt met de scope voor het project te bepalen (data vacatures in Nederland) en brengt gelijk een beperking mee. Indeed heeft namelijk 3 leeftijds benaming voor vacatures ("vandaag", 1 t/m 30 dagen geleden, "+ 30 dagen geleden"). Om deze reden kan er vanaf de eerste scrape maar 30 dagen terug gekeken worden (dus 8 februari 2022).
+
+### Basale data beschrijving
+
+Hieronder worden beide datasets hoogover beschreven. Voor dataset D002 worden de kenmerken van een enkele file beschreven, de aannamen is dat de kenmerken tussen de files redelijk overeenkomen. Uiteraard kunnen NaN's, ranges, unique's etc. wat verschillen. Dit zal echter in de uiteindelijke data modeling worden recht gezet
+
+**D001:** <br>
+Deze dataset bestaat uit 5.715 rijen en 43 kolommen. Van deze kolommen is voornamelijk de kolom "Skill" van belang. De dataset is een mix van character en numerieke data. de kolom "Skill" is een character kolom met 4.025 unieke waarden. Deze unieke kunnen zowel losse skills als skills combinaties zijn.
+<br>
+Daarnaast zijn er 2.314 verschillende functie titels, ook dit aantal is opgeblasen door bijvoorbeeld de vermelding van de gewenste programmeertaal in de functie. In de dataset is een kolom beschikbaar met type functie. Deze bestaat uit de drie functies 'data_scientist' 'data_analyst' en 'data_engineer'.
+<br>
+Verder is het nog benoemenswaardig dat er minimaal 0 skills worden gevraagd worden en maximaal 20 skills voor een functie. Gemiddeld ligt dit tussen de 7 en 8. Het salaris is een character kolom wat in eerste instantie onverwacht lijkt. Wanneer deze kolom echter bekeken wordt is te zien dat de salarissen gebinned zijn en naar verwachting op jaarbasis is berekend gezien de hoogte.
+
+**D002:** <br>
+
+Zoals gesteld wordt deze dataset op 1 file beschreven, namelijk: *.\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv*. De dataset bestaat op 2 kolommen (index (X) en days_online) na uit character kolommen. Een file bestaat uit ~330 rijen. Hierin zitten 177 verschillende "data" functies, 201 skills en combinatie van skills. Gemmideld staat (op het moment van scrapen) een post 22 dagen online. Daarnaast zijn er 99 unieke salaris bedragen bekend, van 157 vacatures is het salaris onbekend. Verder is het euro (€) symbool niet goed vertaald bij het scrapen en lijken er maand en jaar salarissen gemixed te zijn (een korte search naar deze vacature op indeed bevestigd dit). De dataset lijkt, zoals verwacht, niet verder terug te gaan dan februari 2022.
+
+
+```{r read D001}
+# kenmerken D001 dataset
+df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
+
+df_indeed_kaggle %>% summary()
+df_indeed_kaggle %>% names() %>% length()
+df_indeed_kaggle$Skill %>% unique() %>% length()
+df_indeed_kaggle$Job_Title %>% unique() %>% length()
+df_indeed_kaggle$Queried_Salary %>% unique()
+df_indeed_kaggle$Job_Type %>% unique()
+```
+
+```{r read D002}
+# kenmerken D002 dataset
+df_indeed_scraped <- read.csv(".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv")
+
+df_indeed_scraped %>% summary()
+
+df_indeed_scraped$job_title %>% unique() %>% length()
+df_indeed_scraped$skills %>% unique() %>% length()
+df_indeed_scraped$salary %>% unique() %>% length()
+df_indeed_scraped$salary %>% unique()
+sum(is.na(df_indeed_scraped$salary))
+df_indeed_scraped$Company %>% unique() %>% length()
+
+df_indeed_scraped %>%
+    filter(salary =='ï¿½ 72.171') %>%
+    .$job_link
+
+df_indeed_scraped$listing_date
+```
+### Explore the data
+Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan hieronder makkelijk verkend worden. D002 zal initieel minder goed onderzocht kunnen worden.
+
+#### D001
+Voor D001 wordt in dit onderdeel de verdeling bekeken voor het aantal skills en salaris over de totale dataset en gesegmenteerd op baan type.
+
+**Data Analist:**<br>
+Wat gelijk opvalt aan deze dataset is dat de data analist de "minst zware" functie lijkt. Er worden minder skills verwacht van een data analist en het loon voor deze rol ligt ook doorgaans lager dan de andere twee rollen.
+
+**Data Engineer:**<br>
+Het is gelijk duidelijk dat data engineers de minste vraag genieten maar wel een zwaarder profiel moeten hebben. Het salaris van de data engineer volgt ongeveer de verdeling van de data scientist. Wel valt op dat ondanks de lagere hoeveelheid vacatures dat de data engineer het zwaarste skill profiel dient te hebben.
+
+**Data Scientist:**<br>
+Naar data scientisten lijkt de hoogste vraag te zijn. Het skill profiel van de data scientist is gemiddeld de verdeling neigt meer naar links dan de data engineer. Ondanks dit lijkt de salaris verdeling gelijk te zijn aan die verdeling van de data engineer.
+<br>
+
+**Andere inzichten**
+Verder is in deze dataset te zien dat, wanneer er om meer skills gevraagd wordt er een iets hoger salaris wordt geboden. Voor de hoogste salaris groep lijkt dit echter niet te gelden. De aannamen (die nog getoetst kan worden) is dat dit gaat om teamleiders of andere management functies waar hard skills minder van belang zijn.
+
+
+voor D002 is meer werk nodig. Deze dataset is nog niet geschoond en heeft nog wat extra werk nodig... Ook hier worden dezelfde verdelingen bekeken samen met de functies per bedrijf.
+
+```{r D001 exploration, echo=FALSE}
+# D001
+# maak de grafieken breeder
+options(repr.plot.width=20, repr.plot.height=8)
+
+# sorteer de salaris kolom
+df_indeed_kaggle$Queried_Salary <- factor(
+    df_indeed_kaggle$Queried_Salary,
+    levels = c("<80000", "80000-99999", "100000-119999", "120000-139999", "140000-159999", ">160000"))
+
+# visualiseer gevraagde aantal skills verderling
+df_indeed_kaggle %>%
+    ggplot(aes(x= No_of_Skills)) +
+    geom_bar() +
+    facet_grid(cols= vars(Job_Type)) +
+    labs(
+        title="Verdeling benodigde aantal skills per functie type",
+        y= "frequentie",
+        x= "Aantal gevraagde skills"
+    ) +
+    theme(plot.title=element_text(hjust=0.5))
+
+# visualiseer salaris groep
+df_indeed_kaggle %>%
+    ggplot(aes(x= Queried_Salary)) +
+    geom_bar() +
+    facet_grid(cols= vars(Job_Type)) +
+    labs(
+        title="Verdeling salaris groep per functie type",
+        y= "frequentie",
+        x= "Salaris groep"
+    ) +
+    theme(plot.title=element_text(hjust=0.5))
+
+# visualiseer de skill verdeling op basis van salaris groepen
+df_indeed_kaggle %>%
+    ggplot(aes(x= No_of_Skills, fill= Queried_Salary)) +
+    geom_density(alpha=0.5) +
+    facet_grid(rows= vars(Queried_Salary)) +
+    labs(
+        title="Verdeling gevraagde aantal skills per salaris groep",
+        y= "frequentie",
+        x= "Aantal gevraagde skills"
+    ) +
+    theme(
+        plot.title=element_text(hjust=0.5)
+    )
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
