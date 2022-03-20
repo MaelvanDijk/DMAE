@@ -12,6 +12,9 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
 library("tidyverse")
 library("stringr")
+
+#custom functions
+source('./supporting_code/Scraped_indeed_data_wrangler.R')
 ```
 
 # Inleiding
@@ -102,7 +105,7 @@ Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
 vinden in *.\\Data_raw*):
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
+|------------|------------|------------|-------------------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -327,30 +330,16 @@ df_indeed_kaggle %>%
 
 D002 is minder "schoon" dan D001. Dit betekent dat er wat meer moet
 gebeuren voor er een eerste EDA (exploratory Data Analysis) kan plaats
-vinden. Het eerste wat er gaat gebeuren is het cijfer component uit de
-salaris kolom ophalen en alleen dit deel weer terugzetten in de
-dateframe. D002 bevat salarissen op zowel maand als jaar basis. Dit is
-de tweede transformatie, alle waarden boven 10.000 delen door 12
-maanden. 10.000 is gekozen omdat dit een niet waarschijnlijk salaris is
-voor zowel jaar-, en maandsalaris.
+vinden. Met behulp van het script
+*'./supporting_code/Scraped_indeed_data_wrangler.R'* kan de tot nu toe
+binnengehaalde data worden gemerged en gecleaned. Ook voegen de functies
+in dit script nieuwe kolommen toe zoals "skills_count" en een
+levensthein ratio for de drie referentie functie type (analist,
+engineer, scientist).
 
 ```{r D002, echo=FALSE}
-# Verwijder non-numeric characters
-df_indeed_scraped$salary <- df_indeed_scraped$salary %>%
-  str_replace_all("[^[:digit:]]", "")    
-
-# Transformeer de kolom naar numeric
-df_indeed_scraped <- df_indeed_scraped %>%
-  transform(salary = as.numeric(salary))
-
-# deel alle jaarsalarissen door 12 maanden
-for (i in 1:nrow(df_indeed_scraped)){
-  if(!is.na(df_indeed_scraped[i, 4]) & df_indeed_scraped[i, 4] > 10000){
-    df_indeed_scraped[i, 4] <- (df_indeed_scraped[i, 4] / 12)
-  }
-}
-
-
+df_indeed_scraped <- clean_scraped_date(df_indeed_scraped)
+df_indeed_scraped
 # visualiseer de loon verdeling
 df_indeed_scraped %>%
     ggplot(aes(x= salary)) +
