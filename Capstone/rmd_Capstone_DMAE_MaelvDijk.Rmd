@@ -105,7 +105,7 @@ Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
 vinden in *.\\Data_raw*):
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------------|------------|------------|-------------------------|------------|
+|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -176,11 +176,24 @@ gebeurt na wat bewerkingen ook in
 *".\\Supporting_code\\indeed_scraper.R"*. Dit wordt tijdens het
 hoofdstuk modeling verder toegelicht
 
+```{r read D001, eval=TRUE, results='hide'}
+# kenmerken D001 dataset
+df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
+
+head(df_indeed_kaggle)
+df_indeed_kaggle %>% summary()
+df_indeed_kaggle %>% names() %>% length()
+df_indeed_kaggle$Skill %>% unique() %>% length()
+df_indeed_kaggle$Job_Title %>% unique() %>% length()
+df_indeed_kaggle$Queried_Salary %>% unique()
+df_indeed_kaggle$Job_Type %>% unique()
+```
+
 **D002:**
 
-Zoals gesteld wordt deze dataset op 1 file beschreven, namelijk:
-*".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Dit voorbeeld
-bestand bestaat uit:
+Zoals gesteld wordt deze dataset op basis van 1 file beschreven,
+namelijk: *".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Dit
+voorbeeld bestand bestaat uit:
 
 -   328 rijen
 
@@ -198,20 +211,7 @@ het salaris onbekend. Verder is het euro (€) symbool niet goed vertaald
 bij het scrapen en lijken er maand en jaar salarissen gemixed te zijn
 (een korte search naar een vacature met een loon boven de €10.000,- op
 indeed bevestigd dit). De dataset lijkt, zoals verwacht, niet verder
-terug te gaan dan februari 2022.
-
-```{r read D001, eval=TRUE, results='hide'}
-# kenmerken D001 dataset
-df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
-
-head(df_indeed_kaggle)
-df_indeed_kaggle %>% summary()
-df_indeed_kaggle %>% names() %>% length()
-df_indeed_kaggle$Skill %>% unique() %>% length()
-df_indeed_kaggle$Job_Title %>% unique() %>% length()
-df_indeed_kaggle$Queried_Salary %>% unique()
-df_indeed_kaggle$Job_Type %>% unique()
-```
+terug te gaan dan februari 2022 (2022-02-06) om precies te zijn.
 
 ```{r read D002, eval=TRUE, results='hide'}
 # kenmerken D002 dataset
@@ -219,27 +219,45 @@ df_indeed_scraped <- read.csv(".\\Data_raw\\D002\\2022-03-08 scraped indeed data
 
 df_indeed_scraped %>% summary()
 
+print("number of unique jobs:")
 df_indeed_scraped$job_title %>% unique() %>% length()
+
+print("number of unique skill(s) and combinations:")
 df_indeed_scraped$skills %>% unique() %>% length()
+
+print("number of unique salaries:")
 df_indeed_scraped$salary %>% unique() %>% length()
-df_indeed_scraped$salary %>% unique()
+
+print("sample of salaries:")
+df_indeed_scraped$salary %>% head(20)
+
+print("listings without salary:")
 sum(is.na(df_indeed_scraped$salary))
+
+print("number of companies with job listings:")
 df_indeed_scraped$Company %>% unique() %>% length()
 
 
 # zoek naar specifieke salaris om de vacature op indeed te bekijken
+print("URL of job listing with suspected year salary")
 df_indeed_scraped %>%
-    filter(salary =='ï¿½ 72.171') %>%
-    .$job_link
+  filter(salary =='ï¿½ 72.171') %>%
+  .$job_link %>%
+  .[1]
 
-df_indeed_scraped$listing_date
+
+print("earliest listing date:")
+df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
 ```
 
 ### Explore the data
 
 Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan
-hieronder makkelijk verkend worden. D002 zal initieel minder goed
-onderzocht kunnen worden.
+hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet
+goed te gebruiken is. Hiervoor is het script
+*'./supporting_code/Scraped_indeed_data_wrangler.R'* beschikbaar. Dit
+script bevat functies om de data vanuit de scraper op te schonen zodat
+er wel inzichten uit de data gehaald kunnen worden.
 
 #### D001
 
@@ -359,9 +377,9 @@ dataset zelf. Maar een van de vragen die HoB stelt: "hoe verhoudt het
 maandsalaris op de markt met het HoB maandsalaris?" Kan nu wel
 inzichtelijk worden gemaakt. In onderstaande afbeelding worden zowel het
 maandsalaris van jaar 1, jaar 2 als jaar 3 bij HoB toegevoegd aan de
-grafiek. Hier uit valt op te maken dat na de bij de tweede
-loonsverhoging (jaar 3) het salaris van een HoB data consultant hoger
-ligt dan het geboden salaris in \> 50% van de vacatures.
+grafiek. Ook kunnen we de mediaan de salarissen uit de dataset
+toevoegen. Op deze manier kunnen we achterhalen op welke moment een HoB
+consultant de meeste salarissen van Indeed zal inhalen.
 
 ```{r D002 versus HoB salaris, echo=FALSE}
 
@@ -369,11 +387,13 @@ ligt dan het geboden salaris in \> 50% van de vacatures.
 hob_first_salary <- 2763
 hob_second_salary <- hob_first_salary + 324
 hob_third_salary <- hob_second_salary + 432 
+indeed_median_salary <- median(df_indeed_scraped$salary)
 
 # maak density tables
 #https://stackoverflow.com/questions/41971150/add-vline-to-geom-density-and-shade-confidence-interval-of-mean-r
 dens <- ggplot_build(ggplot(df_indeed_scraped, aes(x= salary)) +
   geom_density())
+
 
 # Bepaal de density (hoogte) van het 1ste, 2e en 3de salaris door deze te benaderen op basis van x en y verhoudingen
 dens_first_salary <- dens$data[[1]] %>%
@@ -386,6 +406,10 @@ dens_second_salary <- dens$data[[1]] %>%
 
 dens_third_salary <- dens$data[[1]] %>%
   mutate(dens.mean = approx(x, y, xout = hob_third_salary)[[2]])%>%
+  .$dens.mean %>% .[1] 
+
+dens_indeed_median_salary <- dens$data[[1]] %>%
+  mutate(dens.mean = approx(x, y, xout = indeed_median_salary)[[2]])%>%
   .$dens.mean %>% .[1] 
     
 # plot de verdeling inclusief salaris punten
@@ -409,8 +433,13 @@ df_indeed_scraped %>%
       x=hob_third_salary, xend=hob_third_salary,
       y=0, yend= dens_third_salary )
     ) +
+  geom_segment(
+  aes(
+    x=indeed_median_salary, xend=indeed_median_salary,
+    y=0, yend= dens_indeed_median_salary )
+  ) +
   labs(
-    title="Verdeling maandsalaris",
+    title="Verdeling maandsalaris op indeed vs. HoB",
     y="frequentie",
     x="Maandsalaris"
   ) +
@@ -442,39 +471,3 @@ df_indeed_scraped %>%
     
   )
 ```
-
-```{r}
-#https://stackoverflow.com/questions/41971150/add-vline-to-geom-density-and-shade-confidence-interval-of-mean-r
-dens <- ggplot_build(ggplot(df_indeed_scraped, aes(x= salary)) +
-  geom_density())
-
-dens_first_salary <- dens$data[[1]] %>%
-  mutate(dens.mean = approx(x, y, xout = 2763)[[2]])%>%
-  .$dens.mean %>% .[1]
-dens_first_salary
-```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.

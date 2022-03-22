@@ -166,12 +166,77 @@ enrich_scraped_date <- function(tbl_cleaned_data){
     )
   
   tbl_enriched_data <- tbl_job_skill_counts
+  
+  
+  tbl_enriched_data$dist_data_analist <- NA
+  tbl_enriched_data$dist_data_engineer <- NA
+  tbl_enriched_data$dist_data_scientist <- NA
+  
+  
+  # # put all original job titles to lowercase
+  tbl_enriched_data$job_title <- tolower(tbl_enriched_data$job_title)
+  
+  
+  # loop over data and determine jobtype based on levensthein distance
+  for (i in 1:nrow(tbl_enriched_data)){
+    
+    #check for data analist
+    job <- tbl_enriched_data$job_title[i]
+    
+    
+    # Check data analyst similarity
+    if (grepl('data analist', job) || grepl('data analyst', job)){
+      tbl_enriched_data$dist_data_analist[i] <- 0
+    } else{
+      tbl_enriched_data$dist_data_analist[i] <- levenshtein_distance(
+        job,
+        'analist'
+      )
+    }
+    
+    
+    # Check data engineer similarity
+    if (grepl('data engineer', job)){
+      tbl_enriched_data$dist_data_engineer[i] <- 0
+    } else{
+      tbl_enriched_data$dist_data_engineer[i] <- levenshtein_distance(
+        job,
+        'engineer'
+      )
+    }
+    
+    
+    # Check data engineer similarity
+    if (grepl('data scientist', job)){
+      tbl_enriched_data$dist_data_scientist[i] <- 0
+    } else{
+      tbl_enriched_data$dist_data_scientist[i] <- levenshtein_distance(
+        job,
+        'scientist'
+      )
+    }
+    
+  }
+  
+  tbl_enriched_data$job_type <- NA
+  
+  
+  tbl_enriched_data$job_type <- ifelse(
+    (tbl_enriched_data$dist_data_analist < tbl_enriched_data$dist_data_engineer &
+       tbl_enriched_data$dist_data_analist < tbl_enriched_data$dist_data_scientist),
+    "Data analist",
+    ifelse(
+      (tbl_enriched_data$dist_data_engineer < tbl_enriched_data$dist_data_analist &
+         tbl_enriched_data$dist_data_engineer < tbl_enriched_data$dist_data_scientist),
+      "Data engineer",
+      "Data scientist"
+    )
+  )
   return(tbl_enriched_data)
 }
 
 
 ### TESTING OF CODE
-# Text similarity
 
 df_merged_data<- merge_scraped_data()
 
@@ -180,36 +245,3 @@ tbl_clean_scraped_date <- clean_scraped_date(df_merged_data)
 tbl_enriched_data <- enrich_scraped_date(tbl_clean_scraped_date)
 
 
-tbl_enriched_data$dist_data_analist <- NA
-
-# put all original job titles to lowercase
-tbl_enriched_data$job_title <- tolower(tbl_enriched_data$job_title)
-
-for (i in 1:nrow(tbl_enriched_data)){
-  
-  #check for data analist
-  job <- tbl_enriched_data$job_title[i]
-  print(job)
-  
-  ### BELOW AN ISSUE WITH ROW 3 WHICH RETURNS NA IN THE IF EXPRESSION
-  if ((grep('data analist', job) || grep('data analyst', job))){
-    tbl_enriched_data$dist_data_analist[i] <- 1
-  } else{
-    tbl_enriched_data$dist_data_analist[i] <- cosine_distance(
-      tbl_enriched_data$job_title[i],
-      'data analist',
-      ' '
-    )
-    print('calc distance')
-  }
-}
- 
- result <- tbl_enriched_data %>% select(
-   job_title,
-   dist_data_analist
-   # dist_data_engineer,
-   # dist_data_scientist
-   )
- 
-(grep('data analist', tbl_enriched_data$job_title[3]) || grep('data analyst', tbl_enriched_data$job_title[3]))
- tbl_enriched_data$job_title[3]
