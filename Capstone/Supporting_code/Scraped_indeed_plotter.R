@@ -1,12 +1,15 @@
 
+library("tidyverse")
+library("stringr")
 
 plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
   # bepaal constanten op basis van HoB vacature
   options(scipen=999)
+  # bepaal constanten op basis van HoB vacature
   hob_first_salary <- 2763
   hob_second_salary <- hob_first_salary + 324
   hob_third_salary <- hob_second_salary + 432 
-  indeed_median_salary <- median(df_indeed_scraped$salary)
+  indeed_median_salary <- median(df_indeed_scraped$salary,na.rm = TRUE)
   
   # maak density tables
   #https://stackoverflow.com/questions/41971150/add-vline-to-geom-density-and-shade-confidence-interval-of-mean-r
@@ -36,7 +39,7 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
     ggplot(aes(x= salary)) +
     geom_density(alpha=0.5) +
     # onderstaande regel vult alles rechts van de gekozen lijn
-    geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")+
+    #geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")
     geom_segment(
       aes(
         x=hob_first_salary,xend=hob_first_salary,
@@ -55,7 +58,10 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
     geom_segment(
       aes(
         x=indeed_median_salary, xend=indeed_median_salary,
-        y=0, yend= dens_indeed_median_salary )
+        y=0, yend= dens_indeed_median_salary,
+        linetype= "median loon indeed"),
+      color = "blue",
+      size = 1.0
     ) +
     labs(
       title="Verdeling maandsalaris op indeed vs. HoB",
@@ -63,7 +69,8 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
       x="Maandsalaris"
     ) +
     theme(
-      plot.title=element_text(hjust=0.5)
+      plot.title=element_text(hjust=0.5),
+      legend.title= element_blank()
     ) +
     annotate(
       "text",
@@ -83,7 +90,7 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
     ) +
     annotate(
       "text",
-      x= hob_third_salary - 200,
+      x= hob_third_salary + 200,
       y = 3e-04,
       label= "HoB salaris 3de jr.",
       angle=90

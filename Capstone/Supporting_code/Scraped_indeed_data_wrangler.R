@@ -68,6 +68,10 @@ clean_scraped_date <- function(df_merged_data){
   for (i in 1:nrow(tbl_jobs_cleaned_salary)){
     if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] > 10000){
       tbl_jobs_cleaned_salary[i, 4] <- (tbl_jobs_cleaned_salary[i, 4] / 12)
+    } else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] < 100){
+      tbl_jobs_cleaned_salary[i, 4] <- (tbl_jobs_cleaned_salary[i, 4] * 168)
+    } else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] > 100 & tbl_jobs_cleaned_salary[i, 4] < 1000){
+      tbl_jobs_cleaned_salary[i, 4] <- NA
     }
   }
   
