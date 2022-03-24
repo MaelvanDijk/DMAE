@@ -58,17 +58,20 @@ for (i in seq.default(0, 290, 10)){
             html_node('h1') %>%
             html_text()
           
+          # Extract the number oif days the post is online
           time_since_placed_text <- job_html_read %>%
             html_nodes(css= '.jobsearch-JobMetadataFooter > div:nth-child(2)') %>%
             html_text()
           
-          # check if string does not contain integer using regex
+          # check if string does NOT contain integer or the word "Vandaag" using regex
           if (!grepl("\\d", time_since_placed_text) & !grepl("Vandaag", time_since_placed_text)){
+            # IF true time since posted is in another location on the page
             time_since_placed_text <- job_html_read %>%
               html_nodes(css= '.jobsearch-JobMetadataFooter > div:nth-child(1)') %>%
               html_text()
           }
           
+          # Extract the number of days or change "Vandaag" to "0" days
           if (grepl("\\d", time_since_placed_text)){
             time_since_placed <- str_extract_all(time_since_placed_text, "\\(?[0-9,.]+\\)?")[[1]]
           } else if (grepl("Vandaag", time_since_placed_text)) {
@@ -105,16 +108,18 @@ for (i in seq.default(0, 290, 10)){
               html_text()
           }
           
+          # incase the salary contains < 1 character fill the value with NA 
           if (length(salary_indicator) < 1){
             salary <- NA
           } else if (grepl('€',salary_indicator)) {
-            # anders zoek de eerste salaris indicatie
+            # anders zoek de eerste salaris indicatie en pak hier een overshoot van 7 characters van
             salary_start_num <- unlist(gregexpr('€', salary_indicator))[1]
-            salary <- substring(salary_indicator, salary_start_num, salary_start_num + 7) 
+            salary <- substring(salary_indicator, salary_start_num, salary_start_num + 7) #maybe change to 8 or 9 
           } else {
             salary <- NA
           }
           
+          # bind everything into a vector
           new_row <- c(
             company_name,
             job_title,
@@ -124,9 +129,11 @@ for (i in seq.default(0, 290, 10)){
             job_description_cleaned,
             full_job_url)
           
+          # append the DF with the new vector
           jobs_df[nrow(jobs_df) + 1,] = new_row
         }
       },
+      # catch warnings and print to console
       warning = function(w){
         message("a warning occured with url. ", full_job_url)
         message("the data trying to be stored in the the dataframe is:")
@@ -135,6 +142,8 @@ for (i in seq.default(0, 290, 10)){
         message(w)
         
       },
+      
+      # catch errors to prevent program from crashing and print to console
       error=function(error_message) {
         message("an error occured with url.", full_job_url)
         message("And below is the error message from R:")
@@ -147,8 +156,10 @@ for (i in seq.default(0, 290, 10)){
   }
 }
 
+# add a date column based on days online and current date
 jobs_df$listing_date <- today() - as.numeric(jobs_df$days_online)
 
+# write file to directory
 file_n<-sprintf("./Data_raw/D002/% s scraped indeed data.csv", today())
 write.csv(jobs_df, file_n)
 
