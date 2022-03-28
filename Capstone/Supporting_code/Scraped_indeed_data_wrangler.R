@@ -249,3 +249,23 @@ tbl_clean_scraped_date <- clean_scraped_date(df_merged_data)
 tbl_enriched_data <- enrich_scraped_date(tbl_clean_scraped_date)
 
 
+### TESTING EXTRACTION OF WERK_ERVARING
+tbl_enriched_data$contains_werkervaring <- grepl(
+  "werkervaring",
+  tbl_enriched_data$job_desc,
+  ignore.case = T
+  )
+
+tbl_enriched_data$raw_werkervaring <- NA
+
+for (i in 1:nrow(tbl_enriched_data)){
+  if(tbl_enriched_data$contains_werkervaring[i]){
+    tbl_enriched_data$raw_werkervaring[i] <- substring(
+      tbl_enriched_data$job_desc,
+      first= (str_locate(tolower(tbl_enriched_data$job_desc), "werkervaring")[1] - 9 ),
+      last= (str_locate(tolower(tbl_enriched_data$job_desc), "werkervaring")[2] + 9)
+    )
+  }
+}
+
+           

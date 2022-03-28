@@ -107,7 +107,7 @@ Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
 vinden in *.\\Data_raw*):
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|--------------|--------------|--------------|----------------|--------------|
+|---------------|---------------|---------------|---------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -313,8 +313,10 @@ levensthein ratio for de drie referentie functie type (analist,
 engineer, scientist).
 
 ```{r D002, echo=FALSE}
+# clean en verrijk indeed data met custom functies
 df_indeed_cleaned <- clean_scraped_date(df_indeed_scraped)
 df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
+
 # visualiseer de loon verdeling
 df_indeed_final %>%
     ggplot(aes(x= salary)) +
