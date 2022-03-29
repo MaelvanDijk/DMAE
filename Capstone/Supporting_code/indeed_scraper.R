@@ -4,9 +4,10 @@ library(XML)
 library(stringr)
 library(lubridate)
 
-job_base_url <- 'https://nl.indeed.com'
-job_base_search_url <- 'https://nl.indeed.com/jobs?q=data&start='
+# job_base_url <- 'https://nl.indeed.com'
 # url_job_search <- read_html('https://nl.indeed.com/jobs?q=data')
+job_base_search_url <- 'https://nl.indeed.com/jobs?q=data&start='
+
 
 wordlist <- read.table(
   './Data_cleaned/D001/trimmed_skill_names.txt',
@@ -149,6 +150,8 @@ for (i in seq.default(0, 290, 10)){
         message("And below is the error message from R:")
         message(error_message)
       },
+      
+      #doeslief
       finally = {
         Sys.sleep(4)
       }
@@ -162,5 +165,3 @@ jobs_df$listing_date <- today() - as.numeric(jobs_df$days_online)
 # write file to directory
 file_n<-sprintf("./Data_raw/D002/% s scraped indeed data.csv", today())
 write.csv(jobs_df, file_n)
-
-
