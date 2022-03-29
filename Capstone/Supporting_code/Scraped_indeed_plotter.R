@@ -2,13 +2,13 @@
 library("tidyverse")
 library("stringr")
 
-plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
+plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salary= 2763, second_salary= 3087, third_salary= 3519 ){
   # bepaal constanten op basis van HoB vacature
   options(scipen=999)
   # bepaal constanten op basis van HoB vacature
-  hob_first_salary <- 2763
-  hob_second_salary <- hob_first_salary + 324
-  hob_third_salary <- hob_second_salary + 432 
+  hob_first_salary <- first_salary
+  hob_second_salary <- second_salary
+  hob_third_salary <- third_salary 
   indeed_median_salary <- median(df_indeed_scraped$salary,na.rm = TRUE)
   
   # maak density tables
@@ -39,7 +39,7 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped){
     ggplot(aes(x= salary)) +
     geom_density(alpha=0.5) +
     # onderstaande regel vult alles rechts van de gekozen lijn
-    #geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")
+    # geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")+
     geom_segment(
       aes(
         x=hob_first_salary,xend=hob_first_salary,

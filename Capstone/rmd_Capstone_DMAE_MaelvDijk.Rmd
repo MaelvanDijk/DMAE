@@ -9,7 +9,12 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+  )
+
 library("tidyverse")
 library("stringr")
 
@@ -112,6 +117,8 @@ Methoden
     Beschrijf wat essentieel is voor het reproduceren van het werk
 ---
 
+### Data understanding
+
 In dit hoofdstuk wordt gekeken naar de locatie en de basis kenmerken van
 de data. Zoals in business understanding gesteld wordt gebruik gemaakt
 van de [indeed dataset van
@@ -122,7 +129,7 @@ Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
 vinden in *.\\Data_raw*):
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|----------|----------|----------|--------------------------------|----------|
+|------------|------------|------------|--------------------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -164,7 +171,7 @@ uiteindelijke data modeling worden recht gezet
 
 Deze dataset bestaat uit:
 
--   5.715 rijen
+-   5.715 observaties
 
 -   43 kolommen
 
@@ -191,7 +198,7 @@ Vanuit deze dataset lijkt de skills kolom het meest relevant. Deze kan
 namelijk gebruikt worden om de nederlandse vacatures te textminen. Dit
 gebeurt na wat bewerkingen ook in
 *".\\Supporting_code\\indeed_scraper.R"*. Dit wordt tijdens het
-hoofdstuk modeling verder toegelicht
+hoofdstuk modeling verder toegelicht.
 
 ```{r read D001, eval=TRUE, results='hide'}
 # kenmerken D001 dataset
@@ -212,11 +219,13 @@ Zoals gesteld wordt deze dataset op basis van 1 file beschreven,
 namelijk: *".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Dit
 voorbeeld bestand bestaat uit:
 
--   328 rijen
+-   328 observaties
 
 -   8 kolommen (plus een index kolom)
 
 -   6 character kolommen
+
+-   283 unieke vacature urls
 
 -   177 functie titels
 
@@ -268,7 +277,10 @@ df_indeed_scraped %>%
 
 print("earliest listing date:")
 df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
+
 ```
+
+### Data preperation en modeling
 
 ### Reproduceren
 
@@ -294,6 +306,69 @@ Resultaten
     Presenteer de resultaten die nodig zijn voor het beantwoorden van de onderzoeksvragen
     Ondersteun de tekst met figuren en tabellen
 ---
+
+In dit hoofdstuk worden de resultaten besroken waarmee de deelvragen
+beantwoord mee kunnnen worden. Ook wordt geëvalueerd welke vragen niet
+beantwoord kunnen worden en wat voor artifacten nog meer opgeleverd
+zijn.
+
+```{r D002, echo=FALSE}
+# clean en verrijk indeed data met custom functies
+df_indeed_cleaned <- clean_scraped_date(df_indeed_scraped)
+df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
+```
+
+### Verhouding HoB versus Indeed salaris
+
+Binnen HoB is het mogelijk om op verschillende manieren salarisverhoging
+te behalen. Zo wordt een consultant jaarlijks beoordeeld en hangt de
+verhoging samen met de beoordeling. Afhankelijk van het niveau van de
+consultant is dit een absolute stijging of een relatieve stijging ten
+opzichten van het huidige loon. Ook worden consultants beloond voor het
+behalen van cursussen. Om deze reden is het lasting om een accuraat
+salaris te bepalen. Gelukkig heeft HoB op haar website de referentie
+salarissen voor 1ste, 2de en 3de jaars consultants staan (€2.763,- ,
+€3.087,- , €3.591,- respectievelijk).
+
+De vraag van HoB is om dit geboden salaris aanbod op waarden te schatten
+ten opzcihten van de markt. In onderstaande grafiek is te zien dat het
+HoB salaris de eerste twee jaren lager ligt dan de mediaan op Indeed.
+
+```{r}
+plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
+```
+
+In de bovenstaande analyse is het het aantal jaren werkervaring van de
+indeed vacatures niet meegeneomen. De dataset is wel vereikt met een
+kolom die het aantal jaren ervaring aangeeft. Echter, doordat er 'regex'
+is gebruikt en de data erg ongestructureerd is zal deze kolom niet
+helemaal betrouwbaar zijn. Desondanks kan deze data gebruikt worden om
+toch een indruk te krijgen van de salarisverdeling over de verschillende
+eisen qua jaren werkervaring.
+
+```{r}
+
+df_indeed_final_less_than_4_year_experience <- df_indeed_final%>%
+  filter(cleaned_werkervaring_jaren <= 3)
+
+# df_indeed_final_1_jaar_ervaring
+
+# plot_hob_salary_vs_indeed_salary_dist(df_indeed_final_1_jaar_ervaring)
+
+df_indeed_final_less_than_4_year_experience %>%
+    ggplot(aes(x= salary)) +
+    geom_density(alpha=0.5) +
+    facet_grid(rows= vars(cleaned_werkervaring_jaren)) +
+    labs(
+      title="Verdeling gevraagde aantal skills per salaris groep",
+      y= "frequentie",
+      x= "Aantal gevraagde skills"
+    ) +
+    theme(
+      plot.title=element_text(hjust=0.5))
+
+
+```
 
 Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan
 hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet
