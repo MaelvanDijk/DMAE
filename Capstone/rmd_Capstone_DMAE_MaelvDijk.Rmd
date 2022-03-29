@@ -19,7 +19,16 @@ source('./supporting_code/Scraped_indeed_plotter.R')
 source('./supporting_code/Kaggle_indeed_plotter.R')
 ```
 
-# Inleiding
+## Inleiding
+
+---
+Inleiding
+
+    Geef de context van het project (aanleiding, kwestie etc.)
+    Sluit aan bij Business Understanding van CRISP-DM
+    Formuleer een hoofdvraag en zo nodig deelvragen
+    Noem de belangrijkste databronnen
+---
 
 In dit capstone project wordt de ontwikkeling naar de vraag van
 hardskills en rollen binnen het data domein onderzocht. Het project is
@@ -36,8 +45,6 @@ beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor
 het geboden loon en ondersteunen in het samenstellen van een (deel van)
 het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de
 vraag naar "data personeel" en de daarbijhorende opdrachtgevers.
-
-## Business understanding
 
 ### House of Bèta
 
@@ -95,7 +102,15 @@ de hoeveelheid vraag bij bedrijven. Een bijkomende wens is om het
 arbeidsvoorwaardenpakket op waarden te kunnen schatten. Dit is een
 uitdaging waar nog niet duidelijk van is of dit gaat lukken.
 
-## Data understanding
+## Methoden
+
+---
+Methoden
+
+    Sluit aan bij Data Understanding, Data Preparation en Modelling van CRISP-DM
+    Presenteer hier eventuele tussenresultaten (bv. over datakwaliteit/-profilering)
+    Beschrijf wat essentieel is voor het reproduceren van het werk
+---
 
 In dit hoofdstuk wordt gekeken naar de locatie en de basis kenmerken van
 de data. Zoals in business understanding gesteld wordt gebruik gemaakt
@@ -107,7 +122,7 @@ Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
 vinden in *.\\Data_raw*):
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -224,6 +239,9 @@ df_indeed_scraped %>% summary()
 print("number of unique jobs:")
 df_indeed_scraped$job_title %>% unique() %>% length()
 
+print("number of unique urls:")
+df_indeed_scraped$job_link %>% unique() %>% length()
+
 print("number of unique skill(s) and combinations:")
 df_indeed_scraped$skills %>% unique() %>% length()
 
@@ -252,7 +270,30 @@ print("earliest listing date:")
 df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
 ```
 
-### Explore the data
+### Reproduceren
+
+Om dit project te reproduceren is het nodig om de mappen:
+"Data_cleaned", "Data_raw", en "Supporting_code" te gebruiken. Hierin
+staan bron data en hulp .R scripts. In deze Markdown worden hulp scripts
+aangeroepen om de code complexiteit in deze Markdown te beperken. Wat
+betreft externe libraries moeten de volgende worden geïnstalleerd:
+
+"tidyverse", "stringr", "lubridate", "tibble", "textTinyR". Indien er
+nieuwe data gescraped moet worden (niet nodig voor reproductie): "XML"
+en "rvest".
+
+Er zijn verder geen afhankelijkheden buiten het bovengenoemde om deze
+markdown te draaien.
+
+## Resultaten
+
+---
+Resultaten
+
+    Sluit aan bij Evaluation van CRISP-DM
+    Presenteer de resultaten die nodig zijn voor het beantwoorden van de onderzoeksvragen
+    Ondersteun de tekst met figuren en tabellen
+---
 
 Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan
 hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet
@@ -346,3 +387,21 @@ overgang van het 2de naar het 3de jaar.\
 ```{r}
 plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
 ```
+
+## Discussie
+
+---
+Discussie
+
+    Geef een kritische evaluatie van de resultaten (bv. beperkingen of verbeterpunten)
+    Sluit aan bij Deployment van CRISP-DM (tenzij dit echt wezenlijk deel van het project was, dan moet dat in 2. Methoden aan bod komen)
+---
+
+## Conclusie
+
+---
+Conclusie en aanbevelingen
+
+    Beantwoord de hoofdvraag
+    Geef eventuele aanbevelingen (SMART en terzake)
+---
