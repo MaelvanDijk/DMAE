@@ -109,6 +109,14 @@ uitdaging waar nog niet duidelijk van is of dit gaat lukken.
 
 ## Methoden
 
+Het hoofdstuk "Methoden" gaat in op de data en het gebruik hiervan. Het
+is van belang om te weten hoe er aan de data is gekomen, met wat voor
+data er gewerkt wordt en hoe er uiteindelijk is gekomen tot een
+bruikbaar datamodel. Dit wordt achtereenvolgens uiteengezet in de
+paragagraven: "Data Understanding", "Data Preperation en Modelling". Als
+laatste wordt er in paragraaf "Reproduceren van het onderzoek" ingegaan
+op de eisen en benodigdheden om tot eenzelfde resultaat te komen.
+
 ---
 Methoden
 
@@ -119,99 +127,118 @@ Methoden
 
 ### Data understanding
 
-In dit hoofdstuk wordt gekeken naar de locatie en de basis kenmerken van
-de data. Zoals in business understanding gesteld wordt gebruik gemaakt
-van de [indeed dataset van
-Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer)
-en gescrapte indeed data.
+Deze paragraaf gaat in op de scope en basale kenmerken van de gebruikte
+data. Er wordt beschreven met welke datasets gewerkt gaat worden, de
+redernatie voor deze datasets en waarom andere datasets buiten
+beschouwing zijn gelaten. Uiteindelijk wordt de data in zijn ruwe vorm
+beschreven.
 
-Onderstaande datalog geeft een beeld van de gebruikte ruwe data (te
-vinden in *.\\Data_raw*):
+#### Gekozen datasets en scope
+
+Om te beginnen is hieronder een versimpelde datalog weergegeven. Dit
+bevat informatie over de datasets in de ruwevorm (te vinden in
+"*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------------|------------|------------|--------------------------|------------|
+|--------------|--------------|--------------|----------------|--------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
 : datalog (shortened)
 
-Deze datasets worden gebruikt door de analyse heen. D001 is gedownload
-van kaggle.com, D002 is gescraped door gebruik te maken van de
-**indeed_scraper** te vinden in *.\\suporting_code*
+D001 is na vooronderzoek gekozen als basis dataset. Hierin staan
+onderandere (hard)skills met de daarbij behorende functie type (data
+analist, -engineer, -scientist). Dit legt een goede basis voor het
+onderzoek naar data specialisaties binnen HoB, hier worden namelijk
+dezelfde specialisaties ook aangeboden. Er zijn andere datasets
+overwogen echter bevatte deze te weinig relevantie functie type (\< 200
+rijen) of ontbraken hier gevraagde skills die ter referentie voor D002
+gebruikt zouden worden.
 
-### data scope
+D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig
+scrapen van Indeed data komt voort uit meerdere beperkingen. Allereerst
+was er geen (makkelijk en gratis) werkende API te vinden die Indeed data
+kon aanleveren. Ten tweede was er geen dataset beschikbaar die focust op
+data specialisten én de nederlandse markt. Als laatste waren de
+beschikbare datasets vaak te beperkt met relevante informatie
+(ontbrekende skills, niet nederlandse functies, geen salaris indicatie).
+Dit allemaal heeft er toe geleid dat er voor dit project een scraper is
+gebouwd die de data binnenhaalt.
 
-Bij een eerste verkenning van de mogelijke datasets zijn meerdere opties
-geconstateerd om aan data te komen, nameijk: gebruik makend van een API,
-downloaden van voor bewerkte datasets, zelf scrapen van data.
+#### Beschrijving van de ruwe data
 
-Aangezien de voor bewerkte datasets veelal van toepassing zijn op de
-amerikaanse markt of beperkte rijen hebben met data vacatures is er voor
-gekozen deze datasets niet te gebruiken (buiten de D001).
-
-Wat betreft de API's bleken deze veelal niet meer werkzaam of betaald te
-zijn, deze optie viel daarom na enkele tests af.
-
-het zelf scrapen van Indeed data is de overgebleven optie. Dit helpt met
-de scope voor het project te bepalen (data vacatures in Nederland) en
-brengt gelijk een beperking mee. Indeed heeft namelijk 3 leeftijds
-benaming voor vacatures ("vandaag", 1 t/m 30 dagen geleden, "+ 30 dagen
-geleden"). Om deze reden kan er vanaf de eerste scrape maar 30 dagen
-terug gekeken worden (dus 8 februari 2022).
-
-### Basale data beschrijving
-
-Hieronder worden beide datasets hoogover beschreven. Voor dataset D002
-worden de kenmerken van een enkele file beschreven, de aannamen is dat
-de kenmerken tussen de files redelijk overeenkomen. Uiteraard kunnen
-NaN's, ranges, unique's etc. wat verschillen. Dit zal echter in de
-uiteindelijke data modeling worden recht gezet
-
-**D001:**
-
-Deze dataset bestaat uit:
-
--   5.715 observaties
-
--   43 kolommen
-
--   Een aantal kolommen zoals states die minder relevant lijken voor het
-    onderwerp
-
--   De skills kolom bevat naar verwachting de belanrijkste data in de
-    vorm van lijsten van 1 of meer gevraagde skills
-
--   Voor de vacatures worden gemiddeld 7 a 8 skills gevraagd, minimaal 0
-    en maximaal 20
-
--   De de job_title kolom bevat 2.314 titels die vertaald worden naar 1
-    van de 3 job_types
-
--   Er zijn 3 job_types in deze dataset aanwezig, Data Analyst, Data
-    Engineer en Data Scientist
-
--   De salaris kolom bevat 6 salaris groepen beginnend baij "\<80.000"
-    en eindigend bij "\>160.000". De tussengelegen groepen beslaan steed
-    ranges van 20.000. Aangenomen is dat dit jaarsalarissen zijn.
-
-Vanuit deze dataset lijkt de skills kolom het meest relevant. Deze kan
-namelijk gebruikt worden om de nederlandse vacatures te textminen. Dit
-gebeurt na wat bewerkingen ook in
-*".\\Supporting_code\\indeed_scraper.R"*. Dit wordt tijdens het
-hoofdstuk modeling verder toegelicht.
+De data van zowel D001 als D002 zijn nog in ruwe vorm. Bij het
+exploreren van D001 is duidelijk dat de data al erg schoon is. Een paar
+basale kenmerken zijn hieronder geprint. Deze kunnen zowel snel inzicht
+geven in de dataset als relevant zijn voor het gehele onderzoek.
 
 ```{r read D001, eval=TRUE, results='hide'}
 # kenmerken D001 dataset
 df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 
-head(df_indeed_kaggle)
-df_indeed_kaggle %>% summary()
-df_indeed_kaggle %>% names() %>% length()
-df_indeed_kaggle$Skill %>% unique() %>% length()
-df_indeed_kaggle$Job_Title %>% unique() %>% length()
-df_indeed_kaggle$Queried_Salary %>% unique()
-df_indeed_kaggle$Job_Type %>% unique()
+# head(df_indeed_kaggle)
+# df_indeed_kaggle %>% summary()
+writeLines(
+  sprintf(
+    "Number of columns in the dataset:\n%s\n",
+    ncol(df_indeed_kaggle)
+  )
+)
+
+writeLines(
+  sprintf(
+    "Number of rows in the dataset:\n%s\n",
+    nrow(df_indeed_kaggle)
+  )
+)
+
+writeLines(
+  sprintf(
+    "Number of Skill (combinations) in the dataset:\n%s\n",
+    df_indeed_kaggle$Skill %>% unique() %>% length()
+  )
+)
+
+writeLines(
+  sprintf(
+    "Number of salaries  in the dataset:\n%s\n",
+    df_indeed_kaggle$Queried_Salary %>% unique() %>% length()
+  )
+)
+
+writeLines(
+  sprintf(
+    "number of observations per job type (analist, engineer, scientist):\n%s",
+    aggregate(
+      df_indeed_kaggle$Job_Type,
+      by=list(df_indeed_kaggle$Job_Type),
+      FUN=length
+      )[2]
+  )
+)
+
+
 ```
+
+Er zijn behoorlijk wat kolommen aanwezig in de dataset, echter blijkt
+een groot deel niet relevant voor de vraag in kwestie. De dataset bevat
+klaarblijkelijk veel skills. Dit komt voornamelijk omdat de skills
+opgeslagen zijn in lijsten en een willekeurige volgorde binnen deze
+lijsten hebben. Dit zorgt ervoor dat bijna elke vacature een unieke
+skill of combinatie van skills lijkt te bevatten. In werkelijkheid is
+dit niet zo want [SQL, Python] is gelijk aan [Python, SQL]. HIervoor
+komt later in het project een ETL process. Het salaris is ook opvallend.
+De maker van deze dataset heeft de salarissen in bins van \$20.000,-
+geplaatst (met een groep \< \$80.000 en een groep \> \$160.000,-).
+Vercer valt nog op dat Data Engineer slechts 24% van de dataset opmaakt.
+Daarentegen zijn 45% van de listings voor Data Scientisten.
+
+Dan is er ook nog
+D002.........................................................
+.....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
 
 **D002:**
 
@@ -282,7 +309,50 @@ df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
 
 ### Data preperation en modeling
 
-### Reproduceren
+Voor het binnenhalen, schoonmaken en verijken van de data zijn diverse
+stappen genomen. In de onderstaande processflow is te zien hoe het
+process hoogover doorlopen wordt om tot de uiteindelijke analyses te
+komen.
+
+Het process is in 3 segmenten op te delen. Het bovenste segment heeft
+betrekking op de data vanuit Kaggle (D001), het tweede segement, in het
+midden, heeft betrekking op de Indeed data die gescraped wordt (D002)
+vervolgens is de onderste laag waar alles samenkomt. Na het schonen
+verijken en wegschrijven van de data kan er een dataframe worden opgezet
+die goed interpeteerbaar is.
+
+![Data process flow](Images/data%20flow%20process.png)
+
+Er zijn een aantal belangrijke kanttekenen die moeten worden gemaakt.
+Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
+versimpeld weergegeven. De meest noemenswaardigen zijn te vinden in de
+onderstaande tabel:
+
+| Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
+|---------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
+| ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect worden toegewezen aan het type data analist.                                                                                      |
+| ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
+
+: Aannamens tijdens process stappen,
+
+De scripts voor deze stappen zijn te vinden in "./Supporting_code",
+specifiek:
+
+| Process stap        | Script naam                  |
+|---------------------|------------------------------|
+| ETL (linksboven)    | Generate_ref_skill_list.R    |
+| Scraping            | indeed_scraper.R             |
+| ETL (midden-rechts) | Scraped_indeed_data_wrangler |
+
+: process stappen en bijbehorende scripts.
+
+Het draaien van deze scripts zorgt uitindelijk voor een dataframe dat
+gebruikt kan worden voor het analyseren en beantwoorden van de
+businessvraag. Voor een duidelijker beeld wat de code doet zijn de .R
+scripts voorzien van comments.
+
+### Reproduceren van het onderzoek
 
 Om dit project te reproduceren is het nodig om de mappen:
 "Data_cleaned", "Data_raw", en "Supporting_code" te gebruiken. Hierin
