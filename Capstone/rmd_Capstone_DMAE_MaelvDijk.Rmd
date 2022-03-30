@@ -24,6 +24,10 @@ source('./supporting_code/Scraped_indeed_plotter.R')
 source('./supporting_code/Kaggle_indeed_plotter.R')
 ```
 
+## Samenvating
+
+*Samenvatting (max. 250 woorden)*
+
 ## Inleiding
 
 ---
@@ -38,18 +42,21 @@ Inleiding
 In dit capstone project wordt de ontwikkeling naar de vraag van
 hardskills en rollen binnen het data domein onderzocht. Het project is
 ontsprongen naar aanleiding van een gerelateerde vraag vanuit House of
-Bèta. Bij aanvang van dit project was de wens een onderzoek te doen naar
-drivers en kenmerken van uitstroom van onze consultants. Wegens
-juridische beperkingen en het hier uit volgende tijdsgebrek is gekozen
-voor het onderzoeken van een alternatieve vraag, namelijk: **"Hoe
-ontwikkelt de vraag naar 'data specialisten' zich kijkende naar de
-gevraagde vaardigheden en het geboden loon"**.
+Bèta, namelijk: een onderzoek naar de drivers en kenmerken van onze
+consultants die uitstromen. Wegens juridische beperkingen en het hier
+uit volgende tijdsgebrek is gekozen voor het onderzoeken van een
+alternatieve vraag, namelijk: **"Hoe ontwikkelt de vraag naar 'data
+specialisten' zich kijkende naar de gevraagde vaardigheden en het
+geboden loon"**.
 
 Deze nieuw geformuleerde vraag helpt deels de originele vraag te
 beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor
 het geboden loon en ondersteunen in het samenstellen van een (deel van)
 het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de
-vraag naar "data personeel" en de daarbijhorende opdrachtgevers.
+vraag naar "data personeel" en de daarbijhorende opdrachtgevers, hiermee
+kan dan ingespeeld worden op de veranderende markt door de
+opleidingsstraat en specialisaties beter te laten aansluiten op de markt
+van morgen.
 
 ### House of Bèta
 
@@ -140,7 +147,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|--------------|--------------|--------------|----------------|--------------|
+|---------------|---------------|---------------|---------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -233,79 +240,86 @@ geplaatst (met een groep \< \$80.000 en een groep \> \$160.000,-).
 Vercer valt nog op dat Data Engineer slechts 24% van de dataset opmaakt.
 Daarentegen zijn 45% van de listings voor Data Scientisten.
 
-Dan is er ook nog
-D002.........................................................
-.....................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
-
-**D002:**
-
-Zoals gesteld wordt deze dataset op basis van 1 file beschreven,
-namelijk: *".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Dit
-voorbeeld bestand bestaat uit:
-
--   328 observaties
-
--   8 kolommen (plus een index kolom)
-
--   6 character kolommen
-
--   283 unieke vacature urls
-
--   177 functie titels
-
--   201 skill(combinaties)
-
-Gemmideld staat (op het moment van scrapen) een post 22 dagen online.
-Daarnaast zijn er 99 unieke salaris waarden bekend, van 157 vacatures is
-het salaris onbekend. Verder is het euro (€) symbool niet goed vertaald
-bij het scrapen en lijken er maand en jaar salarissen gemixed te zijn
-(een korte search naar een vacature met een loon boven de €10.000,- op
-indeed bevestigd dit). De dataset lijkt, zoals verwacht, niet verder
-terug te gaan dan februari 2022 (2022-02-06) om precies te zijn.
+Dataset D002 bevat data gescraped van Indeed. Hiervoor is er gezocht
+naar alle functies waar het woord "data" in voorkomt. D002 bestaat in de
+ruwe vorm uit meerdere losse bestanden (een voor elke dag dat er een run
+is geweest van de scraper). Om een indruk te krijgen van wat er in een
+dergelijk bestand staat kan er gekeken worden naar
+*".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Hieronder
+worden weer de voornaamste kenmerken weergegeven
 
 ```{r read D002, eval=TRUE, results='hide'}
 # kenmerken D002 dataset
 df_indeed_scraped <- read.csv(".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv")
 
-df_indeed_scraped %>% summary()
+writeLines(
+  sprintf(
+    "Number of columns in the dataset:\n%s\n",
+    ncol(df_indeed_scraped)
+  )
+)
 
-print("number of unique jobs:")
-df_indeed_scraped$job_title %>% unique() %>% length()
+writeLines(
+  sprintf(
+    "Number of rows in the dataset:\n%s\n",
+    nrow(df_indeed_scraped)
+  )
+)
 
-print("number of unique urls:")
-df_indeed_scraped$job_link %>% unique() %>% length()
+writeLines(
+  sprintf(
+    "number of unique skill(s) and combinations:\n%s\n",
+    df_indeed_scraped$skills %>% unique() %>% length()
+  )
+)
 
-print("number of unique skill(s) and combinations:")
-df_indeed_scraped$skills %>% unique() %>% length()
+writeLines(
+  sprintf(
+    "number of unique URL's:\n%s\n",
+    df_indeed_scraped$job_link %>% unique() %>% length()
+  )
+)
 
-print("number of unique salaries:")
-df_indeed_scraped$salary %>% unique() %>% length()
+writeLines(
+  sprintf(
+    "Example of salary:\n%s\n",
+    df_indeed_scraped$salary[2]
+  )
+)
 
-print("sample of salaries:")
-df_indeed_scraped$salary %>% head(20)
+writeLines(
+  sprintf(
+    "number of NA's:\n%s\n",
+    sum(is.na(df_indeed_scraped))
+  )
+)
 
-print("listings without salary:")
-sum(is.na(df_indeed_scraped$salary))
+writeLines(
+  sprintf(
+    "earliest job listing:\n%s\n",
+    df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
+  )
+)
 
-print("number of companies with job listings:")
-df_indeed_scraped$Company %>% unique() %>% length()
-
-
-# zoek naar specifieke salaris om de vacature op indeed te bekijken
-print("URL of job listing with suspected year salary")
-df_indeed_scraped %>%
-  filter(salary =='ï¿½ 72.171') %>%
-  .$job_link %>%
-  .[1]
-
-
-print("earliest listing date:")
-df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
-
+writeLines(
+  sprintf(
+    "Skills example:\n%s\n",
+    df_indeed_scraped$Skills[2]
+  )
+)
 ```
+
+Uit bovenstaande informatie worden een aantal dingen op te maken.
+Allereerst gaat de data niet verder terug dan begin februari 2022. Dit
+komt omdat de webscraper pas op 6 maart 2022 afgerond. Dit zal ook
+effect hebben op de analyses gezien de data niet ver genoeg teruggaat om
+echte trends te ontdekken. Ten tweede valt op dat het aantal rijen en
+het aantal unieke URL's niet overeenkomen. Dit geeft het vermoeden dat
+er dubbele rijen zijn, of in iedergeval een functie meermaals is
+gescraped. Ook valt op dat er een fout in de salaris kolom staat. Hierin
+is het euro-symbool (€) niet goed vertaald is (ï¿½). Dit en andere
+schoning vindt plaats in de volgende paragraaf "Data preperation en
+modeling".
 
 ### Data preperation en modeling
 
@@ -329,7 +343,7 @@ versimpeld weergegeven. De meest noemenswaardigen zijn te vinden in de
 onderstaande tabel:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|---------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------|----------|-----------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect worden toegewezen aan het type data analist.                                                                                      |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
