@@ -2,10 +2,6 @@
 library("tidyverse")
 library("stringr")
 
-mult_format <- function() {
-  function(x) format(100*x,digits = 2) 
-}
-
 plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salary= 2763, second_salary= 3087, third_salary= 3519 ){
   # bepaal constanten op basis van HoB vacature
   options(scipen=999)
@@ -110,4 +106,3 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
       labels=seq(0.01, 0.05, 0.01)
     )
 }
-
