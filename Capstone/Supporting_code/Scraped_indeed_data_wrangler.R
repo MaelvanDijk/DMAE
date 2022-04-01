@@ -260,6 +260,9 @@ enrich_scraped_date <- function(tbl_cleaned_data){
     str_replace_all("[^[1-9]]", "") %>%
     substr(nchar(.), nchar(.))
   
+  # fill blank rows with NA
+  tbl_enriched_data[tbl_enriched_data == ""] <- NA   
+  
   return(tbl_enriched_data)
 
 }

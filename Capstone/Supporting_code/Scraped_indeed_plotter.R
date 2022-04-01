@@ -2,6 +2,10 @@
 library("tidyverse")
 library("stringr")
 
+mult_format <- function() {
+  function(x) format(100*x,digits = 2) 
+}
+
 plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salary= 2763, second_salary= 3087, third_salary= 3519 ){
   # bepaal constanten op basis van HoB vacature
   options(scipen=999)
@@ -36,7 +40,12 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
   
   # plot de verdeling inclusief salaris punten
   df_indeed_scraped %>%
-    ggplot(aes(x= salary)) +
+    ggplot(
+      aes(
+        x= salary,
+        # y= (..count../(sum(..count..)))
+        )
+      ) +
     geom_density(alpha=0.5) +
     # onderstaande regel vult alles rechts van de gekozen lijn
     # geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")+
@@ -59,14 +68,14 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
       aes(
         x=indeed_median_salary, xend=indeed_median_salary,
         y=0, yend= dens_indeed_median_salary,
-        linetype= "median loon indeed"),
+        linetype= "median loon Indeed"),
       color = "blue",
       size = 1.0
     ) +
     labs(
-      title="Verdeling maandsalaris op indeed vs. HoB",
-      y="frequentie",
-      x="Maandsalaris"
+      title="Verdeling maandsalaris op Indeed vs. HoB",
+      y="Frequentie (%)",
+      x="Maandsalaris (\u20ac)"
     ) +
     theme(
       plot.title=element_text(hjust=0.5),
@@ -95,5 +104,10 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
       label= "HoB salaris 3de jr.",
       angle=90
       
+    )+
+    scale_y_continuous(
+      breaks= seq(0.0001, 0.0005, 0.0001),
+      labels=seq(0.01, 0.05, 0.01)
     )
 }
+

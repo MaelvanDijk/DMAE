@@ -1,4 +1,5 @@
 ---
+==---
 title: "Capstone_MaelvDijk_DMaE"
 author: "Maël"
 date: '2022-03-15'
@@ -39,90 +40,31 @@ Inleiding
     Noem de belangrijkste databronnen
 ---
 
-In dit capstone project wordt de ontwikkeling naar de vraag van
-hardskills en rollen binnen het data domein onderzocht. Het project is
-ontsprongen naar aanleiding van een gerelateerde vraag vanuit House of
-Bèta, namelijk: een onderzoek naar de drivers en kenmerken van onze
-consultants die uitstromen. Wegens juridische beperkingen en het hier
-uit volgende tijdsgebrek is gekozen voor het onderzoeken van een
-alternatieve vraag, namelijk: **"Hoe ontwikkelt de vraag naar 'data
-specialisten' zich kijkende naar de gevraagde vaardigheden en het
-geboden loon"**.
+In dit capstone project wordt de ontwikkeling naar de vraag van hardskills en rollen binnen het data domein onderzocht. Het project is ontsprongen naar aanleiding van een gerelateerde vraag vanuit House of Bèta, namelijk: een onderzoek naar de drivers en kenmerken van onze consultants die uitstromen. Wegens juridische beperkingen en het hier uit volgende tijdsgebrek is gekozen voor het onderzoeken van een alternatieve vraag, namelijk: **"Hoe ontwikkelt de vraag naar 'data specialisten' zich kijkende naar de gevraagde vaardigheden en het geboden loon"**.
 
-Deze nieuw geformuleerde vraag helpt deels de originele vraag te
-beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor
-het geboden loon en ondersteunen in het samenstellen van een (deel van)
-het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de
-vraag naar "data personeel" en de daarbijhorende opdrachtgevers, hiermee
-kan dan ingespeeld worden op de veranderende markt door de
-opleidingsstraat en specialisaties beter te laten aansluiten op de markt
-van morgen.
+Deze nieuw geformuleerde vraag helpt deels de originele vraag te beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor het geboden loon en ondersteunen in het samenstellen van een (deel van) het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de vraag naar "data personeel" en de daarbijhorende opdrachtgevers, hiermee kan dan ingespeeld worden op de veranderende markt door de opleidingsstraat en specialisaties beter te laten aansluiten op de markt van morgen.
 
 ### House of Bèta
 
-House of Bèta (HoB) is een detacheerder en consultancy op het gebied van
-business IT. Er zijn diverse specialisatie richtingen waartussen een
-consultant kan kiezen. HoB richt zich op starters op de arbeidsmarkt en
-staat open voor consultants met en zonder formele IT opleiding. Naast
-het matchen tussen vraag en aanbod van consultants en opdrachtgevers
-zorgt HoB voor een breed aanbod aan opleidingen zodat consultants zich
-kunnen blijven ontwikkelen op het gebied van hard-, en softskills. Een
-consultancy staat of valt met de expertise en kennis van haar
-medewerkers, dit maakt retentie van medewerkers belangrijk. De uitstroom
-van HoB's zusterbedrijf Talent&Pro in 2021 is aanleiding voor HoB om
-hier meer grip op te krijgen. Na een kort voor onderzoek is gebleken dat
-met de beschikbare tijd en midellen de uitstroom analyseren en
-potentiëel voorspellen nog niet mogelijk is. Hierop is voorgesteld om
-naar de vacature ontwikkeling te kijken. Deze analyse kan een bijdragen
-leveren aan het onderzoek omtrent uitstroom, daarnaast geeft het HoB de
-mogelijkheid om haar huidige compensatie aan medewerkers op waarde te
-schatten.
+House of Bèta (HoB) is een detacheerder en consultancy op het gebied van business IT. Er zijn diverse specialisatie richtingen waartussen een consultant kan kiezen. HoB richt zich op starters op de arbeidsmarkt en staat open voor consultants met en zonder formele IT opleiding. Naast het matchen tussen vraag en aanbod van consultants en opdrachtgevers zorgt HoB voor een breed aanbod aan opleidingen zodat consultants zich kunnen blijven ontwikkelen op het gebied van hard-, en softskills. Een consultancy staat of valt met de expertise en kennis van haar medewerkers, dit maakt retentie van medewerkers belangrijk. De uitstroom van HoB's zusterbedrijf Talent&Pro in 2021 is aanleiding voor HoB om hier meer grip op te krijgen. Na een kort voor onderzoek is gebleken dat met de beschikbare tijd en midellen de uitstroom analyseren en potentiëel voorspellen nog niet mogelijk is. Hierop is voorgesteld om naar de vacature ontwikkeling te kijken. Deze analyse kan een bijdragen leveren aan het onderzoek omtrent uitstroom, daarnaast geeft het HoB de mogelijkheid om haar huidige compensatie aan medewerkers op waarde te schatten.
 
 ### Businessvraag
 
-De vraag die bij de business ligt: **"Hoe ontwikkelt de vraag naar 'data
-specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden,
-het geboden loon en mogelijke opdrachtgevers?"** komt vanuit de
-commercieel directeur van HoB. Het probleemgebied heeft betrekking op:
-commercie, businessdevelopement en HR. Dit maakt dat de uiteindelijke
-inzichten op meer plekken in de organisatie gedragen zal worden.
+De vraag die bij de business ligt: **"Hoe ontwikkelt de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?"** komt vanuit de commercieel directeur van HoB. Het probleemgebied heeft betrekking op: commercie, businessdevelopement en HR. Dit maakt dat de uiteindelijke inzichten op meer plekken in de organisatie gedragen zal worden.
 
-Om deze vraag te beantwoorden moeten er een aantal deelvragen beantwoord
-worden: 1. Hoe ontwikkelt de vraag naar individuele skills zich? 2. Hoe
-verhoudt de kennis breedte (aantal skills) zich tot de loon en
-rolverdeling? 3. In welke zit de grootste vraag (ontwikkeling)?
+Om deze vraag te beantwoorden moeten er een aantal deelvragen beantwoord worden: 1. Hoe ontwikkelt de vraag naar individuele skills zich? 2. Hoe verhoudt de kennis breedte (aantal skills) zich tot de loon en rolverdeling? 3. In welke zit de grootste vraag (ontwikkeling)?
 
 ### data gebruik
 
-Er vinden nog geen datamining activiteiten plaats binnen HoB. Naast de
-analyse wordt er dan ook een stuk code geleverd om een vacatures te
-minen. Dit kan vrij door HoB gebruikt worden indien gewenst. Omdat voor
-dit capstone project de tijd beperkt is zijn er een aantal keuzes
-gemaakt m.b.t de data en het minen hier van: 1. Voor vacatures wordt
-alleen data van Indeed gebruikt 2. De vacatures zijn beschikbaar vanaf 8
-februari 2022 3. Als referentie dataset voor benodigde (hard)skills
-wordt de [Indeed dataset van
-Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer)
-gebruikt.
+Er vinden nog geen datamining activiteiten plaats binnen HoB. Naast de analyse wordt er dan ook een stuk code geleverd om een vacatures te minen. Dit kan vrij door HoB gebruikt worden indien gewenst. Omdat voor dit capstone project de tijd beperkt is zijn er een aantal keuzes gemaakt m.b.t de data en het minen hier van: 1. Voor vacatures wordt alleen data van Indeed gebruikt 2. De vacatures zijn beschikbaar vanaf 8 februari 2022 3. Als referentie dataset voor benodigde (hard)skills wordt de [Indeed dataset van Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer) gebruikt.
 
 ### Business Success criteria
 
-Kwantitatieve doelstelling voor het beantwoorden van deze vraag is niet
-direct mogelijk. Daarom wordt er gekeken naar kwalitatieve eisen.
-Minimaal wordt er een inkomens benchmark verwacht en een indicatie van
-de hoeveelheid vraag bij bedrijven. Een bijkomende wens is om het
-arbeidsvoorwaardenpakket op waarden te kunnen schatten. Dit is een
-uitdaging waar nog niet duidelijk van is of dit gaat lukken.
+Kwantitatieve doelstelling voor het beantwoorden van deze vraag is niet direct mogelijk. Daarom wordt er gekeken naar kwalitatieve eisen. Minimaal wordt er een inkomens benchmark verwacht en een indicatie van de hoeveelheid vraag bij bedrijven. Een bijkomende wens is om het arbeidsvoorwaardenpakket op waarden te kunnen schatten. Dit is een uitdaging waar nog niet duidelijk van is of dit gaat lukken.
 
 ## Methoden
 
-Het hoofdstuk "Methoden" gaat in op de data en het gebruik hiervan. Het
-is van belang om te weten hoe er aan de data is gekomen, met wat voor
-data er gewerkt wordt en hoe er uiteindelijk is gekomen tot een
-bruikbaar datamodel. Dit wordt achtereenvolgens uiteengezet in de
-paragagraven: "Data Understanding", "Data Preperation en Modelling". Als
-laatste wordt er in paragraaf "Reproduceren van het onderzoek" ingegaan
-op de eisen en benodigdheden om tot eenzelfde resultaat te komen.
+Het hoofdstuk "Methoden" gaat in op de data en het gebruik hiervan. Het is van belang om te weten hoe er aan de data is gekomen, met wat voor data er gewerkt wordt en hoe er uiteindelijk is gekomen tot een bruikbaar datamodel. Dit wordt achtereenvolgens uiteengezet in de paragagraven: "Data Understanding", "Data Preperation en Modelling". Als laatste wordt er in paragraaf "Reproduceren van het onderzoek" ingegaan op de eisen en benodigdheden om tot eenzelfde resultaat te komen.
 
 ---
 Methoden
@@ -134,50 +76,26 @@ Methoden
 
 ### Data understanding
 
-Deze paragraaf gaat in op de scope en basale kenmerken van de gebruikte
-data. Er wordt beschreven met welke datasets gewerkt gaat worden, de
-redernatie voor deze datasets en waarom andere datasets buiten
-beschouwing zijn gelaten. Uiteindelijk wordt de data in zijn ruwe vorm
-beschreven.
+Deze paragraaf gaat in op de scope en basale kenmerken van de gebruikte data. Er wordt beschreven met welke datasets gewerkt gaat worden, de redernatie voor deze datasets en waarom andere datasets buiten beschouwing zijn gelaten. Uiteindelijk wordt de data in zijn ruwe vorm beschreven.
 
 #### Gekozen datasets en scope
 
-Om te beginnen is hieronder een versimpelde datalog weergegeven. Dit
-bevat informatie over de datasets in de ruwevorm (te vinden in
-"*.\\Data_raw")"*
+Om te beginnen is hieronder een versimpelde datalog weergegeven. Dit bevat informatie over de datasets in de ruwevorm (te vinden in "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
 : datalog (shortened)
 
-D001 is na vooronderzoek gekozen als basis dataset. Hierin staan
-onderandere (hard)skills met de daarbij behorende functie type (data
-analist, -engineer, -scientist). Dit legt een goede basis voor het
-onderzoek naar data specialisaties binnen HoB, hier worden namelijk
-dezelfde specialisaties ook aangeboden. Er zijn andere datasets
-overwogen echter bevatte deze te weinig relevantie functie type (\< 200
-rijen) of ontbraken hier gevraagde skills die ter referentie voor D002
-gebruikt zouden worden.
+D001 is na vooronderzoek gekozen als basis dataset. Hierin staan onderandere (hard)skills met de daarbij behorende functie type (data analist, -engineer, -scientist). Dit legt een goede basis voor het onderzoek naar data specialisaties binnen HoB, hier worden namelijk dezelfde specialisaties ook aangeboden. Er zijn andere datasets overwogen echter bevatte deze te weinig relevantie functie type (\< 200 rijen) of ontbraken hier gevraagde skills die ter referentie voor D002 gebruikt zouden worden.
 
-D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig
-scrapen van Indeed data komt voort uit meerdere beperkingen. Allereerst
-was er geen (makkelijk en gratis) werkende API te vinden die Indeed data
-kon aanleveren. Ten tweede was er geen dataset beschikbaar die focust op
-data specialisten én de nederlandse markt. Als laatste waren de
-beschikbare datasets vaak te beperkt met relevante informatie
-(ontbrekende skills, niet nederlandse functies, geen salaris indicatie).
-Dit allemaal heeft er toe geleid dat er voor dit project een scraper is
-gebouwd die de data binnenhaalt.
+D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig scrapen van Indeed data komt voort uit meerdere beperkingen. Allereerst was er geen (makkelijk en gratis) werkende API te vinden die Indeed data kon aanleveren. Ten tweede was er geen dataset beschikbaar die focust op data specialisten én de nederlandse markt. Als laatste waren de beschikbare datasets vaak te beperkt met relevante informatie (ontbrekende skills, niet nederlandse functies, geen salaris indicatie). Dit allemaal heeft er toe geleid dat er voor dit project een scraper is gebouwd die de data binnenhaalt.
 
 #### Beschrijving van de ruwe data
 
-De data van zowel D001 als D002 zijn nog in ruwe vorm. Bij het
-exploreren van D001 is duidelijk dat de data al erg schoon is. Een paar
-basale kenmerken zijn hieronder geprint. Deze kunnen zowel snel inzicht
-geven in de dataset als relevant zijn voor het gehele onderzoek.
+De data van zowel D001 als D002 zijn nog in ruwe vorm. Bij het exploreren van D001 is duidelijk dat de data al erg schoon is. Een paar basale kenmerken zijn hieronder geprint. Deze kunnen zowel snel inzicht geven in de dataset als relevant zijn voor het gehele onderzoek.
 
 ```{r read D001, eval=TRUE, results='hide'}
 # kenmerken D001 dataset
@@ -227,26 +145,9 @@ writeLines(
 
 ```
 
-Er zijn behoorlijk wat kolommen aanwezig in de dataset, echter blijkt
-een groot deel niet relevant voor de vraag in kwestie. De dataset bevat
-klaarblijkelijk veel skills. Dit komt voornamelijk omdat de skills
-opgeslagen zijn in lijsten en een willekeurige volgorde binnen deze
-lijsten hebben. Dit zorgt ervoor dat bijna elke vacature een unieke
-skill of combinatie van skills lijkt te bevatten. In werkelijkheid is
-dit niet zo want [SQL, Python] is gelijk aan [Python, SQL]. HIervoor
-komt later in het project een ETL process. Het salaris is ook opvallend.
-De maker van deze dataset heeft de salarissen in bins van \$20.000,-
-geplaatst (met een groep \< \$80.000 en een groep \> \$160.000,-).
-Vercer valt nog op dat Data Engineer slechts 24% van de dataset opmaakt.
-Daarentegen zijn 45% van de listings voor Data Scientisten.
+Er zijn behoorlijk wat kolommen aanwezig in de dataset, echter blijkt een groot deel niet relevant voor de vraag in kwestie. De dataset bevat klaarblijkelijk veel skills. Dit komt voornamelijk omdat de skills opgeslagen zijn in lijsten en een willekeurige volgorde binnen deze lijsten hebben. Dit zorgt ervoor dat bijna elke vacature een unieke skill of combinatie van skills lijkt te bevatten. In werkelijkheid is dit niet zo want [SQL, Python] is gelijk aan [Python, SQL]. HIervoor komt later in het project een ETL process. Het salaris is ook opvallend. De maker van deze dataset heeft de salarissen in bins van \$20.000,- geplaatst (met een groep \< \$80.000 en een groep \> \$160.000,-). Vercer valt nog op dat Data Engineer slechts 24% van de dataset opmaakt. Daarentegen zijn 45% van de listings voor Data Scientisten.
 
-Dataset D002 bevat data gescraped van Indeed. Hiervoor is er gezocht
-naar alle functies waar het woord "data" in voorkomt. D002 bestaat in de
-ruwe vorm uit meerdere losse bestanden (een voor elke dag dat er een run
-is geweest van de scraper). Om een indruk te krijgen van wat er in een
-dergelijk bestand staat kan er gekeken worden naar
-*".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Hieronder
-worden weer de voornaamste kenmerken weergegeven
+Dataset D002 bevat data gescraped van Indeed. Hiervoor is er gezocht naar alle functies waar het woord "data" in voorkomt. D002 bestaat in de ruwe vorm uit meerdere losse bestanden (een voor elke dag dat er een run is geweest van de scraper). Om een indruk te krijgen van wat er in een dergelijk bestand staat kan er gekeken worden naar *".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Hieronder worden weer de voornaamste kenmerken weergegeven
 
 ```{r read D002, eval=TRUE, results='hide'}
 # kenmerken D002 dataset
@@ -309,77 +210,45 @@ writeLines(
 )
 ```
 
-Uit bovenstaande informatie worden een aantal dingen op te maken.
-Allereerst gaat de data niet verder terug dan begin februari 2022. Dit
-komt omdat de webscraper pas op 6 maart 2022 afgerond. Dit zal ook
-effect hebben op de analyses gezien de data niet ver genoeg teruggaat om
-echte trends te ontdekken. Ten tweede valt op dat het aantal rijen en
-het aantal unieke URL's niet overeenkomen. Dit geeft het vermoeden dat
-er dubbele rijen zijn, of in iedergeval een functie meermaals is
-gescraped. Ook valt op dat er een fout in de salaris kolom staat. Hierin
-is het euro-symbool (€) niet goed vertaald is (ï¿½). Dit en andere
-schoning vindt plaats in de volgende paragraaf "Data preperation en
-modeling".
+Uit bovenstaande informatie vallen een aantal dingen op te maken. Allereerst gaat de data niet verder terug dan begin februari 2022. Dit komt omdat de webscraper pas op 6 maart 2022 is afgerond. Dit zal ook effect hebben op de analyses gezien de data niet ver genoeg teruggaat om echte trends te ontdekken. Ten tweede valt op dat het aantal rijen en het aantal unieke URL's niet overeenkomen. Dit geeft het vermoeden dat er dubbele rijen zijn, of in iedergeval een functie meermaals is gescraped. Ook valt op dat er een fout in de salaris kolom staat. Hierin is het euro-symbool (€) niet goed vertaald is (ï¿½). Dit en nadere opschoning vindt plaats in de volgende paragraaf "Data preperation en modeling".
 
 ### Data preperation en modeling
 
-Voor het binnenhalen, schoonmaken en verijken van de data zijn diverse
-stappen genomen. In de onderstaande processflow is te zien hoe het
-process hoogover doorlopen wordt om tot de uiteindelijke analyses te
-komen.
+Voor het binnenhalen, schoonmaken en verijken van de data zijn diverse stappen genomen. In de onderstaande processflow is te zien hoe het process hoogover doorlopen wordt om tot de uiteindelijke analyses te komen.
 
-Het process is in 3 segmenten op te delen. Het bovenste segment heeft
-betrekking op de data vanuit Kaggle (D001), het tweede segement, in het
-midden, heeft betrekking op de Indeed data die gescraped wordt (D002)
-vervolgens is de onderste laag waar alles samenkomt. Na het schonen
-verijken en wegschrijven van de data kan er een dataframe worden opgezet
-die goed interpeteerbaar is.
+Het process is in 3 segmenten op te delen. Het bovenste segment heeft betrekking op de data vanuit Kaggle (D001), het tweede segement, in het midden, heeft betrekking op de Indeed data die gescraped wordt (D002) vervolgens is de onderste laag waar alles samenkomt. Na het schonen verijken en wegschrijven van de data kan er een dataframe worden opgezet die goed interpeteerbaar is.
 
 ![Data process flow](Images/data%20flow%20process.png)
 
-Er zijn een aantal belangrijke kanttekenen die moeten worden gemaakt.
-Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
-versimpeld weergegeven. De meest noemenswaardigen zijn te vinden in de
-onderstaande tabel:
+Er zijn een aantal belangrijke kanttekenen die moeten worden gemaakt. Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
 |----------|----------|-----------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
-| ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect worden toegewezen aan het type data analist.                                                                                      |
+| ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
 
 : Aannamens tijdens process stappen,
 
-De scripts voor deze stappen zijn te vinden in "./Supporting_code",
-specifiek:
+De scripts voor deze stappen zijn te vinden in "./Supporting_code", specifiek:
 
-| Process stap        | Script naam                  |
-|---------------------|------------------------------|
-| ETL (linksboven)    | Generate_ref_skill_list.R    |
-| Scraping            | indeed_scraper.R             |
-| ETL (midden-rechts) | Scraped_indeed_data_wrangler |
+| Process stap        | Script naam                    |
+|---------------------|--------------------------------|
+| ETL (linksboven)    | Generate_ref_skill_list.R      |
+| Scraping            | indeed_scraper.R               |
+| ETL (midden-rechts) | Scraped_indeed_data_wrangler.R |
 
 : process stappen en bijbehorende scripts.
 
-Het draaien van deze scripts zorgt uitindelijk voor een dataframe dat
-gebruikt kan worden voor het analyseren en beantwoorden van de
-businessvraag. Voor een duidelijker beeld wat de code doet zijn de .R
-scripts voorzien van comments.
+Het draaien van deze scripts zorgt uitindelijk voor een dataframe dat gebruikt kan worden voor het analyseren en beantwoorden van de businessvraag. Voor een duidelijker beeld wat de code doet zijn de .R scripts voorzien van comments.
 
 ### Reproduceren van het onderzoek
 
-Om dit project te reproduceren is het nodig om de mappen:
-"Data_cleaned", "Data_raw", en "Supporting_code" te gebruiken. Hierin
-staan bron data en hulp .R scripts. In deze Markdown worden hulp scripts
-aangeroepen om de code complexiteit in deze Markdown te beperken. Wat
-betreft externe libraries moeten de volgende worden geïnstalleerd:
+Om dit project te reproduceren is het nodig om de mappen: "Data_cleaned", "Data_raw", en "Supporting_code" te gebruiken. Hierin staan bron data en hulp .R scripts. In deze Markdown worden hulp scripts aangeroepen om de code complexiteit in deze Markdown te beperken. Wat betreft externe libraries moeten de volgende worden geïnstalleerd:
 
-"tidyverse", "stringr", "lubridate", "tibble", "textTinyR". Indien er
-nieuwe data gescraped moet worden (niet nodig voor reproductie): "XML"
-en "rvest".
+"tidyverse", "stringr", "lubridate", "tibble", "textTinyR". Indien er nieuwe data gescraped moet worden (niet nodig voor reproductie): "XML" en "rvest".
 
-Er zijn verder geen afhankelijkheden buiten het bovengenoemde om deze
-markdown te draaien.
+Er zijn verder geen afhankelijkheden buiten het bovengenoemde om deze markdown te draaien.
 
 ## Resultaten
 
@@ -391,10 +260,7 @@ Resultaten
     Ondersteun de tekst met figuren en tabellen
 ---
 
-In dit hoofdstuk worden de resultaten besroken waarmee de deelvragen
-beantwoord mee kunnnen worden. Ook wordt geëvalueerd welke vragen niet
-beantwoord kunnen worden en wat voor artifacten nog meer opgeleverd
-zijn.
+In dit hoofdstuk worden de resultaten besroken waarmee de deelvragen mee beantwoord kunnnen worden. Ook wordt uiteengezet welke vragen niet beantwoord kunnen worden en welke artifacten opgeleverd worden
 
 ```{r D002, echo=FALSE}
 # clean en verrijk indeed data met custom functies
@@ -404,97 +270,80 @@ df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
 
 ### Verhouding HoB versus Indeed salaris
 
-Binnen HoB is het mogelijk om op verschillende manieren salarisverhoging
-te behalen. Zo wordt een consultant jaarlijks beoordeeld en hangt de
-verhoging samen met de beoordeling. Afhankelijk van het niveau van de
-consultant is dit een absolute stijging of een relatieve stijging ten
-opzichten van het huidige loon. Ook worden consultants beloond voor het
-behalen van cursussen. Om deze reden is het lasting om een accuraat
-salaris te bepalen. Gelukkig heeft HoB op haar website de referentie
-salarissen voor 1ste, 2de en 3de jaars consultants staan (€2.763,- ,
-€3.087,- , €3.591,- respectievelijk).
+Binnen HoB is het mogelijk om op verschillende manieren salarisverhoging te behalen. Zo wordt een consultant jaarlijks beoordeeld en hangt de verhoging samen met de beoordeling. Afhankelijk van het niveau van de consultant is dit een absolute stijging of een relatieve stijging ten opzichten van het huidige loon. Ook worden consultants beloond voor het behalen van cursussen. Om deze reden is het lasting om een accuraat salaris te bepalen. Gelukkig heeft HoB op haar website de referentie salarissen voor 1ste, 2de en 3de jaars consultants staan (€2.763,- , €3.087,- , €3.591,- respectievelijk).
 
-De vraag van HoB is om dit geboden salaris aanbod op waarden te schatten
-ten opzcihten van de markt. In onderstaande grafiek is te zien dat het
-HoB salaris de eerste twee jaren lager ligt dan de mediaan op Indeed.
+De vraag van HoB is om dit geboden salaris aanbod op waarden te schatten ten opzcihten van de markt. In onderstaande grafiek is te zien dat het HoB salaris de eerste twee jaren lager ligt dan de mediaan op Indeed.
 
-```{r}
+```{r plot indeed salary distribution vs hob salary}
 plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
 ```
 
-In de bovenstaande analyse is het het aantal jaren werkervaring van de
-indeed vacatures niet meegeneomen. De dataset is wel vereikt met een
-kolom die het aantal jaren ervaring aangeeft. Echter, doordat er 'regex'
-is gebruikt en de data erg ongestructureerd is zal deze kolom niet
-helemaal betrouwbaar zijn. Desondanks kan deze data gebruikt worden om
-toch een indruk te krijgen van de salarisverdeling over de verschillende
-eisen qua jaren werkervaring.
+In de bovenstaande analyse is het het aantal jaren werkervaring van de indeed vacatures niet meegeneomen. De dataset is wel vereikt met een kolom die het aantal jaren ervaring aangeeft. Echter, doordat er 'regex' is gebruikt en de data erg ongestructureerd is zal deze kolom niet helemaal betrouwbaar zijn. Desondanks kan deze data gebruikt worden om toch een indruk te krijgen van de salarisverdeling over de verschillende eisen qua jaren werkervaring. In onderstaande grafiek komt duidelijk naar voren dat het salaris van HoB personeel in jaar 3 hoger ligt dan het modale salaris dat op indeed geboden wordt tot en met jaar 5.
 
-```{r}
+```{r HoB salaris vs Indeed verdeling per ervaringsjaar}
 
-df_indeed_final_less_than_4_year_experience <- df_indeed_final%>%
-  filter(cleaned_werkervaring_jaren <= 3)
-
-# df_indeed_final_1_jaar_ervaring
-
-# plot_hob_salary_vs_indeed_salary_dist(df_indeed_final_1_jaar_ervaring)
-
-df_indeed_final_less_than_4_year_experience %>%
+df_indeed_final %>%
     ggplot(aes(x= salary)) +
     geom_density(alpha=0.5) +
-    facet_grid(rows= vars(cleaned_werkervaring_jaren)) +
-    labs(
-      title="Verdeling gevraagde aantal skills per salaris groep",
-      y= "frequentie",
-      x= "Aantal gevraagde skills"
+    geom_segment(
+      aes(
+        x =2763, xend =2763,
+        y= 0.0000, yend=0.0001,
+        linetype= "HoB 1ste jaar"
+      )
     ) +
+      geom_segment(
+      aes(
+        x =3087, xend =3087,
+        y= 0.0000, yend=0.0001,
+        linetype= "HoB 2de jaar"
+      )
+    ) +
+      geom_segment(
+      aes(
+        x =3519, xend =3519,
+        y= 0.0000, yend=0.0001,
+        linetype= "HoB 3de jaar"
+      )
+    ) +
+    facet_wrap(vars(cleaned_werkervaring_jaren)) +
+    labs(
+      title="Verdeling geboden salaris per jaren werkervaring",
+      y= "Frequentie (%)",
+      x= "Geboden salaris (\u20ac)"
+    ) +
+
     theme(
-      plot.title=element_text(hjust=0.5))
+      plot.title=element_text(hjust=0.5))+
+    scale_y_continuous(
+      breaks= seq(0.0000, 0.0005, 0.0001),
+      labels=seq(0.00, 0.05, 0.01)
+    )
 
 
 ```
 
-Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan
-hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet
-goed te gebruiken is. Hiervoor is het script
-*'./supporting_code/Scraped_indeed_data_wrangler.R'* beschikbaar. Dit
-script bevat functies om de data vanuit de scraper op te schonen zodat
-er wel inzichten uit de data gehaald kunnen worden.
+Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet goed te gebruiken is. Hiervoor is het script *'./supporting_code/Scraped_indeed_data_wrangler.R'* beschikbaar. Dit script bevat functies om de data vanuit de scraper op te schonen zodat er wel inzichten uit de data gehaald kunnen worden.
 
 #### D001
 
-Voor D001 wordt in dit onderdeel de verdeling bekeken voor het aantal
-skills en salaris over de totale dataset en gesegmenteerd op baan type.
+Voor D001 wordt in dit onderdeel de verdeling bekeken voor het aantal skills en salaris over de totale dataset en gesegmenteerd op baan type.
 
 **Data Analist**
 
-Wat gelijk opvalt aan deze dataset is dat de data analist de "minst
-zware" functie lijkt. Er worden minder skills verwacht van een data
-analist en het loon voor deze rol ligt ook doorgaans lager dan de andere
-twee rollen.
+Wat gelijk opvalt aan deze dataset is dat de data analist de "minst zware" functie lijkt. Er worden minder skills verwacht van een data analist en het loon voor deze rol ligt ook doorgaans lager dan de andere twee rollen.
 
 **Data Engineer**
 
-Het is gelijk duidelijk dat data engineers de minste vraag genieten maar
-wel een zwaarder profiel moeten hebben. Het salaris van de data engineer
-volgt ongeveer de verdeling van de data scientist. Wel valt op dat
-ondanks de lagere hoeveelheid vacatures dat de data engineer het
-zwaarste skill profiel dient te hebben.
+Het is gelijk duidelijk dat data engineers de minste vraag genieten maar wel een zwaarder profiel moeten hebben. Het salaris van de data engineer volgt ongeveer de verdeling van de data scientist. Wel valt op dat ondanks de lagere hoeveelheid vacatures dat de data engineer het zwaarste skill profiel dient te hebben.
 
 **Data Scientist**
 
-Naar data scientisten lijkt de hoogste vraag te zijn. Het skill profiel
-van de data scientist is gemiddeld de verdeling neigt meer naar links
-dan de data engineer. Ondanks dit lijkt de salaris verdeling gelijk te
-zijn aan die verdeling van de data engineer.
+Naar data scientisten lijkt de hoogste vraag te zijn. Het skill profiel van de data scientist is gemiddeld de verdeling neigt meer naar links dan de data engineer. Ondanks dit lijkt de salaris verdeling gelijk te zijn aan die verdeling van de data engineer.
 
 **Andere inzichten**
 
-Verder is in deze dataset te zien dat, wanneer er om meer skills
-gevraagd wordt er een iets hoger salaris wordt geboden. Voor de hoogste
-salaris groep lijkt dit echter niet te gelden. De aannamen (die nog
-getoetst kan worden) is dat dit gaat om teamleiders of andere management
-functies waar hard skills minder van belang zijn.
+Verder is in deze dataset te zien dat, wanneer er om meer skills gevraagd wordt er een iets hoger salaris wordt geboden. Voor de hoogste salaris groep lijkt dit echter niet te gelden. De aannamen (die nog getoetst kan worden) is dat dit gaat om teamleiders of andere management functies waar hard skills minder van belang zijn.
 
 ```{r D001 exploration, echo=FALSE}
 
@@ -503,14 +352,7 @@ kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
 
 #### D002
 
-D002 is minder "schoon" dan D001. Dit betekent dat er wat meer moet
-gebeuren voor er een eerste EDA (exploratory Data Analysis) kan plaats
-vinden. Met behulp van het script
-*'./supporting_code/Scraped_indeed_data_wrangler.R'* kan de tot nu toe
-binnengehaalde data worden gemerged en gecleaned. Ook voegen de functies
-in dit script nieuwe kolommen toe zoals "skills_count" en een
-levensthein ratio for de drie referentie functie type (analist,
-engineer, scientist).
+D002 is minder "schoon" dan D001. Dit betekent dat er wat meer moet gebeuren voor er een eerste EDA (exploratory Data Analysis) kan plaats vinden. Met behulp van het script *'./supporting_code/Scraped_indeed_data_wrangler.R'* kan de tot nu toe binnengehaalde data worden gemerged en gecleaned. Ook voegen de functies in dit script nieuwe kolommen toe zoals "skills_count" en een levensthein ratio for de drie referentie functie type (analist, engineer, scientist).
 
 ```{r D002, echo=FALSE}
 # clean en verrijk indeed data met custom functies
@@ -533,15 +375,7 @@ df_indeed_final %>%
 
 ```
 
-In bovenstaande afbeelding is nog niet heel veel af te lezen over de
-dataset zelf. Maar een van de vragen die HoB stelt: "hoe verhoudt het
-maandsalaris op de markt met het HoB maandsalaris?" Kan nu wel
-inzichtelijk worden gemaakt. In onderstaande afbeelding worden zowel het
-maandsalaris van jaar 1, jaar 2 als jaar 3 bij HoB toegevoegd aan de
-grafiek. Ook kunnen we de mediaan de salarissen uit de dataset
-toevoegen. Op deze manier kunnen we achterhalen op welke moment een HoB
-consultant de meeste salarissen van Indeed zal inhalen. Dit blijkt in de
-overgang van het 2de naar het 3de jaar.\
+In bovenstaande afbeelding is nog niet heel veel af te lezen over de dataset zelf. Maar een van de vragen die HoB stelt: "hoe verhoudt het maandsalaris op de markt met het HoB maandsalaris?" Kan nu wel inzichtelijk worden gemaakt. In onderstaande afbeelding worden zowel het maandsalaris van jaar 1, jaar 2 als jaar 3 bij HoB toegevoegd aan de grafiek. Ook kunnen we de mediaan de salarissen uit de dataset toevoegen. Op deze manier kunnen we achterhalen op welke moment een HoB consultant de meeste salarissen van Indeed zal inhalen. Dit blijkt in de overgang van het 2de naar het 3de jaar.\
 
 ```{r}
 plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
