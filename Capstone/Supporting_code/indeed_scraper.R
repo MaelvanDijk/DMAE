@@ -4,8 +4,8 @@ library(XML)
 library(stringr)
 library(lubridate)
 
-# job_base_url <- 'https://nl.indeed.com'
-# url_job_search <- read_html('https://nl.indeed.com/jobs?q=data')
+job_base_url <- 'https://nl.indeed.com'
+url_job_search <- read_html('https://nl.indeed.com/jobs?q=data')
 job_base_search_url <- 'https://nl.indeed.com/jobs?q=data&start='
 
 
