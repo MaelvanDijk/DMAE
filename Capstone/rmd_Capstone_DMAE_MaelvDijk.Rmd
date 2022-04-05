@@ -614,26 +614,40 @@ data is om de onderstaande analyse opnieuw te doen.
 
 ```{r}
 
+# unnest all skills and give them their own row
 df_indeed_skills <- df_indeed_final %>% 
   mutate(skills = strsplit(as.character(skills), ",")) %>%
   unnest(skills)
 
+df_indeed_skills$skills <- str_trim(df_indeed_skills$skills)
+
+# create a top and bottom 20
 top_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(20)
 bottom_skills <- table(df_indeed_skills$skills) %>% sort() %>% head(20)
 
 df_indeed_skills %>%
-    dplyr::filter(skills %in% names(top_skills)) %>% # filter df based on most sought skill
-    ggplot(
-        aes(x = reorder(
-            skills, skills, function(x) + length(x)), # decreasing order skill
-            fill= job_type
-            )) +
-    geom_bar() +
-    theme(axis.text.y = element_text(
-        face= 'bold',
-        size= 14)) + # Rotate x-labels and change font
-        coord_flip() 
-        # facet_wrap(~Job_Type)
+    # filter df based on most sought skill
+  filter(skills %in% names(top_skills)) %>% 
+  ggplot(
+      aes(
+        x = reorder(
+          skills,
+          skills,
+          function(x) + length(x) # decreasing order skill
+          ),
+          fill= job_type
+          )
+      ) +
+  geom_bar() +
+  theme(
+    axis.text.y = element_text(
+      face= 'bold',
+      size= 14)) + # Rotate x-labels and change font
+      coord_flip() +
+  labs(
+    x= "Skill"
+  )
+
 
 
 ```
