@@ -447,7 +447,8 @@ helemaal betrouwbaar zijn. Desondanks kan deze data gebruikt worden om
 toch een indruk te krijgen van de salarisverdeling over de verschillende
 eisen qua jaren werkervaring. In onderstaande grafiek komt duidelijk
 naar voren dat het salaris van HoB personeel in jaar 3 hoger ligt dan
-het modale salaris dat op indeed geboden wordt tot en met jaar 5.
+het modale salaris dat op indeed geboden wordt tot en met jaar 3. Ook is
+opvallend dat bij 8 jaar werkervaring de curve naar links verschuifd
 
 ```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
 df_indeed_final %>%
@@ -456,21 +457,21 @@ df_indeed_final %>%
     geom_segment(
       aes(
         x =2763, xend =2763,
-        y= 0.0000, yend=0.0001,
+        y= 0.0000, yend=0.003,
         linetype= "HoB 1ste jaar"
       )
     ) +
       geom_segment(
       aes(
         x =3087, xend =3087,
-        y= 0.0000, yend=0.0001,
+        y= 0.0000, yend=0.003,
         linetype= "HoB 2de jaar"
       )
     ) +
       geom_segment(
       aes(
         x =3519, xend =3519,
-        y= 0.0000, yend=0.0001,
+        y= 0.0000, yend=0.003,
         linetype= "HoB 3de jaar"
       )
     ) +
@@ -483,9 +484,11 @@ df_indeed_final %>%
     theme(
       plot.title=element_text(hjust=0.5))+
     scale_y_continuous(
-      breaks= seq(0.0000, 0.0005, 0.0001),
-      labels=seq(0.00, 0.05, 0.01)
-    )
+      breaks= seq(0.0000, 0.004, 0.001),
+      labels=seq(0.00, 0.04, 0.01),
+      limits= c(0, 0.003)
+    ) +
+  xlim(2000,6000)
 ```
 
 Het salaris bij HoB wordt niet alleen bepaald door werkervaring. Het is
@@ -514,20 +517,6 @@ Een verdieping zou nog bereikt kunnen worden door ook te kijken naar het
 aantal jaren werkervaring als extra dimensie. Helaas zijn er op dit
 moment te weinig observaties om deze extra dimensie toe te voegen in
 deze analyse.
-
-.....................
-
-.......................................................................................................................................................
-
-.......................................................................................................................................................
-
-.......................................................................................................................................................
-
-.......................................................................................................................................................
-
-.......................................................................................................................................................
-
-..................................................................................................................................
 
 #### 1ste jaars HoB
 
