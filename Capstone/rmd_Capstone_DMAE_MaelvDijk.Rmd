@@ -625,6 +625,7 @@ df_indeed_skills$skills <- str_trim(df_indeed_skills$skills)
 top_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(20)
 bottom_skills <- table(df_indeed_skills$skills) %>% sort() %>% head(20)
 
+# plot top skills
 df_indeed_skills %>%
     # filter df based on most sought skill
   filter(skills %in% names(top_skills)) %>% 
@@ -648,7 +649,29 @@ df_indeed_skills %>%
     x= "Skill"
   )
 
-
+# plot bottom skills
+df_indeed_skills %>%
+    # filter df based on least sought skill
+  filter(skills %in% names(bottom_skills)) %>% 
+  ggplot(
+      aes(
+        x = reorder(
+          skills,
+          skills,
+          function(x) + length(x) # decreasing order skill
+          ),
+          fill= job_type
+          )
+      ) +
+  geom_bar() +
+  theme(
+    axis.text.y = element_text(
+      face= 'bold',
+      size= 14)) + # Rotate x-labels and change font
+      coord_flip() +
+  labs(
+    x= "Skill"
+  )
 
 ```
 
