@@ -155,7 +155,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|-------------|-------------|-------------|--------------------|-------------|
+|---------------|---------------|---------------|---------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -312,7 +312,7 @@ writeLines(
 writeLines(
   sprintf(
     "Skills example:\n%s\n",
-    df_indeed_scraped$Skills[2]
+    df_indeed_scraped$skills[2]
   )
 )
 ```
@@ -350,7 +350,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|---------------|---------------|------------------------------------------|
+|------------------|------------------|-------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -440,7 +440,6 @@ naar voren dat het salaris van HoB personeel in jaar 3 hoger ligt dan
 het modale salaris dat op indeed geboden wordt tot en met jaar 5.
 
 ```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
-
 df_indeed_final %>%
     ggplot(aes(x= salary)) +
     geom_density(alpha=0.5) +
@@ -489,7 +488,21 @@ machtig zijn, In kader van dit project is niet direct meetbaar welke
 skills het meest voorkomen binnen HoB data consultants, echter op
 ervaring afgaande zal dit de volgende skills betreffen: SQL, Python, R,
 Excel en Data Modeleren. In onderstaande analyse is de salaris verdeling
-voor 3, 4, en 5 skills te zien.....................
+voor 3, 4, en 5 skills te zien. De drie grafieken in ogenschouw genomen
+is er niet direct een verband aan te wijzen tussen het aantal skills.
+Een eerste hypothese zou zijn om te stellen dat de toename van skills
+iemand waardevoller maakt (een vershuiving van de curve naar rechts) dit
+gebeurt echter niet. een andere aannamen kan zijn dat generalisten
+specialisten meer waard zijn of dat hoger betaalde functies (zoals
+manager en c-niveau) minder hard-skills nodig hebben. Beide
+ontwikkelingen komen niet (sterk) terug in onderstaande grafiek. Wel is
+op te maken 3e jaars HoB personeel (er vanuitgaande dat op dit moment 5
+skills beheerst worden) minder loon ontvangen dan wat er op de
+Nederlandse markt geboden wordt. In een volgende analyse zou wenselijk
+zijn om de loon verdeling per aantal skills en het aantal jaren
+werkervaring te plotten dit is echter niet mogelijk door het te lage
+aantal observaties per mogelijke subset van de data.
+.....................
 
 .......................................................................................................................................................
 
@@ -533,7 +546,7 @@ df_indeed_rel_skill %>%
       )+
       facet_wrap(vars(skill_count)) +
       labs(
-        title="Verdeling geboden salaris per jaren werkervaring",
+        title="Verdeling geboden salaris per aantal gevraagde skills",
         y= "Frequentie (%)",
         x= "Geboden salaris (\u20ac)"
       ) +
