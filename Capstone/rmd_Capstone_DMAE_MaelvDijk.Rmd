@@ -2,7 +2,14 @@
 title: "Capstone_MaelvDijk_DMaE"
 author: "Maël"
 date: '2022-03-15'
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: tango
+    thema: yeti
+    code_folding: hide
+    # number_sections: true
 editor_options: 
   markdown: 
     wrap: 72
@@ -155,7 +162,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|---------------|---------------|---------------|---------------|---------------|
+|------------|------------|------------|-------------------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -350,7 +357,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|------------------|------------------|-------------------------------------|
+|-------------|-------------|----------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -408,7 +415,7 @@ df_indeed_cleaned <- clean_scraped_date(df_indeed_scraped)
 df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
 ```
 
-### Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op het gebied van data specialisten?
+### Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op het gebied van data specialisten?  {.tabset}
 
 Binnen HoB is het mogelijk om op verschillende manieren salarisverhoging
 te behalen. Zo wordt een consultant beloont voor het behalen van
@@ -488,20 +495,23 @@ machtig zijn, In kader van dit project is niet direct meetbaar welke
 skills het meest voorkomen binnen HoB data consultants, echter op
 ervaring afgaande zal dit de volgende skills betreffen: SQL, Python, R,
 Excel en Data Modeleren. In onderstaande analyse is de salaris verdeling
-voor 3, 4, en 5 skills te zien. De drie grafieken in ogenschouw genomen
-is er niet direct een verband aan te wijzen tussen het aantal skills.
-Een eerste hypothese zou zijn om te stellen dat de toename van skills
-iemand waardevoller maakt (een vershuiving van de curve naar rechts) dit
-gebeurt echter niet. een andere aannamen kan zijn dat generalisten
-specialisten meer waard zijn of dat hoger betaalde functies (zoals
-manager en c-niveau) minder hard-skills nodig hebben. Beide
-ontwikkelingen komen niet (sterk) terug in onderstaande grafiek. Wel is
-op te maken 3e jaars HoB personeel (er vanuitgaande dat op dit moment 5
-skills beheerst worden) minder loon ontvangen dan wat er op de
-Nederlandse markt geboden wordt. In een volgende analyse zou wenselijk
-zijn om de loon verdeling per aantal skills en het aantal jaren
-werkervaring te plotten dit is echter niet mogelijk door het te lage
-aantal observaties per mogelijke subset van de data.
+voor 3, 4, en 5 skills te zien.
+
+*De drie grafieken in ogenschouw genomen is er niet direct een verband
+aan te wijzen tussen het aantal skills. Een eerste hypothese zou zijn om
+te stellen dat de toename van skills iemand waardevoller maakt (een
+vershuiving van de curve naar rechts) dit gebeurt echter niet. een
+andere aannamen kan zijn dat generalisten specialisten meer waard zijn
+of dat hoger betaalde functies (zoals manager en c-niveau) minder
+hard-skills nodig hebben. Beide ontwikkelingen komen niet (sterk) terug
+in onderstaande grafiek. Wel is op te maken 3e jaars HoB personeel (er
+vanuitgaande dat op dit moment 5 skills beheerst worden) minder loon
+ontvangen dan wat er op de Nederlandse markt geboden wordt. In een
+volgende analyse zou wenselijk zijn om de loon verdeling per aantal
+skills en het aantal jaren werkervaring te plotten dit is echter niet
+mogelijk door het te lage aantal observaties per mogelijke subset van de
+data.*
+
 .....................
 
 .......................................................................................................................................................
@@ -515,6 +525,89 @@ aantal observaties per mogelijke subset van de data.
 .......................................................................................................................................................
 
 ..................................................................................................................................
+
+#### 1ste jaars HoB
+
+```{r}
+df_indeed_final %>%
+  group_by(skill_count) %>%
+  summarise(med= median(salary, na.rm = T)) %>%
+  ggplot(
+    aes(x=skill_count, y=med)) +
+  geom_col(
+    aes(
+      fill = ifelse(med < 2763, 'red', 'blue')
+      )
+    )+
+  geom_hline(linetype= 1,
+             yintercept = 2763
+             )+
+  labs(
+    title = "Mediaan salaris Indeed vs. aantal skills",
+    subtitle = "HoB 1ste jaars salaris als referentie lijn",
+    y = "Mediaan salaris Indeed",
+    x = "Aantal skills"
+  ) +
+  theme(
+    legend.position= "none"
+  )
+
+```
+
+#### 2de jaars HoB
+
+```{r}
+df_indeed_final %>%
+  group_by(skill_count) %>%
+  summarise(med= median(salary, na.rm = T)) %>%
+  ggplot(
+    aes(x=skill_count, y=med)) +
+  geom_col(
+    aes(
+      fill = ifelse(med < 3087, 'red', 'blue')
+      )
+    )+
+  geom_hline(linetype= 1,
+             yintercept = 3087
+             )+
+  labs(
+    title = "Mediaan salaris Indeed vs. aantal skills",
+    subtitle = "HoB 2de jaars salaris als referentie lijn",
+    y = "Mediaan salaris Indeed",
+    x = "Aantal skills"
+  ) +
+  theme(
+    legend.position= "none"
+  )
+```
+
+#### 3de jaars HoB
+
+```{r}
+df_indeed_final %>%
+  group_by(skill_count) %>%
+  summarise(med= median(salary, na.rm = T)) %>%
+  ggplot(
+    aes(x=skill_count, y=med)) +
+  geom_col(
+    aes(
+      fill = ifelse(med < 3519, 'red', 'blue')
+      )
+    )+
+  geom_hline(linetype= 1,
+             yintercept = 3519
+             )+
+  labs(
+    title = "Mediaan salaris Indeed vs. aantal skills",
+    subtitle = "HoB 2de jaars salaris als referentie lijn",
+    y = "Mediaan salaris Indeed",
+    x = "Aantal skills"
+  ) +
+  theme(
+    legend.position= "none"
+  )
+
+```
 
 ```{r Indeed salaris verdeling per skill, echo=FALSE}
 
