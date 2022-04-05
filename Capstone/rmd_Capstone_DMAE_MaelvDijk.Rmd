@@ -162,7 +162,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|-------------|-------------|-------------|--------------------|-------------|
+|--------------|--------------|--------------|----------------|--------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -357,7 +357,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|---------------|---------------|------------------------------------------|
+|-----------------|-----------------|---------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -600,7 +600,7 @@ df_indeed_final %>%
 
 ```
 
-### Ontwikkeling van de vraag naar Skills
+### Ontwikkeling vraag naar Skills  {.tabset}
 
 De volgende deelvraag voor dit onderzoek gaat om de vraag ontwikkeling
 naar specifieke skills. Hoe ontwikkelt de vraag naar specifieke skills
@@ -612,14 +612,39 @@ De artefacten die aangeleverd worden (waaronder de scraper) kunnen
 gebruikt worden om deze dataset verder op te bouwen totdat er genoeg
 data is om de onderstaande analyse opnieuw te doen.
 
-```{r}
+Als eerst kan er gekeken worden naar de totale vraag naar skills. In de
+twee onderstaande grafieken zijn zowel de 20 meest gevraagde skills als
+de 20 minst gevraagde skills terug te vinden. de top drie is hier weinig
+verrassend en behelst de toch wel meest bekende talen binnen het data
+vakgebied. Verassender is om Tableau in de top 20 te zien maar geen
+PowerBI. Verder wordt nu duidelijk wanneer gekeken wordt naar zowel de
+top als de bottom 20 dat er een mix van echte hard skills en bepaalde
+conventies (zoals "https" en "rest") worden opgenomen in de skill
+referentie lijst uit D001. Hier is met namen opvallend dat "marketing"
+en "network" hoog scoren. Hierin kan er aangenomen worden dat "network"
+het cloud aspect zijn van het data vak, maar, het zou ook kunnen duiden
+op neurale netwerken. Helaas is dit een fout in het scrapen en binnen
+dit project niet direct meer te herstellen. Wat betreft "marketing" kan
+verwacht worden dat dit gaat om marketing analytics en marketing
+automation. Twee velden die erg groot zijn binnen data science en data
+analytics.
 
+De bottom 20 geeft weinig informatie. Het zijn in meer en mindere maten
+bekende talen/tools. het signaleert een niche binnen de vacatures maar
+buiten het feit dat HoB haar activiteiten hier niet op moet focussen is
+levert het ons geen extra informatie op.
+
+#### top skills
+
+```{r}
 # unnest all skills and give them their own row
 df_indeed_skills <- df_indeed_final %>% 
   mutate(skills = strsplit(as.character(skills), ",")) %>%
   unnest(skills)
 
 df_indeed_skills$skills <- str_trim(df_indeed_skills$skills)
+
+all_skills <- df_indeed_skills$skills %>% sort(decreasing= TRUE)
 
 # create a top and bottom 20
 top_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(20)
@@ -649,6 +674,13 @@ df_indeed_skills %>%
     x= "Skill"
   )
 
+
+```
+
+#### Bottom skills
+
+```{r}
+
 # plot bottom skills
 df_indeed_skills %>%
     # filter df based on least sought skill
@@ -672,18 +704,41 @@ df_indeed_skills %>%
   labs(
     x= "Skill"
   )
+```
+
+Een volgende stap is trend analyse. Omdat de data niet vergenoeg terug
+gaat kan er geen accurate voorspelling worden gedaan over de
+ontwikkeling naar de vraag. Naast dat het inspelen op deze vraag
+ontwikkeling ook erg lastig is wegens de doorlooptijd van het opzetten
+van opleidingen en het opleiden van kandidaten. Wel kan getracht worden
+op basis van onderstaande grafiek (en bijbehorende code) een algemeen
+beeld te vormen van de markt en haar beweging.
+
+```{r}
+top_5_skills <- top_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(5)
+
+
+df_indeed_skills %>%
+  filter(skills %in% names(top_skills)) %>%
+  ggplot(
+    aes(
+      x= listing_date,
+      color= skills
+    )
+  ) +
+  geom_line(stat='count')
 
 ```
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
--------------------------------------------------------------------------
+------------------------------------------------------------------------
 
 ```{r Indeed salaris verdeling per skill, echo=FALSE}
 
