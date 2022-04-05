@@ -407,11 +407,14 @@ markdown te draaien.
 
 In dit hoofdstukworden de deelvragen beantwoord aan de hand van de
 analyse resultaten. Ook wordt uiteengezet welke vragen niet beantwoord
-kunnen worden en welke artifacten opgeleverd worden
+kunnen worden en welke artifacten opgeleverd worden. Als eerste wordt
+gekeken naar de verhouding van het HoB salaris t.o.v. het salaris op
+Indeed, vervolgens wordt gekeken
 
 ```{r clean and enrich D002, echo=FALSE}
 # clean en verrijk indeed data met custom functies
-df_indeed_cleaned <- clean_scraped_date(df_indeed_scraped)
+df_indeed_merged <- merge_scraped_data()
+df_indeed_cleaned <- clean_scraped_date(df_indeed_merged)
 df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
 ```
 
@@ -502,25 +505,15 @@ mediaan salaris per aantal skills zien. De balken zijn groen gekleurd
 zodra het referentie salaris van HoB hoger ligt dan het mediaan salaris.
 Er vallen hier twee belangrijke dingen op, namelijk:
 
-1.   Er is een klein positief lineair verband tussen het aantal skills
-    en het mediaan gebode salaris
+1.  Er is een klein positief lineair verband tussen het aantal skills en
+    het mediaan gebode salaris
 2.  Het referentie salaris van HoB is pas vanaf het 3e jaar
-    'competitief' te noemen
+    'competitief' te noemen.
 
-*De drie grafieken in ogenschouw genomen is er niet direct een verband
-aan te wijzen tussen het aantal skills. Een eerste hypothese zou zijn om
-te stellen dat de toename van skills iemand waardevoller maakt (een
-vershuiving van de curve naar rechts) dit gebeurt echter niet. een
-andere aannamen kan zijn dat generalisten specialisten meer waard zijn
-of dat hoger betaalde functies (zoals manager en c-niveau) minder
-hard-skills nodig hebben. Beide ontwikkelingen komen niet (sterk) terug
-in onderstaande grafiek. Wel is op te maken 3e jaars HoB personeel (er
-vanuitgaande dat op dit moment 5 skills beheerst worden) minder loon
-ontvangen dan wat er op de Nederlandse markt geboden wordt. In een
-volgende analyse zou wenselijk zijn om de loon verdeling per aantal
-skills en het aantal jaren werkervaring te plotten dit is echter niet
-mogelijk door het te lage aantal observaties per mogelijke subset van de
-data.*
+Een verdieping zou nog bereikt kunnen worden door ook te kijken naar het
+aantal jaren werkervaring als extra dimensie. Helaas zijn er op dit
+moment te weinig observaties om deze extra dimensie toe te voegen in
+deze analyse.
 
 .....................
 
@@ -618,6 +611,22 @@ df_indeed_final %>%
 
 ```
 
+### Ontwikkeling van de vraag naar Skills
+
+De volgende deelvraag voor dit onderzoek gaat om de vraag ontwikkeling
+naar specifieke skills. Hoe ontwikkelt de vraag naar specifieke skills
+zich over de tijd? Deze deelvraag is lastig te beantwoorden op binnen
+dit onderzoek. De data loopt niet verder terug dan begin februari 2022.
+Voor een duidelijke trend analyse is er data nodig van \~3 jaar. Dit
+maakt dat onderstaande analyses een versimpelde weergaven zullen zijn.
+De artefacten die aangeleverd worden (waaronder de scraper) kunnen
+gebruikt worden om deze dataset verder op te bouwen totdat er genoeg
+data is om de onderstaande analyse opnieuw te doen.
+
+```{r}
+
+```
+
 ```{r Indeed salaris verdeling per skill, echo=FALSE}
 
 df_indeed_rel_skill <- df_indeed_final[df_indeed_final$skill_count %in% c(3,4,5), ]
@@ -656,7 +665,7 @@ df_indeed_rel_skill %>%
         plot.title=element_text(hjust=0.5))+
       scale_y_continuous(
         breaks= seq(0.0000, 0.0007, 0.0001),
-        labels=seq(0.00, 0.07, 0.01)
+        labels= seq(0.00, 0.07, 0.01)
       )
 ```
 
