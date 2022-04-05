@@ -497,6 +497,16 @@ ervaring afgaande zal dit de volgende skills betreffen: SQL, Python, R,
 Excel en Data Modeleren. In onderstaande analyse is de salaris verdeling
 voor 3, 4, en 5 skills te zien.
 
+Hieronder zijn drie grafieken weergegeven. Iedere grafiek laat het
+mediaan salaris per aantal skills zien. De balken zijn groen gekleurd
+zodra het referentie salaris van HoB hoger ligt dan het mediaan salaris.
+Er vallen hier twee belangrijke dingen op, namelijk:
+
+1.   Er is een klein positief lineair verband tussen het aantal skills
+    en het mediaan gebode salaris
+2.  Het referentie salaris van HoB is pas vanaf het 3e jaar
+    'competitief' te noemen
+
 *De drie grafieken in ogenschouw genomen is er niet direct een verband
 aan te wijzen tussen het aantal skills. Een eerste hypothese zou zijn om
 te stellen dat de toename van skills iemand waardevoller maakt (een
@@ -551,7 +561,6 @@ df_indeed_final %>%
   theme(
     legend.position= "none"
   )
-
 ```
 
 #### 2de jaars HoB
@@ -599,7 +608,7 @@ df_indeed_final %>%
              )+
   labs(
     title = "Mediaan salaris Indeed vs. aantal skills",
-    subtitle = "HoB 2de jaars salaris als referentie lijn",
+    subtitle = "HoB 3de jaars salaris als referentie lijn",
     y = "Mediaan salaris Indeed",
     x = "Aantal skills"
   ) +
