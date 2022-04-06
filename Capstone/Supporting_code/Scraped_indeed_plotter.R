@@ -110,21 +110,48 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
 plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
   if(skill==""){
     df_indeed_skills %>%
+      group_by(listing_date) %>%
+      summarise(req_per_day= n(), .groups= "keep") %>%
       ggplot(
         aes(
-          x= listing_date)
+          x= listing_date,
+          y= req_per_day
+        )
       ) +
-      geom_line(stat='count') +
-      scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+      geom_line() +
+      stat_smooth(method = "lm",
+                  se= FALSE
+      ) +
+      scale_x_date(date_labels = "%a\n%d-%m",
+                   date_breaks = "week"
+      )
   }
   else{
-  df_indeed_skills %>%
-    filter(skills == skill) %>%
-    ggplot(
-      aes(
-        x= listing_date)
-    ) +
-    geom_line(stat='count') +
-    scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+    max_count <- df_indeed_skills_date_filtered %>%
+      group_by(listing_date, skills) %>%
+      summarise(req_per_day= n(), .groups= "keep") %>%
+      .$req_per_day %>%
+      max()
+    
+    df_indeed_skills %>%
+      filter(skills == skill) %>%
+      group_by(listing_date, skills) %>%
+      summarise(req_per_day= n(), .groups= "keep") %>%
+      ggplot(
+        aes(
+          x= listing_date,
+          y= req_per_day
+            )
+      ) +
+      geom_line() +
+      stat_smooth(method = "lm",
+                  se= FALSE
+                  ) +
+      scale_x_date(date_labels = "%a\n%d-%m",
+                   date_breaks = "week"
+                   ) +
+      ylim(0,
+           (max_count * 1.1)
+           ) # keep y-axis consistent over different plots
   }
 }

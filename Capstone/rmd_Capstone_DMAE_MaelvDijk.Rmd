@@ -164,7 +164,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|----------|----------|----------|--------------------------------|----------|
+|------------|------------|------------|-------------------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -359,7 +359,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|----------|----------|-----------------------------------------------------|
+|-------------|-------------|----------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -631,6 +631,13 @@ verwacht worden dat dit gaat om marketing analytics en marketing
 automation. Twee velden die erg groot zijn binnen data science en data
 analytics.
 
+Het opmerkelijkste is dat PowerBI niet hoger in de lijst staat. Een van
+de platformen waarop HoB haar energie richt wat betreft trainingen. In
+tegenstelling is het Tableau waar dagelijks meer vacatures voor
+verschijnen. Dit om te overeen met de initiële analyse van D001 waarin
+de aannamen was dat de Amerikaanse markt andere voorkeuren heeft dan de
+Nederlandse markt, wat aanleiding zou kunnen zijn voor verder onderzoek.
+
 De bottom 20 geeft weinig informatie. Het zijn in meer en mindere maten
 bekende talen/tools. het signaleert een niche binnen de vacatures maar
 buiten het feit dat HoB haar activiteiten hier niet op moet focussen
@@ -729,46 +736,35 @@ eerste wordt behouden) zien we dit effect alleen terug in het begin van
 de totale dataset. Wanneer er dus gekeken wordt naar de vraag over tijd
 zal het binnen deze dataset noodzakelijk zijn om vanaf 5 februari 2022
 te kijken. In beide grafieken is lastig vast te stellen of er een
-correlatie of een bepaald patroon aanwezig is. In de derde grafiek wordt
-daarom de autocorrelatie weerggeven hieruit blijkt echter dat er geen
-duidelijk patroon aanwezig is puur gekeken naar het instroom moment,
-hierbij zou 1 (of -1) een mogelijke correlatie of patroon aanduiden.
-Deze vindt alleen plaats op lag 0. Dit betekent dat er alleen een
-verband is op de dag zelf. Kortom lijkt er geen patroon zichtbaar te
-zijn wat betreft de instroom.
+correlatie of een bepaald patroon aanwezig is. Wel valt op te maken dat
+er over het algemeen een dalende trend lijkt te zijn. Om hier echter
+meer over te zeggen zal minstens 3 jaar aan data nodig zijn om trends en
+patronen te kunnen vaststellen.
+
+Beide grafieken lijken pieken op bepaalde intervallen te tonen. In de
+derde grafiek wordt daarom de autocorrelatie weerggeven hieruit blijkt
+dat er geen duidelijk patroon aanwezig is, hierbij zou 1 (of -1) een
+mogelijke correlatie of patroon aanduiden. Deze vindt alleen plaats op
+lag 0. Dit betekent dat er alleen een verband is op de dag zelf. Kortom
+lijkt er geen patroon zichtbaar te zijn wat betreft de instroom.
 
 #### Instroom vanaf begin
 
 ```{r unfilterd date counts}
 
-
-df_indeed_skills %>%
-  ggplot(
-    aes(
-      x= listing_date)
-  ) +
-  geom_line(stat='count') +
-  scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+plot_indeed_timeseries_data(df_indeed_skills)
 
 ```
 
 #### Instroom vanaf 5 februari 2022
 
 ```{r filtered date counts}
-# top_5_skills <- table(df_indeed_skills$skills) %>%
-#   sort() %>%
-#   tail(5)
 
+# filter data to contain only points after 5th of february
 df_indeed_skills_date_filtered <- df_indeed_skills[df_indeed_skills$listing_date >= "2022-02-05", ]
 
-df_indeed_skills_date_filtered %>%
-  # filter(skills %in% names(top_5_skills)) %>%
-  ggplot(
-    aes(
-      x= listing_date)
-  ) +
-  geom_line(stat='count') +
-  scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered)
+
 ```
 
 #### Auto-correlatie instroom
@@ -781,17 +777,98 @@ listing_date_table <- table(df_indeed_skills_date_filtered$listing_date)
 acf(listing_date_table, main= "Instroom autocorrelatie")
 ```
 
-### Ontwikkeling skill behoeften.
+### Ontwikkeling skill behoeften {.tabset}
 
 Hoewel er met de huidige data nog geen overkoepelend patroon te
 signaleren is kan er wel gekeken worden naar de ontwikkeling van de
 skill behoeften. Ook hier mist er een hoeveelheid data waarmee een goede
 tijdanalyse gedaan kan worden. Daarom dienen onderstaande grafieken en
 bijbehorende code ook als artefact waar op een later moment gebruik van
-gemaakt kan worden.
+gemaakt kan worden. In onderstaande grafieken zijn in iedergeval de drie
+meest gebruikte programmeertalen rondom data specialisaties te vinden.
+Daarnaast is het analyse platform Tableau weergegeven en de twee cloud
+oplossingen AWS en Azure.
+
+Ook is hier weer een dalende trend te zien in nagenoeg alle skill
+aanvragen. Zowel in onderstaande grafieken als in het overzicht van
+totale aanvragen kan dit te verklaren zijn door de rijkwijdte van het
+scraping script (max 300 vacatures) en de willekeurige sortering op de
+Indeed. Daarom zal ook hier de tijd een belangrijke factor spelen en een
+goede analyse na 3 jaar data verzamelen gedaan kunnen worden.
+
+Wat we uit deze en de voorgaande analyse in iedergeval kunnen opmaken is
+het feit dat er een daling is in vacatures na een piek aan het begin van
+februari.
+
+#### SQL
 
 ```{r SQL instroom}
 plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "sql")
+```
+
+#### Python
+
+```{r Python instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "python")
+```
+
+#### R
+
+```{r R instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "r")
+
+```
+
+#### Tableau
+
+```{r Tableau instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "tableau")
+```
+
+#### Azure
+
+```{r Azure instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "azure")
+```
+
+#### AWS
+
+```{r AWS instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "aws")
+```
+
+### Ontwikkeling opdrachtgevers
+
+De laatste deelvraag voor dit onderzoek betreft de ontwikkeling en
+verhouding van de vraag vanuit mogelijke opdrachtgevers. Omdat het
+gebleken is dat de ontwikkeling van de vraag te weinig zegt wordt hier
+alleen nog gekeken naar de totale vraag vanuit opdrachtgevers. Hierop
+kunnen we binnen een aantal elementen segmenteren, namelijk: functietype
+en gevraagde skills.
+
+```{r}
+# get top 5 skills
+important_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(5)
+top_companies <- table(df_indeed_skills$Company) %>% sort() %>% tail(20)
+
+df_indeed_skills_date_filtered %>%
+  filter(Company %in% names(top_companies)) %>%
+  ggplot(
+    aes(
+        x = reorder(
+          Company,
+          Company,
+          function(x) + length(x) # decreasing order company
+        ),
+        fill= job_type
+    )
+  ) +
+  geom_bar() +
+  coord_flip() +
+  labs(
+    titel= "Aantal vacatures per bedrijf per funtietype",
+    x= "Bedrijf"
+    )
 ```
 
 ## oude code en tekst
