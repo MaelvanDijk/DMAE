@@ -164,7 +164,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------------|------------|------------|-------------------------|------------|
+|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -359,7 +359,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|-------------|-------------|----------------------------------------------|
+|---------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
