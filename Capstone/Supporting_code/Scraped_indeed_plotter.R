@@ -106,3 +106,25 @@ plot_hob_salary_vs_indeed_salary_dist <- function(df_indeed_scraped, first_salar
       labels=seq(0.01, 0.05, 0.01)
     )
 }
+
+plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
+  if(skill==""){
+    df_indeed_skills %>%
+      ggplot(
+        aes(
+          x= listing_date)
+      ) +
+      geom_line(stat='count') +
+      scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+  }
+  else{
+  df_indeed_skills %>%
+    filter(skills == skill) %>%
+    ggplot(
+      aes(
+        x= listing_date)
+    ) +
+    geom_line(stat='count') +
+    scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+  }
+}

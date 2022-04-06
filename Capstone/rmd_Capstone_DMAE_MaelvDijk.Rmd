@@ -7,7 +7,7 @@ output:
     toc: true
     toc_float: true
     highlight: tango
-    thema: yeti
+    theme: journal
     code_folding: hide
     # number_sections: true
 editor_options: 
@@ -24,6 +24,8 @@ knitr::opts_chunk$set(
 
 library("tidyverse")
 library("stringr")
+library("tseries")
+
 
 #custom functions
 source('./supporting_code/Scraped_indeed_data_wrangler.R')
@@ -162,7 +164,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|--------------|--------------|--------------|----------------|--------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -357,7 +359,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|-----------------|-----------------|---------------------------------------|
+|----------|----------|-----------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -600,7 +602,7 @@ df_indeed_final %>%
 
 ```
 
-### Ontwikkeling vraag naar Skills  {.tabset}
+### Vraag naar Skills {.tabset}
 
 De volgende deelvraag voor dit onderzoek gaat om de vraag ontwikkeling
 naar specifieke skills. Hoe ontwikkelt de vraag naar specifieke skills
@@ -631,8 +633,8 @@ analytics.
 
 De bottom 20 geeft weinig informatie. Het zijn in meer en mindere maten
 bekende talen/tools. het signaleert een niche binnen de vacatures maar
-buiten het feit dat HoB haar activiteiten hier niet op moet focussen is
-levert het ons geen extra informatie op.
+buiten het feit dat HoB haar activiteiten hier niet op moet focussen
+levert dit ons geen extra informatie op.
 
 #### top skills
 
@@ -706,29 +708,93 @@ df_indeed_skills %>%
   )
 ```
 
-Een volgende stap is trend analyse. Omdat de data niet vergenoeg terug
+### Instroom vacatures {.tabset}
+
+Een volgende stap is patroon analyse. Omdat de data niet vergenoeg terug
 gaat kan er geen accurate voorspelling worden gedaan over de
 ontwikkeling naar de vraag. Naast dat het inspelen op deze vraag
 ontwikkeling ook erg lastig is wegens de doorlooptijd van het opzetten
-van opleidingen en het opleiden van kandidaten. Wel kan getracht worden
-op basis van onderstaande grafiek (en bijbehorende code) een algemeen
-beeld te vormen van de markt en haar beweging.
+van opleidingen en het opleiden van kandidaten. Wel kan er gestart
+worden met een analyse of er een bepaald patroon is m.b.t. de instroom.
 
-```{r}
-top_5_skills <- top_skills <- table(df_indeed_skills$skills) %>% sort() %>% tail(5)
+De eerste grafiek hieronder maakt duidelijk dat er een grote instroom
+van vacatures is op het eerste moment van scrapen. Dit heeft een
+logische verklaring: Indeed kent drie soorten waarden m.b.t plaatsings
+moment "Vandaag", "1-30 dagen geleden" "30+ dagen geleden". De scraper
+maakt geen onderscheid tussen "30" en "30+" Dit betekent dat het eerste
+moment van scrapen alle "30" en "30+" kenmerken om worden gezet naar
+"30". Dit verklaart een spike wanneer deze twee waarden voorkomen,
+doordat tijdens het data schonen dubbele rijen worden verwijderd (de
+eerste wordt behouden) zien we dit effect alleen terug in het begin van
+de totale dataset. Wanneer er dus gekeken wordt naar de vraag over tijd
+zal het binnen deze dataset noodzakelijk zijn om vanaf 5 februari 2022
+te kijken. In beide grafieken is lastig vast te stellen of er een
+correlatie of een bepaald patroon aanwezig is. In de derde grafiek wordt
+daarom de autocorrelatie weerggeven hieruit blijkt echter dat er geen
+duidelijk patroon aanwezig is puur gekeken naar het instroom moment,
+hierbij zou 1 (of -1) een mogelijke correlatie of patroon aanduiden.
+Deze vindt alleen plaats op lag 0. Dit betekent dat er alleen een
+verband is op de dag zelf. Kortom lijkt er geen patroon zichtbaar te
+zijn wat betreft de instroom.
+
+#### Instroom vanaf begin
+
+```{r unfilterd date counts}
 
 
 df_indeed_skills %>%
-  filter(skills %in% names(top_skills)) %>%
   ggplot(
     aes(
-      x= listing_date,
-      color= skills
-    )
+      x= listing_date)
   ) +
-  geom_line(stat='count')
+  geom_line(stat='count') +
+  scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
 
 ```
+
+#### Instroom vanaf 5 februari 2022
+
+```{r filtered date counts}
+# top_5_skills <- table(df_indeed_skills$skills) %>%
+#   sort() %>%
+#   tail(5)
+
+df_indeed_skills_date_filtered <- df_indeed_skills[df_indeed_skills$listing_date >= "2022-02-05", ]
+
+df_indeed_skills_date_filtered %>%
+  # filter(skills %in% names(top_5_skills)) %>%
+  ggplot(
+    aes(
+      x= listing_date)
+  ) +
+  geom_line(stat='count') +
+  scale_x_date(date_labels = "%a\n%d-%m", date_breaks = "week")
+```
+
+#### Auto-correlatie instroom
+
+```{r}
+#create listing date table
+listing_date_table <- table(df_indeed_skills_date_filtered$listing_date)
+
+#calculate autocorrelation
+acf(listing_date_table, main= "Instroom autocorrelatie")
+```
+
+### Ontwikkeling skill behoeften.
+
+Hoewel er met de huidige data nog geen overkoepelend patroon te
+signaleren is kan er wel gekeken worden naar de ontwikkeling van de
+skill behoeften. Ook hier mist er een hoeveelheid data waarmee een goede
+tijdanalyse gedaan kan worden. Daarom dienen onderstaande grafieken en
+bijbehorende code ook als artefact waar op een later moment gebruik van
+gemaakt kan worden.
+
+```{r SQL instroom}
+plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "sql")
+```
+
+## oude code en tekst
 
 ------------------------------------------------------------------------
 
