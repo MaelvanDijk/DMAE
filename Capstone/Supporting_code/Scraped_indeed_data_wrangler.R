@@ -260,11 +260,48 @@ enrich_scraped_date <- function(tbl_cleaned_data){
     str_replace_all("[^[1-9]]", "") %>%
     substr(nchar(.), nchar(.))
   
+  # add YYYYWW format to column weeknum
+  tbl_enriched_data$weeknum <- format(tbl_enriched_data$listing_date, "%Y%W")
+  
   # fill blank rows with NA
-  tbl_enriched_data[tbl_enriched_data == ""] <- NA   
+  tbl_enriched_data[tbl_enriched_data == ""] <- NA
+  
+  # remove fully empty rows
+  tbl_enriched_data<- filter(tbl_enriched_data, rowSums(is.na(tbl_enriched_data)) != ncol(tbl_enriched_data)) 
+  
   
   return(tbl_enriched_data)
 
+}
+
+unnest_skills <- function(tbl_enriched_data){
+  #create an unnested skills table
+  tbl_indeed_skills <- tbl_enriched_data %>% 
+    mutate(skills = strsplit(as.character(skills), ",")) %>%
+    unnest(skills)
+  
+  tbl_indeed_skills$skills <- str_trim(tbl_indeed_skills$skills)
+  
+  # remove empty rows from final tables
+  tbl_indeed_skills <- filter(
+    tbl_indeed_skills,
+    rowSums(is.na(tbl_indeed_skills)) != ncol(tbl_indeed_skills)
+  ) 
+  
+  return(tbl_indeed_skills)
+}
+
+filter_dates <- function(tbl_enriched_data){
+  # filter final tables based on relevant dates
+  tbl_indeed_dates_filtered <- tbl_enriched_data[tbl_enriched_data$listing_date >= "2022-02-05", ]
+  
+  # remove empty rows from final tables
+  tbl_indeed_dates_filtered <- filter(
+    tbl_indeed_dates_filtered,
+    rowSums(is.na(tbl_indeed_dates_filtered)) != ncol(tbl_indeed_dates_filtered)
+  ) 
+  
+  return(tbl_indeed_dates_filtered)
 }
 
 
