@@ -47,75 +47,73 @@ potentiële opdrachtgevers boven aan de lijst met openstaande vacatures:
 
 ## Inleiding
 
----
-# Inleiding
-# 
-#     Geef de context van het project (aanleiding, kwestie etc.)
-#     Sluit aan bij Business Understanding van CRISP-DM
-#     Formuleer een hoofdvraag en zo nodig deelvragen
-#     Noem de belangrijkste databronnen
----
+Dit onderzoek richt zich op de vraag hoe competitief House
+of Bèta is op de markt voor data professionals. Hierin wordt gekeken
+naar zowel
+het salaris (dus wat House of Bèta biedt aan het personeel) als de
+mogelijkheden voor House of Bèta om een groter deel van de markt te
+bedienen (gevraagde
+vaardigheden en potentiële opdrachtgevers).
 
-In dit capstone project wordt de ontwikkeling naar de vraag van
-hardskills en rollen binnen het data domein onderzocht. Het project is
-ontsprongen naar aanleiding van een gerelateerde vraag vanuit House of
-Bèta, namelijk: een onderzoek naar de drivers en kenmerken van onze
-consultants die uitstromen. Wegens juridische beperkingen en het hier
-uit volgende tijdsgebrek is gekozen voor het onderzoeken van een
-alternatieve vraag, namelijk: **"Hoe ontwikkelt de vraag naar 'data
-specialisten' zich kijkende naar de gevraagde vaardigheden en het
-geboden loon"**.
+House of Bèta heeft al langer de wens om inzichten te
+krijgen in de reden van uitstroom van haar consultants, gezien dit een
+belangrijke asset is van de organisatie. Wegens juridische en technische
+beperkingen is het echter niet mogelijk om hierop diepgaand onderzoek op
+te
+doen.
 
-Deze nieuw geformuleerde vraag helpt deels de originele vraag te
-beantwoorden. De resultaten kunnen namelijk dienen als benchmarks voor
-het geboden loon en ondersteunen in het samenstellen van een (deel van)
-het arbeidsvoorwaarden pakket. Een derde belang is het peilen van de
-vraag naar "data personeel" en de daarbijhorende opdrachtgevers, hiermee
-kan dan ingespeeld worden op de veranderende markt door de
-opleidingsstraat en specialisaties beter te laten aansluiten op de markt
-van morgen.
+Een tweede wens is om de markt beter te kunnen bedienen en
+te groeien als de leverancier van IT personeel. Na overleg is gebleken
+dat
+beide wensen gekoppeld kunnen worden in dit onderzoek. Het onderzoek
+helpt House
+of Bèta inzichten te krijgen in een ontwikkelende markt, haar eigen
+arbeidsvoorwaarden op waarden te schatten en biedt een basis voor
+verdere
+analyse aangaande de churn van haar personeel.
 
 ### House of Bèta
 
-House of Bèta (HoB) is een detacheerder en consultancy op het gebied van
-business IT. Er zijn diverse specialisatie richtingen waartussen een
-consultant kan kiezen. HoB richt zich op starters op de arbeidsmarkt en
-staat open voor consultants met en zonder formele IT opleiding. Naast
-het matchen tussen vraag en aanbod van consultants en opdrachtgevers
-zorgt HoB voor een breed aanbod aan opleidingen zodat consultants zich
-kunnen blijven ontwikkelen op het gebied van hard-, en softskills. Een
-consultancy staat of valt met de expertise en kennis van haar
-medewerkers, dit maakt retentie van medewerkers belangrijk. De uitstroom
-van HoB's zusterbedrijf Talent&Pro in 2021 is aanleiding voor HoB om
-hier meer grip op te krijgen. Na een kort voor onderzoek is gebleken dat
-met de beschikbare tijd en midellen de uitstroom analyseren en
-potentiëel voorspellen nog niet mogelijk is. Hierop is voorgesteld om
-naar de vacature ontwikkeling te kijken. Deze analyse kan een bijdragen
-leveren aan het onderzoek omtrent uitstroom, daarnaast geeft het HoB de
-mogelijkheid om haar huidige compensatie aan medewerkers op waarde te
-schatten.
+House of Bèta (HoB) is een detacheerder op het gebied van (business)
+IT. HoB probeert voornamelijk starters op de arbeidsmarkt aan te trekken
+en
+probeert deze te matchen aan passende opdrachtgevers. De consultants
+hebben de
+mogelijkheid zich na verloop van tijd te specialiseren waarin HoB de
+trainingen
+en opleiding faciliteert of betaald.
+
+HoB is een relatief nieuwe naam op de markt maar voert al sinds
+2015 haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De
+uitstroom van consultants die T&P heeft gezien over2021 is de aanleiding
+geweest
+om meer grip op deze uitstroom te willen krijgen (de eerste wens).
+
+Tijdens de een recente informatieavond van HoB zijn nieuwe
+doelstellingen voor 2022 gepresenteerd waar ook de ontwikkeling en groei
+van
+data professionals naar voren komt. Dit is dan ook de aanleiding voor de
+tweede
+wens van HoB.
 
 ### Businessvraag
 
-De vraag die bij de business ligt: **"Hoe positioneert HoB wat betreft
-het loon ten opzichten van de ontwikkeling van de vraag naar 'data
-specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden,
-het geboden loon en mogelijke opdrachtgevers?"** komt vanuit de
-commercieel directeur van HoB. Het probleemgebied heeft betrekking op:
-commercie, businessdevelopement en HR. Dit maakt dat de uiteindelijke
-inzichten op meer plekken in de organisatie gedragen zal worden.
+Dit onderzoek en de wensen van HoB kunnen worden vastgelegd
+in een centrale vraag: "Hoe positioneert HoB zich ten opzichten van de
+Nederlandse arbeidsmarkt op het gebied van data professionals kijkend
+naar loon,
+vaardigheden en potentiële opdrachtgevers?"
 
-Om deze vraag te beantwoorden moeten er een aantal deelvragen beantwoord
-worden:
+Deze vraag kan verder worden opgedeeld in 3 deelvragen:
 
-1.  Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op
-    het gebied van data specialisten?
+1\. Hoe verhoudt het salaris van HoB zich tot de nederlandse
+markt?
 
-2.  Hoe ontwikkelt de vraag naar individuele skills zich op de
-    nederlandse arbeids markt?
+2\. In hoeverre sluit het "curriculum" van HoB zich aan bij
+de ontwikkelende markt?
 
-3.  Waar zitten de grootste ontwikkeling op gebied van rollen, skills en
-    opdrachtgevers
+3\. Welke opdrachtgevers actief op de markt worden nog niet bediend
+door HoB?
 
 ### data gebruik
 
