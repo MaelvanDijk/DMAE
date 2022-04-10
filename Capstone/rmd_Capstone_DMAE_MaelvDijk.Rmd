@@ -1068,15 +1068,15 @@ df_indeed_final_date_filtered %>%
 
 ```{r}
 
-
 df_indeed_final_date_filtered %>%
   filter(Company %in% companies_of_interest) %>%
-  group_by(Company, weeknum) %>%
+  group_by(Company, listing_date) %>%
   summarise(req_per_week = n(), .groups='keep') %>%
   ggplot(
     aes(
-      x= weeknum,
+      x= listing_date,
       y= req_per_week,
+      color= Company
         )
   ) +
   geom_line()
