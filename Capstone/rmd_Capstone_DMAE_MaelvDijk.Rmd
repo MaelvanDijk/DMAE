@@ -301,34 +301,27 @@ datakwaliteitsproblemen worden in het ETL proces opgelost.
 
 ### Data preperation en modeling
 
-Voor het binnenhalen, schoonmaken en verijken van de data zijn diverse
-stappen genomen. In de onderstaande processflow is te zien hoe het
-process hoogover doorlopen wordt om tot de uiteindelijke analyses te
-komen.
+Onderstaande processflow geeft in grote lijnen weer hoe er vanaf de ruwe
+data wordt gekomen tot een eindproduct.
 
-Het process is in 3 segmenten op te delen. Het bovenste segment heeft
-betrekking op de data vanuit Kaggle (D001), het tweede segement, in het
-midden, heeft betrekking op de Indeed data die gescraped wordt (D002)
-vervolgens is de onderste laag waar alles samenkomt. Na het schonen
-verijken en wegschrijven van de data kan er een dataframe worden opgezet
-die goed interpeteerbaar is.
+Het volledige proces is in drie segmenten op te delen. Bovenin betreft
+D001. Segment twee (midden) betreft D002. Onderin staat segment drie
+waarin het eindresultaat weergegeven wordt.
 
 ![Data process flow](Images/data%20flow%20process.png)
 
-Er zijn een aantal belangrijke kanttekenen die moeten worden gemaakt.
-Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
-versimpeld weergegeven. De meest noemenswaardigen zijn:
+Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
+aannames gedaan om problemen en complexiteit te voorkomen:
 
-| Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
+| Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
 |----------|----------|-----------------------------------------------------|
-| Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
-| ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
-| ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
+| Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
+| ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
+| ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
 
 : Aannamens tijdens process stappen,
 
-De scripts voor deze stappen zijn te vinden in "./Supporting_code",
-specifiek:
+De scripts voor deze stappen zijn te vinden in "./Supporting_code":
 
 | Process stap        | Script naam                    |
 |---------------------|--------------------------------|
@@ -338,25 +331,18 @@ specifiek:
 
 : process stappen en bijbehorende scripts.
 
-Het draaien van deze scripts zorgt uitindelijk voor een dataframe dat
-gebruikt kan worden voor het analyseren en beantwoorden van de
-businessvraag. Voor een duidelijker beeld wat de code doet zijn de .R
-scripts voorzien van comments.
+De scripts en betreffende functies zorgen voor een dataset die gebruikt
+kan worden voor dit onderzoek. De scripts zijn voorzien van helpende
+comments om het gebruik te vergemakkelijken.
 
 ### Reproduceren van het onderzoek
 
-Om dit project te reproduceren is het nodig om de mappen:
-"Data_cleaned", "Data_raw", en "Supporting_code" te gebruiken. Hierin
-staan bron data en hulp .R scripts. In deze Markdown worden hulp scripts
-aangeroepen om de code complexiteit in deze Markdown te beperken. Wat
-betreft externe libraries moeten de volgende worden geïnstalleerd:
-
-"tidyverse", "stringr", "lubridate", "tibble", "textTinyR". Indien er
-nieuwe data gescraped moet worden (niet nodig voor reproductie): "XML"
-en "rvest".
-
-Er zijn verder geen afhankelijkheden buiten het bovengenoemde om deze
-markdown te draaien.
+De mappen: "Data_cleaned", "Data_raw", en "Supporting_code" bevatten
+alle data en code die nodig is om dit onderzoek te reproduceren. In dit
+markdown document worden de data en benodigde scripts aangeroepen om tot
+het eindresultaat te komen. De benodigde R libraries zijn: "tidyverse",
+"stringr", "lubridate", "tibble", "textTinyR", "XML", "rvest",
+"tseries".
 
 ## Resultaten
 
