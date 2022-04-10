@@ -1078,6 +1078,8 @@ df_indeed_final_date_filtered %>%
     date_labels = "%a\n%d-%m",
     date_breaks = "week"
                )
+
+knitr::knit_exit()
 ```
 
 ## Discussie
