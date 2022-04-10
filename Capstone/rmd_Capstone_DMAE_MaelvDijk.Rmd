@@ -98,19 +98,17 @@ wens van HoB.
 
 ### Businessvraag
 
-Dit onderzoek en de wensen van HoB kunnen worden vastgelegd
-in een centrale vraag: "Hoe positioneert HoB zich ten opzichten van de
+Dit onderzoek en de wensen van HoB kunnen worden vastgelegd in een
+centrale vraag: "Hoe positioneert HoB zich ten opzichten van de
 Nederlandse arbeidsmarkt op het gebied van data professionals kijkend
-naar loon,
-vaardigheden en potentiële opdrachtgevers?"
+naar loon, vaardigheden en potentiële opdrachtgevers?"
 
 Deze vraag kan verder worden opgedeeld in 3 deelvragen:
 
-1\. Hoe verhoudt het salaris van HoB zich tot de nederlandse
-markt?
+1\. Hoe verhoudt het salaris van HoB zich tot de Nederlandse markt?
 
-2\. In hoeverre sluit het "curriculum" van HoB zich aan bij
-de ontwikkelende markt?
+2\. In hoeverre sluit het "curriculum" van HoB zich aan bij de
+ontwikkelende markt?
 
 3\. Welke opdrachtgevers actief op de markt worden nog niet bediend
 door HoB?
