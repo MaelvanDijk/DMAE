@@ -105,10 +105,9 @@ HoB?
 Binnen HoB vinden nog geen datamining activiteiten op dit gebied plaats.
 Buiten de resultaten van dit onderzoek wordt er dan ook een een script
 aangeleverd die het mogelijk maakt om de datamining voor dit onderzoek
-voort te
-zetten. Dit script is beperkt tot het zoekwoord "data" op de
-vacaturesite Indeed,
-maar kan uitgebreid worden om op andere woorden te zoeken.
+voort te zetten. Dit script is beperkt tot het zoekwoord "data" op de
+vacaturesite Indeed, maar kan uitgebreid worden om op andere woorden te
+zoeken.
 
 ### Business Success criteria
 
@@ -137,7 +136,7 @@ bevat informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|----------|----------|----------|--------------------------------|----------|
+|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -314,7 +313,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|----------|----------|-----------------------------------------------------|
+|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -1109,7 +1108,7 @@ verder uit te breiden. In onderstaande tabel de artefacten die deel
 uitmaken van dit onderzoek.
 
 | Artefact                                         | Gebruik                                                                                                                                                                                                                                                                                          |
-|---------------|---------------------------------------------------------|
+|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses om de vraag "Hoe positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling van de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?" te kunnen beantwoorden |
 | Data_cleaned / Data_raw                          | diverse .CSV bestanden die als brondata dienen voor het hier uitgevoerde onderzoek.                                                                                                                                                                                                              |
 | indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen. de mogelijkheid is er om de functionaliteit uit te breiden met onder andere andere zoekwoorden.                                                                                                         |
