@@ -37,6 +37,14 @@ source('./supporting_code/Kaggle_indeed_plotter.R')
 
 *Samenvatting (max. 250 woorden)*
 
+HoB blijkt vanaf haar 3e jaar een competatief salaris te bieden waarin
+het meer dan 50% van de markt verslaat. In de eerste 2 jaren verdienen
+werknemers boven het modale loon. Het blijkt echter dat House of Bèta
+nog ruimte heeft om de hard skills van haar personeel te ontwikkeling.
+Het belangrijkste zijn skills m.b.t de cloud, big data, en geavanceerde
+data science skills. Op het moment van schrijven staan de volgende
+potentiële opdrachtgevers boven aan de lijst met openstaande vacatures:
+
 ## Inleiding
 
 ---
@@ -164,7 +172,7 @@ bevat informatie over de datasets in de ruwevorm (te vinden in
 "*.\\Data_raw")"*
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------------|------------|------------|-------------------------|------------|
+|-------------|-------------|-------------|--------------------|-------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -359,7 +367,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|-------------|-------------|----------------------------------------------|
+|---------------|---------------|------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -1027,13 +1035,21 @@ tijd wijzigt).
 ### Ontwikkeling functie type en vraag opdrachtgevers {.tabset}
 
 Ondanks dat het niet mogelijk is om nu nog een uitspraak te doen over de
-ontwikkeling van vraag bij opdrachtgevers wordt er wel vast twee
-artefacten aangeleverd in de vorm van een tijdserie op basis van
-functietype en een op basis van opdrachtgevers. Deze grafieken en de
-bijbehorende code zijn hieronder en in de ondersteunende scripts terug
-te vinden voor toekomstig gebruik. Omdat er nu geen uitspraken worden
-gedaan i.v.m de statistische validiteit zal er geen toelichting bij de
-grafieken te vinden zijn.
+ontwikkeling van vraag bij opdrachtgevers wordt er wel vast een artefact
+aangeleverd in de vorm van een tijdserie op basis van functietype. Deze
+grafiek en de bijbehorende code zijn hieronder en in de ondersteunende
+scripts terug te vinden voor toekomstig gebruik. Omdat er nu geen
+uitspraken worden gedaan i.v.m de statistische validiteit zal er geen
+verdere toelichting bij de grafiek te vinden zijn.
+
+Er is hier ook overweogen een tweede artefact mee te leveren, namelijk
+een stuk code om het verloop van de vraag door individuele opdracht
+gevers weer te geven. Echter zegt de grafiek door de geringe hoeveelheid
+data te weinig. Om verkeerde interpetaties van de data te voorkomen
+wordt deze code dan ook niet meegeleverd. Zodra er genoeg data verzamelt
+is kan aan de hand van deze file en bijbehorende code een nieuw
+onderdeel worden toegevoegd om deze verandering over de tijd accuraat
+weer te geven.
 
 #### tijdreeks - functie type
 
@@ -1064,24 +1080,167 @@ df_indeed_final_date_filtered %>%
                )
 ```
 
-#### tijdreeks - opdrachtgevers
+## Discussie
 
-```{r}
+---
+# Discussie
+# 
+#     Geef een kritische evaluatie van de resultaten (bv. beperkingen of verbeterpunten)
+#     Sluit aan bij Deployment van CRISP-DM (tenzij dit echt wezenlijk deel van het project was, dan moet dat in 2. Methoden aan bod komen)
+---
 
-df_indeed_final_date_filtered %>%
-  filter(Company %in% companies_of_interest) %>%
-  group_by(Company, listing_date) %>%
-  summarise(req_per_week = n(), .groups='keep') %>%
-  ggplot(
-    aes(
-      x= listing_date,
-      y= req_per_week,
-      color= Company
-        )
-  ) +
-  geom_line()
-# facet_wrap(vars(Company), ncol=2)
-```
+In dit hoofdstuk koment in iedergeval de kritische verbeterpunten en
+tekortkoming aanbod. Ook wordt er aandacht besteed aan de deployement en
+wat er daadwerkelijk van waarde wordt opgeleverd.
+
+### Data omvang
+
+Het eerste verbeterpunt zit in de omvang van de dataset. Het grootste
+deel van dit onderzoek kon goed beantwoord worden binnen de tijd en met
+de aanwezige middelen. Echter blijft een interessante deelvraag: de
+ontwikkeling van de vraag. Grotendeels onbeantwoord. Inherent aan
+tijdseries analyses is de lange termijn data die hiervoor nodig is. Bij
+aanvang van dit project was dit al een duidelijke beperking. Echter was
+de hoop er om met de hoeveelheid tijd die beschikbaar was toch een goede
+tijdsreeks op te bouwen die inzichten kon verschaffen. Dit is achteraf
+toch niet gelukt. Hoewel er in de basis genoeg data punten zijn om een
+tijdsreeks analyse te kunnen doen, maken de gewenste groeperingen
+(bedrijf, functie, skill) dat de dataset te ver versnipperd raakt. Dit
+is vooral voor toekomstige project goed om rekening mee te houden
+
+#### Data kwaliteit
+
+In de methoden is de datakwaliteit al kort aanbod gekomen. Toch wordt
+dit punt hier nog aangestipt. Door het ontbreken van een betrouwbare
+API, de tijdspannen van dit onderzoek en de bewerkelijkheid van de data
+zijn een aantal keuzes gemaakt die maken dat het eindproduct niet
+volledig accuraat is. De belangrijkste is de analyse omtrent
+functietypen. Deze is verdeeld in drie specialisaties en elke observatie
+in de dataset is zo goed mogelijk in een van deze drie specialisaties
+onderverdeeld. Echter, er zijn observaties waar eigenlijk geen van de
+drie specialisaties bij passen (denk aan "data entry" functies). Ook
+heeft er wegens tijdsgebrek maar een beperkte check plaatsgevonden op
+deze categorisering en andere bewerkingen zoals het omrekening naar
+maandsalaris of het extraheren het aantal jaren werkervaring. Dit zijn
+kritische verbeterpunten. Bij het door ontwikkelen van de
+functionaliteiten van dit project zou er daarom gekeken kunnen worden
+naar:
+
+-   Het uitbreiden van de functietypen
+
+-   betere extractie van werkervaring
+
+-   betere extractie van vaardigheden
+
+-   validatie van de formule en de bepaling van salarissoorten (uur,
+    maand, en jaar)
+
+#### Data scraping
+
+Als laatste zijn er twee kantekeningen bij het data scrapen. Allereerst
+is alleen Indeed als bron gebruikt. Qua website omvang is dit misschien
+een goede representatie maar het zou kunnen dat hier nog een beter
+alternatief voor is. Het gevaar van dubbele vacatures binnenhalen bij
+het gebruik van meerdere scrapers is dan natuurlijk een gevaar. Wegens
+tijdsgebrek is hier geen verder onderzoek naar gedaan en staat dit nog
+open voor verbetering.
+
+De tweede kantekening betreft de zoek titel. De scraper en data is
+gericht op een zo breed mogelijk profiel. Om deze reden is als
+zoekopdracht "data" gebruikt. Echter een verbetering doe wordt
+voorgesteld is de scraper om te bouwen naar een meer generieke scraper.
+Hierbij kan de gebruikte zoek woorden vrij worden ingevuld en opgeslagen
+in een variabele die ook wordt opgeslagen in de dataset. Voor dit
+onderzoek zou dit hebben geholpen om accurater te zoeken naar analisten,
+engineers, en scientisten. Dit sluit aan op de verdere kritiek onder
+"data kwaliteit".
+
+#### Deployment
+
+Als laatste onderwerp het stuk deployment. Vanuit dit onderzoek worden
+er een aantal artefacten opgeleverd. Deze zullen niet standaard in een
+productie omgeving draaien maar kunnen wel voor ad-hoc analyses of door
+ontwikkeling worden gebruikt.
+
+De scripts zijn lost van dit notebook te draaien en geven House of Bèta
+de mogelijkheid niet alleen het onderzoek te reproduceren maar ook
+verder uit te breiden. In onderstaande tabel de artefacten die deel
+uitmaken van dit onderzoek.
+
+| Artefact                                         | Gebruik                                                                                                                                                                                                                                                                                          |
+|------------------------------|------------------------------------------|
+| rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses om de vraag "Hoe positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling van de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?" te kunnen beantwoorden |
+| Data_cleaned / Data_raw                          | diverse .CSV bestanden die als brondata dienen voor het hier uitgevoerde onderzoek.                                                                                                                                                                                                              |
+| indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen. de mogelijkheid is er om de functionaliteit uit te breiden met onder andere andere zoekwoorden.                                                                                                         |
+| Scraped_indeed_data_wrangler.R (Supporting_code) | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. De mogelijkheid is er om de functionaliteit uit te breiden naar eigen inzien.                                                                                                           |
+| Scraped_indeed_plotter.R (Supporting_code)       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten. Ook dit bestand kan naar eigen inzien uitgebreid worden.                                                                                                                                                   |
+
+## Conclusie
+
+---
+# Conclusie en aanbevelingen
+# 
+#     Beantwoord de hoofdvraag
+#     Geef eventuele aanbevelingen (SMART en terzake)
+---
+
+Het laatste onderdeel van dit onderzoek tracht de hoofdvraag: "Hoe
+positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling
+van de vraag naar 'data specialisten'in Nederland zich kijkende naar de
+gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?"
+te beantwoorden.
+
+Uit het onderzoek is gebleken dat HoB haar werknemers vanaf het 3e jaar
+een competatief salaris lijkt te bieden. Hiermee zou de werknemer in het
+3e jaar meer verdienen dan hij/zij in meer dan 50% van de gevallen had
+kunnen verdienen afgaande op de vacatures op Indeed. In het eerste en
+tweede jaar ligt het salaris boven het modale salaris op Indeed.
+
+Wat betreft de vaardigheden die binnen HoB worden aangemoedigd om aan te
+leren zit HoB in het segment waar de meeste vraag naar is (sql, R,
+python, excel). Echter duikt hier ook een tekort op. Een groot deel van
+dataprofessionals bezitten deze gevraagde skills of zijn deze aan het
+ontwikkelen. Hoewel de vraag naar deze skills klaarblijkelijk nog steeds
+aanwezig is zijn dit niet de plekken waar HoB zich op kan onderscheiden.
+De vaardigheden waar HoB zich daadwerkelijk in zou kunnen onderscheiden
+zijn: neural networks, ai, machine learning, azure en aws, sas, en big
+data frameworks zoals spark en scala. Deze aanbeveling berust enerzijds
+op het resultaat uit dit onderzoek zoals de meest gevraagde skills bij
+de meest frequente opdrachtgevers, anderzijds komt dit vanuit
+persoonlijke ervaring en gesprekken tijdens het uitvoeren van mijn eigen
+opdrachten als data analist / data scientist.
+
+het laatste onderdeel m.b.t de opdrachtgevers is voor nu niet te
+beantwoorden door het tekort aan data. Wel kan HoB haar inspanningen
+potentieel richten op de top 10 bedrijven (uitgezonderd andere
+consultant bureaus) voor haar business development, op het moment van
+schrijven zijn dat:
+
+1.  Bertelsmann SE & Co
+
+2.  NN Group
+
+3.  Rabobank
+
+4.  Belastingdienst
+
+5.  Rijkswaterstaat
+
+6.  Alliander
+
+7.  MN
+
+8.  ING
+
+9.  Amarant
+
+10. ABN AMRO
+
+In het kort, HoB investeert in de ontwikkeling van haar personeel
+waarbij het salaris in het 3e jaar een groot deel van de markt verslaat.
+Er zijn voornamelijk kansen voor HoB om met haar specialisten verder te
+richten op kennis van de cloud, big data oplossingen en diepgaandere
+kennis over ai en machine learning
 
 ## oude code en tekst
 
@@ -1185,21 +1344,3 @@ kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
 
 
 ```
-
-## Discussie
-
----
-# Discussie
-# 
-#     Geef een kritische evaluatie van de resultaten (bv. beperkingen of verbeterpunten)
-#     Sluit aan bij Deployment van CRISP-DM (tenzij dit echt wezenlijk deel van het project was, dan moet dat in 2. Methoden aan bod komen)
----
-
-## Conclusie
-
----
-# Conclusie en aanbevelingen
-# 
-#     Beantwoord de hoofdvraag
-#     Geef eventuele aanbevelingen (SMART en terzake)
----
