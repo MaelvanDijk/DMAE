@@ -102,90 +102,68 @@ HoB?
 
 ### data gebruik
 
-Er vinden nog geen datamining activiteiten plaats binnen HoB. Naast de
-analyse wordt er dan ook een stuk code geleverd om een vacatures te
-minen. Dit kan vrij door HoB gebruikt worden indien gewenst. Omdat voor
-dit capstone project de tijd beperkt is zijn er een aantal keuzes
-gemaakt m.b.t de data en het minen hier van: 1. Voor vacatures wordt
-alleen data van Indeed gebruikt 2. De vacatures zijn beschikbaar vanaf 8
-februari 2022 3. Als referentie dataset voor benodigde (hard)skills
-wordt de [Indeed dataset van
-Kaggle](https://www.kaggle.com/elroyggj/indeed-dataset-data-scientistanalystengineer)
-gebruikt.
+Binnen HoB vinden nog geen datamining activiteiten op dit gebied plaats.
+Buiten de resultaten van dit onderzoek wordt er dan ook een een script
+aangeleverd die het mogelijk maakt om de datamining voor dit onderzoek
+voort te
+zetten. Dit script is beperkt tot het zoekwoord "data" op de
+vacaturesite Indeed,
+maar kan uitgebreid worden om op andere woorden te zoeken.
 
 ### Business Success criteria
 
-Kwantitatieve doelstelling voor het beantwoorden van deze vraag is niet
-direct mogelijk. Daarom wordt er gekeken naar kwalitatieve eisen.
-Minimaal wordt er een inkomens benchmark verwacht en een indicatie van
-de hoeveelheid vraag bij bedrijven. Een bijkomende wens is om het
-arbeidsvoorwaardenpakket op waarden te kunnen schatten. Dit is een
-uitdaging waar nog niet duidelijk van is of dit gaat lukken.
+De volgende kwalitatieve eisen worden gesteld: er moet er een analyse
+komen van HoB versus markt inkomen, een analyse over de vraag verdeling
+over bedrijven en een over skills. Daarnaast moet er een bruikbare
+scraper voor vervolg onderzoek worden opgeleverd.
 
 ## Methoden
 
-Het hoofdstuk "Methoden" gaat in op de data en het gebruik hiervan. Het
-is van belang om te weten hoe er aan de data is gekomen, met wat voor
-data er gewerkt wordt en hoe er uiteindelijk is gekomen tot een
-bruikbaar datamodel. Dit wordt achtereenvolgens uiteengezet in de
-paragagraven: "Data Understanding", "Data Preperation en Modelling". Als
-laatste wordt er in paragraaf "Reproduceren van het onderzoek" ingegaan
-op de eisen en benodigdheden om tot eenzelfde resultaat te komen.
-
----
-# Methoden
-# 
-#     Sluit aan bij Data Understanding, Data Preparation en Modelling van CRISP-DM
-#     Presenteer hier eventuele tussenresultaten (bv. over datakwaliteit/-profilering)
-#     Beschrijf wat essentieel is voor het reproduceren van het werk
----
+Dit hoofdstuk behandelt de data en het gebruik hiervan. In "data
+understanding" worden basale kenmerken van de dataset besproken, "data
+preperation en modelling" gaat in op het schonen een verrijken van de
+data. Als laatste gaat "reproduceren van het onderzoek" over de
+mogelijkheid om dit onderzoek na te bootsten.
 
 ### Data understanding
 
-Deze paragraaf gaat in op de scope en basale kenmerken van de gebruikte
-data. Er wordt beschreven met welke datasets gewerkt gaat worden, de
-redernatie voor deze datasets en waarom andere datasets buiten
-beschouwing zijn gelaten. Uiteindelijk wordt de data in zijn ruwe vorm
+Hieronder worden de scope, de gebruikte datasets en de basale kenmerken
 beschreven.
 
 #### Gekozen datasets en scope
 
 Om te beginnen is hieronder een versimpelde datalog weergegeven. Dit
-bevat informatie over de datasets in de ruwevorm (te vinden in
-"*.\\Data_raw")"*
+bevat informatie over de datasets in de ruwe vorm (te vinden in
+".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
 : datalog (shortened)
 
-D001 is na vooronderzoek gekozen als basis dataset. Hierin staan
-onderandere (hard)skills met de daarbij behorende functie type (data
-analist, -engineer, -scientist). Dit legt een goede basis voor het
-onderzoek naar data specialisaties binnen HoB, hier worden namelijk
-dezelfde specialisaties ook aangeboden. Er zijn andere datasets
-overwogen echter bevatte deze te weinig relevantie functie type (\< 200
-rijen) of ontbraken hier gevraagde skills die ter referentie voor D002
-gebruikt zouden worden.
+D001 is na vooronderzoek gekozen als basis dataset. Hierin staan onder
+andere (hard)skills, functie type (data analist, -engineer, -scientist).
+Dit legt een goede basis voor het onderzoek naar data specialisaties
+binnen HoB, hier worden namelijk dezelfde specialisaties ook aangeboden.
+Er zijn andere datasets overwogen echter bevatte deze te weinig
+relevantie functie type (\< 200 rijen) of ontbraken hier relevante
+skills.
 
 D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig
-scrapen van Indeed data komt voort uit meerdere beperkingen. Allereerst
-was er geen (makkelijk en gratis) werkende API te vinden die Indeed data
-kon aanleveren. Ten tweede was er geen dataset beschikbaar die focust op
-data specialisten én de nederlandse markt. Als laatste waren de
-beschikbare datasets vaak te beperkt met relevante informatie
-(ontbrekende skills, niet nederlandse functies, geen salaris indicatie).
-Dit allemaal heeft er toe geleid dat er voor dit project een scraper is
-gebouwd die de data binnenhaalt.
+scrapen van Indeed data komt voort uit het tekortschieten van bestaande
+API's en afwezigheid van relevante datasets.
 
 #### Beschrijving van de ruwe data
 
-De data van zowel D001 als D002 zijn nog in ruwe vorm. Bij het
-exploreren van D001 is duidelijk dat de data al erg schoon is. Een paar
-basale kenmerken zijn hieronder geprint. Deze kunnen zowel snel inzicht
-geven in de dataset als relevant zijn voor het gehele onderzoek.
+Beginnend bij de beschrijving van D001. Deze dataset is al erg
+opgeschoond. Een aantal basale kenmerken zijn hieronder programmatische
+weergegeven. Allereerst is duidelijk dat er 43 kolommen aanwezig zijn.
+Echter voor het doel van dit onderzoek zijn maar twee kolommen echt
+interessant. Dit zijn "Skill" en "Job_Type". Hierin staan
+respectievelijk een lijst van (hard)skills en de functie soort per
+observatie.
 
 ```{r basic D001 data, echo=FALSE}
 # kenmerken D001 dataset
@@ -235,26 +213,22 @@ writeLines(
 
 ```
 
-Er zijn behoorlijk wat kolommen aanwezig in de dataset, echter blijkt
-een groot deel niet relevant voor de vraag in kwestie. De dataset bevat
-klaarblijkelijk veel skills. Dit komt voornamelijk omdat de skills
-opgeslagen zijn in lijsten en een willekeurige volgorde binnen deze
-lijsten hebben. Dit zorgt ervoor dat bijna elke vacature een unieke
-skill of combinatie van skills lijkt te bevatten. In werkelijkheid is
-dit niet zo want [SQL, Python] is gelijk aan [Python, SQL]. HIervoor
-komt later in het project een ETL process. Het salaris is ook opvallend.
-De maker van deze dataset heeft de salarissen in bins van \$20.000,-
-geplaatst (met een groep \< \$80.000 en een groep \> \$160.000,-).
-Vercer valt nog op dat Data Engineer slechts 24% van de dataset opmaakt.
-Daarentegen zijn 45% van de listings voor Data Scientisten.
+Zoals hierboven getoond komt duidelijk naar voren dat het aantal unieke
+"Skills" bijna gelijk is aan het aantal unieke rijen. Dit betekent
+echter niet dat er zoveel verschil zit tussen de vacatures. Het is
+namelijk zo dat [SQL, Python] en [Python, SQL] hetzelfde betekenen maar
+wordt gezien als twee unieke rijen. Deze informatie wordt gebruikt in
+latere ETL stappen. Daarnaast is opvallend dat de verdeling tussen data
+analist (31%), data engineer (24%) en data scientist (45%) niet volledig
+evenredig is.
 
-Dataset D002 bevat data gescraped van Indeed. Hiervoor is er gezocht
-naar alle functies waar het woord "data" in voorkomt. D002 bestaat in de
-ruwe vorm uit meerdere losse bestanden (een voor elke dag dat er een run
-is geweest van de scraper). Om een indruk te krijgen van wat er in een
+Dataset D002 bevat datavan Indeed. Hiervoor is er gezocht naar alle
+functies waar het woord "data" in voorkomt. D002 bestaat in de ruwe vorm
+uit meerdere losse bestanden (een voor elke dag dat er een run is
+geweest van de scraper). Om een indruk te krijgen van wat er in een
 dergelijk bestand staat kan er gekeken worden naar
-*".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv"*. Hieronder
-worden weer de voornaamste kenmerken weergegeven
+".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv". Hieronder
+worden weer de voornaamste kenmerken.
 
 ```{r basic D002 data, echo=FALSE}
 # kenmerken D002 dataset
@@ -317,17 +291,13 @@ writeLines(
 )
 ```
 
-Uit bovenstaande informatie vallen een aantal dingen op te maken.
-Allereerst gaat de data niet verder terug dan begin februari 2022. Dit
-komt omdat de webscraper pas op 6 maart 2022 is afgerond. Dit zal ook
-effect hebben op de analyses gezien de data niet ver genoeg teruggaat om
-echte trends te ontdekken. Ten tweede valt op dat het aantal rijen en
-het aantal unieke URL's niet overeenkomen. Dit geeft het vermoeden dat
-er dubbele rijen zijn, of in iedergeval een functie meermaals is
-gescraped. Ook valt op dat er een fout in de salaris kolom staat. Hierin
-is het euro-symbool (€) niet goed vertaald is (ï¿½). Dit en nadere
-opschoning vindt plaats in de volgende paragraaf "Data preperation en
-modeling".
+Het is gelijk duidelijk dat de data niet verder terug gaat dan 6
+februari 2022. Dit zal effect hebben op de trend analyses in dit
+onderzoek. Ook wordt duidelijk dat een dataset meer rijen heeft dan
+unieke URL's. Dit betekent dat dezelfde URL waarschijnlijke meerdere
+keren is gescraped. Het derde feit dat duidelijk wordt, euro symbolen
+(€) worden foutief weergegeven (ï¿½). Dit en andere
+datakwaliteitsproblemen worden in het ETL proces opgelost.
 
 ### Data preperation en modeling
 
@@ -350,7 +320,7 @@ Wegens het gebrek aan tijd zijn een aantal aannamens gedaan en is data
 versimpeld weergegeven. De meest noemenswaardigen zijn:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                                                                               |
-|---------------------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------|----------|-----------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                                                                               |
 | ETL (midden-rechts) | job_type          | Er zijn maar 3 types gedefinieëerd (data analist, scientist, en engineer). Ongeacht de functietitel zal 1 van deze types worden toegewezen. Zo kan data architect of teamleider data analytics worden toegewezen aan het type data analist.                                                         |
 | ETL (midden-rechts) | salary            | er is aangenomen dat alles boven de €10.000,- jaarsalaris betreft. dit wordt omgerekend naar maand. Alles onder de €100,- is als uur tarief aangenomen en wordt omgerekend naar maan (obv. 168 uur per maand). alles tussen de €100,- en €1000,- wordt als scraping fout gezien en omgezet naar NA. |
@@ -1153,7 +1123,7 @@ verder uit te breiden. In onderstaande tabel de artefacten die deel
 uitmaken van dit onderzoek.
 
 | Artefact                                         | Gebruik                                                                                                                                                                                                                                                                                          |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|---------------|---------------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses om de vraag "Hoe positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling van de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?" te kunnen beantwoorden |
 | Data_cleaned / Data_raw                          | diverse .CSV bestanden die als brondata dienen voor het hier uitgevoerde onderzoek.                                                                                                                                                                                                              |
 | indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen. de mogelijkheid is er om de functionaliteit uit te breiden met onder andere andere zoekwoorden.                                                                                                         |
