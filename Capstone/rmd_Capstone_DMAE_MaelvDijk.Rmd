@@ -136,7 +136,7 @@ bevat informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -313,7 +313,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------|----------|---------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -353,20 +353,22 @@ het eindresultaat te komen. De benodigde R libraries zijn: "tidyverse",
 #     Ondersteun de tekst met figuren en tabellen
 ---
 
-In dit hoofdstukworden de deelvragen beantwoord aan de hand van de
-analyse resultaten. Ook wordt uiteengezet welke vragen niet beantwoord
-kunnen worden en welke artifacten opgeleverd worden. Als eerste wordt
-gekeken naar de verhouding van het HoB salaris t.o.v. het salaris op
-Indeed, vervolgens wordt gekeken
+Dit hoofdstuk beantwoord de deelvragen aan de hand van diverse analyses.
+Ook wordt besproken welke vragen (nog) niet kunnen worden beantwoord en
+welke artefacten worden aangeleverd.
 
 ```{r clean and enrich D002, echo=FALSE}
 # clean en verrijk indeed data met custom functies
 df_indeed_merged <- merge_scraped_data()
 df_indeed_cleaned <- clean_scraped_date(df_indeed_merged)
+
+# geschoonde en verrijkte dataset
 df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
 
+# dataset voor skill analyse
 df_indeed_skills <- unnest_skills(df_indeed_final)
 
+# dataset voor tijdserie analyse
 df_indeed_final_date_filtered <- filter_dates(df_indeed_final)
 df_indeed_skills_date_filtered<- filter_dates(df_indeed_skills)
 
@@ -380,35 +382,35 @@ rm(
 
 ### Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op het gebied van data specialisten? {.tabset}
 
-Binnen HoB is het mogelijk om op verschillende manieren salarisverhoging
-te behalen. Zo wordt een consultant beloont voor het behalen van
-cursussen en opleidingen en hangt de verhoging samen met de beoordeling.
-Afhankelijk van het niveau van de consultant is dit een absolute
-stijging of een relatieve stijging ten opzichten van het huidige loon.
-Ook worden consultants beloond voor het behalen van cursussen. Om deze
-reden is het lasting om een accuraat salaris te bepalen. Gelukkig heeft
-HoB op haar website de referentie salarissen voor 1ste, 2de en 3de jaars
-consultants staan (€2.763,- , €3.087,- , €3.591,- respectievelijk).
+HoB biedt verschillende manieren om salaris verhoging te halen, dit
+tezamen met de gesloten HR systemen maakt het lastig om een referentie
+salaris te bepalen. In dit geval heeft HoB op haar website aangegeven
+wat een collega kan verdienen in jaar 1, 2 en 3 (€2.763,- , €3.087,- ,
+€3.591,- respectievelijk). Om deze deelvraag te beantwoorden worden deze
+drie salarissen gebruikt.
 
-De vraag van HoB is om dit geboden salaris aanbod op waarden te schatten
-ten opzichten van de markt. In onderstaande grafiek is te zien dat het
-HoB salaris de eerste twee jaren lager ligt dan het mediaan en modale
-salaris aangeboden op Indeed.
+De grafiek hieronder geeft de salaris verdeling van data vacatures op
+Indeed weer. Het eerste wat duidelijk wordt is dat het loon van HoB bij
+aanvang al boven modaal ligt. Daarnaast is het salaris in jaar 3 hoger
+dan het mediaan salaris op Indeed. Ofwel, HoB biedt een hoger
+maandsalaris in jaar 3 dan 50% van de markt (afgaande op Indeed).
 
 ```{r plot indeed salary distribution vs hob salary, echo=FALSE}
 plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
 ```
 
-In de bovenstaande analyse is het het aantal jaren werkervaring van de
-indeed vacatures niet meegeneomen. De dataset is wel vereikt met een
-kolom die het aantal jaren ervaring aangeeft. Echter, doordat er 'regex'
-is gebruikt en de data erg ongestructureerd is zal deze kolom niet
-helemaal betrouwbaar zijn. Desondanks kan deze data gebruikt worden om
-toch een indruk te krijgen van de salarisverdeling over de verschillende
-eisen qua jaren werkervaring. In onderstaande grafiek komt duidelijk
-naar voren dat het salaris van HoB personeel in jaar 3 hoger ligt dan
-het modale salaris dat op indeed geboden wordt tot en met jaar 3. Ook is
-opvallend dat bij 8 jaar werkervaring de curve naar links verschuifd
+Bovenstaande analyse zegt echter niet alles. Hierin wordt het 3
+verschillende maandsalarissen van HoB vergelijken met de gehele
+onderzoekspopulatie. Op Indeed worden diverse ervaringseisen gesteld.
+Dit gebeurt in de vorm van "1 -- 3 jaar ervaring" o.i.d. Tijdens het
+schonen is altijd de kleinste hoeveelheid opgeslagen (1 -- 3 is
+opgeslagen als 1).
+
+Hieronder is de salaris verdeling te zien gesegmenteerd op gevraagde
+ervaring. Door de dataset op te delen in negen segmenten (gemiddeld 166
+observaties) is de verdeling gevoeliger en minder accuraat. Toch geeft
+het de indruk dat het salaris geboden door HoB doorgaans beter is dan
+het salaris van Indeed (jaren 6 en 7 buiten beschouwing gelaten).
 
 ```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
 df_indeed_final %>%
@@ -451,32 +453,18 @@ df_indeed_final %>%
   xlim(2000,6000)
 ```
 
-Het salaris bij HoB wordt niet alleen bepaald door werkervaring. Het is
-namelijk ook zo dat er veel in de consultants wordt geïnvesteerd
-doormiddel van trainingen. HoB richt zich zowel op hard-, als
-softskills. Binnen dit onderzoek zijn de hardskills het meest accurate
-uit de tekst te halen en daardoor het beste te onderzoeken. Bij HoB zal
-een consultant data gemiddeld 3 tot 5 skills overkoepelende skills
-machtig zijn, In kader van dit project is niet direct meetbaar welke
-skills het meest voorkomen binnen HoB data consultants, echter op
-ervaring afgaande zal dit de volgende skills betreffen: SQL, Python, R,
-Excel en Data Modeleren. In onderstaande analyse is de salaris verdeling
-voor 3, 4, en 5 skills te zien.
+Het salaris bij HoB wordt niet alleen bepaalt door werkervaring. Ook het
+afronden van cursussen en het opdoen van skills wordt beloond. Wat
+betreft hard skills kan er vanuit worden gegaan dat een consultant 4 tot
+6 skills bezit na de eerste 3 jaar bij HoB. Dit zijn data modeling,
+excel, R, Python, SQL en PowerBI. In onderstaande drie grafieken is het
+mediaan salaris op Indeed weergegeven verdeeld over het gevraagde aantal
+skills. De zwarte lijn geeft het bijbehorende HoB salaris aan.
 
-Hieronder zijn drie grafieken weergegeven. Iedere grafiek laat het
-mediaan salaris per aantal skills zien. De balken zijn groen gekleurd
-zodra het referentie salaris van HoB hoger ligt dan het mediaan salaris.
-Er vallen hier twee belangrijke dingen op, namelijk:
-
-1.  Er is een klein positief lineair verband tussen het aantal skills en
-    het mediaan gebode salaris
-2.  Het referentie salaris van HoB is pas vanaf het 3e jaar
-    'competitief' te noemen.
-
-Een verdieping zou nog bereikt kunnen worden door ook te kijken naar het
-aantal jaren werkervaring als extra dimensie. Helaas zijn er op dit
-moment te weinig observaties om deze extra dimensie toe te voegen in
-deze analyse.
+De drie grafieken met elkaar vergeleken laat zien dat HoB vooral vanaf
+het 3e jaar echt een competatief salaris biedt. Hierbij kan verwacht
+worden dat een consultant zo'n vier tot zes vaardigheden bezit. Daarmee
+verslaat het de markt kijkend naar skill,-, loonratio.
 
 #### 1ste jaars HoB
 
@@ -559,6 +547,10 @@ df_indeed_final %>%
   )
 
 ```
+
+Bovenstaande analyse zou nog verdiept kunnen worden in een vervolg
+onderzoek door het aantal jaren werkervaring mee te nemen. Dit levert nu
+echter te weinig observaties (11) per categorie op.
 
 ### Vraag naar Skills {.tabset}
 
@@ -1108,7 +1100,7 @@ verder uit te breiden. In onderstaande tabel de artefacten die deel
 uitmaken van dit onderzoek.
 
 | Artefact                                         | Gebruik                                                                                                                                                                                                                                                                                          |
-|--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|---------------|---------------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses om de vraag "Hoe positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling van de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?" te kunnen beantwoorden |
 | Data_cleaned / Data_raw                          | diverse .CSV bestanden die als brondata dienen voor het hier uitgevoerde onderzoek.                                                                                                                                                                                                              |
 | indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen. de mogelijkheid is er om de functionaliteit uit te breiden met onder andere andere zoekwoorden.                                                                                                         |
