@@ -552,46 +552,18 @@ Bovenstaande analyse zou nog verdiept kunnen worden in een vervolg
 onderzoek door het aantal jaren werkervaring mee te nemen. Dit levert nu
 echter te weinig observaties (11) per categorie op.
 
-### Vraag naar Skills {.tabset}
+### In hoeverre sluit het "curriculum" van HoB zich aan bij de ontwikkelende markt? {.tabset}
 
-De volgende deelvraag voor dit onderzoek gaat om de vraag ontwikkeling
-naar specifieke skills. Hoe ontwikkelt de vraag naar specifieke skills
-zich over de tijd? Deze deelvraag is lastig te beantwoorden op binnen
-dit onderzoek. De data loopt niet verder terug dan begin februari 2022.
-Voor een duidelijke trend analyse is er data nodig van \~3 jaar. Dit
-maakt dat onderstaande analyses een versimpelde weergaven zullen zijn.
-De artefacten die aangeleverd worden (waaronder de scraper) kunnen
-gebruikt worden om deze dataset verder op te bouwen totdat er genoeg
-data is om de onderstaande analyse opnieuw te doen.
+Deze deelvraag behoeft twee analyses. Enerzijds is het van belang om te
+weten hoe het huidige aanbod van HoB aansluit op de huidige vraag.
+Daarnaast is het van belang om te weten hoe de vraag naar Skills zich
+ontwikkelt. Binnen dit onderzoek is het laatste lastig te realiseren.
+Een goede trend analyse zal \~3 jaar aan data behoeven. Hierin schiet de
+dataset te kort, dit zal impact hebben op de analyse.
 
-Als eerst kan er gekeken worden naar de totale vraag naar skills. In de
-twee onderstaande grafieken zijn zowel de 20 meest gevraagde skills als
-de 20 minst gevraagde skills terug te vinden. de top drie is hier weinig
-verrassend en behelst de toch wel meest bekende talen binnen het data
-vakgebied. Verassender is om Tableau in de top 20 te zien maar geen
-PowerBI. Verder wordt nu duidelijk wanneer gekeken wordt naar zowel de
-top als de bottom 20 dat er een mix van echte hard skills en bepaalde
-conventies (zoals "https" en "rest") worden opgenomen in de skill
-referentie lijst uit D001. Hier is met namen opvallend dat "marketing"
-en "network" hoog scoren. Hierin kan er aangenomen worden dat "network"
-het cloud aspect zijn van het data vak, maar, het zou ook kunnen duiden
-op neurale netwerken. Helaas is dit een fout in het scrapen en binnen
-dit project niet direct meer te herstellen. Wat betreft "marketing" kan
-verwacht worden dat dit gaat om marketing analytics en marketing
-automation. Twee velden die erg groot zijn binnen data science en data
-analytics.
-
-Het opmerkelijkste is dat PowerBI niet hoger in de lijst staat. Een van
-de platformen waarop HoB haar energie richt wat betreft trainingen. In
-tegenstelling is het Tableau waar dagelijks meer vacatures voor
-verschijnen. Dit om te overeen met de initiële analyse van D001 waarin
-de aannamen was dat de Amerikaanse markt andere voorkeuren heeft dan de
-Nederlandse markt, wat aanleiding zou kunnen zijn voor verder onderzoek.
-
-De bottom 20 geeft weinig informatie. Het zijn in meer en mindere maten
-bekende talen/tools. het signaleert een niche binnen de vacatures maar
-buiten het feit dat HoB haar activiteiten hier niet op moet focussen
-levert dit ons geen extra informatie op.
+Het eerste waar naar gekeken wordt, de huidige vraag naar skills.
+Hieronder zijn twee grafieken te vinden. De eerste grafiek geeft de top
+20 vaardigheden weer, de tweede grafiek de minst gevraagde 20.
 
 #### top skills
 
@@ -658,6 +630,29 @@ df_indeed_skills %>%
     x= "Skill"
   )
 ```
+
+Zoals gesteld zijn de consultants in de eerste 3 jaar voornamelijk bezig
+met de skills data modeling, excel, R, Python, SQL en PowerBI. Zoals te
+zien sluit HoB met vier van de skills aan bij de meest gewilde skills.
+Ook wordt er ingezet op cloud oplossingen binnen HoB wat aansluit op de
+gevraagde skills "azure" en "aws". Tableau is een onverwachte
+vaardigheid, in plaats daarvan was de verwachting namelijk dat PowerBI
+in de top zou staan hier zit dus een gat in vraag en aanbod. Daarnaast
+wordt duidelijk dat er op het gebied van data science een gat bestaat
+tussen HoB en de markt. Zo zijn data science vaardigheden (ai, machine
+learning, spark, scala, go) niet direct onderdeel van het curriculum.
+
+De minst gevraagde skills zijn voor dit onderzoek minder relevant. Toch
+is het goed om kaart te hebben welke skills het minst gevraagd worden.
+Dit zijn voornamelijk skills om te vermijden.
+
+Interessant om nog op te merken dat het voornaamste aandeel van
+gevraagde skills zich rond de top 5 bevindt. Dit zijn dan ook gebieden
+waar HoB zich het best op kan focussen om relevant te blijven voor de
+markt. Wilt HoB uitbreiden richting minder gevraagde maar toch relevante
+skills? Dan is een tweede stap om ontwikkeling te bieden in de top 20.
+Dit kan voor programmeertalen en frameworks een cursus zijn, voor
+concepten zoals "rest" (API's) zijn dit informatie avonden.
 
 ### Instroom vacatures {.tabset}
 
