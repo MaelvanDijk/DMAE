@@ -136,7 +136,7 @@ bevat informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|----------|----------|----------|--------------------------------|----------|
+|------------|------------|------------|-------------------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -313,7 +313,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|----------|----------|---------------------------------------------------|
+|--------------|--------------|---------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -654,90 +654,31 @@ skills? Dan is een tweede stap om ontwikkeling te bieden in de top 20.
 Dit kan voor programmeertalen en frameworks een cursus zijn, voor
 concepten zoals "rest" (API's) zijn dit informatie avonden.
 
-### Instroom vacatures {.tabset}
-
-Een volgende stap is patroon analyse. Omdat de data niet vergenoeg terug
-gaat kan er geen accurate voorspelling worden gedaan over de
-ontwikkeling naar de vraag. Naast dat het inspelen op deze vraag
-ontwikkeling ook erg lastig is wegens de doorlooptijd van het opzetten
-van opleidingen en het opleiden van kandidaten. Wel kan er gestart
-worden met een analyse of er een bepaald patroon is m.b.t. de instroom.
-
-De eerste grafiek hieronder maakt duidelijk dat er een grote instroom
-van vacatures is op het eerste moment van scrapen. Dit heeft een
-logische verklaring: Indeed kent drie soorten waarden m.b.t plaatsings
-moment "Vandaag", "1-30 dagen geleden" "30+ dagen geleden". De scraper
-maakt geen onderscheid tussen "30" en "30+" Dit betekent dat het eerste
-moment van scrapen alle "30" en "30+" kenmerken om worden gezet naar
-"30". Dit verklaart een spike wanneer deze twee waarden voorkomen,
-doordat tijdens het data schonen dubbele rijen worden verwijderd (de
-eerste wordt behouden) zien we dit effect alleen terug in het begin van
-de totale dataset. Wanneer er dus gekeken wordt naar de vraag over tijd
-zal het binnen deze dataset noodzakelijk zijn om vanaf 5 februari 2022
-te kijken. In beide grafieken is lastig vast te stellen of er een
-correlatie of een bepaald patroon aanwezig is. Wel valt op te maken dat
-er over het algemeen een dalende trend lijkt te zijn. Om hier echter
-meer over te zeggen zal minstens 3 jaar aan data nodig zijn om trends en
-patronen te kunnen vaststellen.
-
-Beide grafieken lijken pieken op bepaalde intervallen te tonen. In de
-derde grafiek wordt daarom de autocorrelatie weerggeven hieruit blijkt
-dat er geen duidelijk patroon aanwezig is, hierbij zou 1 (of -1) een
-mogelijke correlatie of patroon aanduiden. Deze vindt alleen plaats op
-lag 0. Dit betekent dat er alleen een verband is op de dag zelf. Kortom
-lijkt er geen patroon zichtbaar te zijn wat betreft de instroom.
-
-#### Instroom vanaf begin
-
-```{r unfilterd date counts}
-
-plot_indeed_timeseries_data(df_indeed_final)
-
-```
-
-#### Instroom vanaf 5 februari 2022
-
-```{r filtered date counts}
-
-# filter data to contain only points after 5th of february
-
-
-plot_indeed_timeseries_data(df_indeed_final_date_filtered)
-
-```
-
-#### Auto-correlatie instroom
-
-```{r}
-#create listing date table
-listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
-
-#calculate autocorrelation
-acf(listing_date_table, main= "Instroom autocorrelatie")
-```
-
 ### Ontwikkeling skill behoeften {.tabset}
 
-Hoewel er met de huidige data nog geen overkoepelend patroon te
-signaleren is kan er wel gekeken worden naar de ontwikkeling van de
-skill behoeften. Ook hier mist er een hoeveelheid data waarmee een goede
-tijdanalyse gedaan kan worden. Daarom dienen onderstaande grafieken en
-bijbehorende code ook als artefact waar op een later moment gebruik van
-gemaakt kan worden. In onderstaande grafieken zijn in iedergeval de drie
-meest gebruikte programmeertalen rondom data specialisaties te vinden.
-Daarnaast is het analyse platform Tableau weergegeven en de twee cloud
-oplossingen AWS en Azure.
+De vraag "in hoeverre sluit het "curiculum" van HoB aan op de
+ontwikkelende markt" is in de ten delen beantwoord. Het is duidelijk wat
+de huidige vraag is. Met de huidige ontwikkelingen op het gebied van big
+data en cloud technologie die in de praktijk zichtbaar zijn is het
+aannemelijk dat deze top 20 skills ook belangrijk zullen zijn om verder
+in de gaten te gaan houden.
 
-Ook is hier weer een dalende trend te zien in nagenoeg alle skill
-aanvragen. Zowel in onderstaande grafieken als in het overzicht van
-totale aanvragen kan dit te verklaren zijn door de rijkwijdte van het
-scraping script (max 300 vacatures) en de willekeurige sortering op de
-Indeed. Daarom zal ook hier de tijd een belangrijke factor spelen en een
-goede analyse na 3 jaar data verzamelen gedaan kunnen worden.
+Om een sterke trend analyse te doen is minstens \~3 jaar aan data nodig.
+Dit is een beperking die verder in het hoofdstuk "discussie" wordt
+besproken. Wat wel aangeleverd kan worden is de functionaliteit om deze
+analyse op een later moment te doen.
 
-Wat we uit deze en de voorgaande analyse in iedergeval kunnen opmaken is
-het feit dat er een daling is in vacatures na een piek aan het begin van
-februari.
+Onderstaande grafieken, met de verloop per skill, en de bijbehorende
+code generen de inzichten om een simpele trend analyse te doen. In
+onderstaande figuren wordt duidelijk dat er momenteel een neerwaartse
+trend is, de aannamen is dat dit wanneer er meer data beschikbaar is
+door scrapen de trend een positief verloop laat zien.
+
+De onderstaande grafieken geven de dagelijks vraag naar skills aan en
+geven de algehele trend weer. Op het moment van schrijven zijn dit enkel
+negatieve trends. De aannamen is dat, na verloop van tijd, wanneer meer
+data gescraped wordt deze skills in iedergeval een positieve trend
+zullen laten zien.
 
 #### SQL
 
@@ -776,53 +717,85 @@ plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "azure")
 plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "aws")
 ```
 
+### Welke opdrachtgevers worden nog niet bediend door HoB? {.tabset}
+
+Voor deze deelvraag was het naast de huidige situatie ook de bedoeling
+een trend analyse te doen. Helaas is duidelijk geworden dat er te weinig
+data beschikbaar is om een betrouwbare analyse hierop te doen. Des
+ondanks wordt deze deelvraag ingeleid met onderstaande twee grafieken om
+daarna in te gaan op de huidige staat van de markt. De bedoeling is
+hiermee alvast een aanzet te doen voor toekomstige analyses.
+
+In de eerste grafiek hieronder is een negatieve trend te zien wanneer er
+gekeken wordt naar de totale instroom aan "data" vacatures. De tweede
+grafiek toont een autocorrelatie. Op de x-as zijn de dagen vanaf het
+huidige datapunt gemeten (0 is dezelfde dag). Op de y-as is de mate van
+correlatie. Alle punten boven of onder de blauwe lijnen zouden statisch
+significant moeten zijn. Op het moment van schrijven lijkt er een
+significant patroon op te treden iedere 6 dagen. Echter is de correlatie
+slechts 0.3 wat aanduidt dat het patroon erg zwak is.
+
+#### Instroom vanaf 5 februari 2022
+
+```{r filtered date counts}
+
+# filter data to contain only points after 5th of february
+
+
+plot_indeed_timeseries_data(df_indeed_final_date_filtered)
+
+```
+
+#### Auto-correlatie instroom
+
+```{r}
+#create listing date table
+listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
+
+#calculate autocorrelation
+acf(listing_date_table, main= "Instroom autocorrelatie")
+```
+
+Hoewel de dataset te klein is om momenteel een gegronde analyse te doen
+zijn bovenstaande grafieken en code zeker bruikbaar voor een latere
+analyse indien gewenst.
+
 ### Ontwikkeling opdrachtgevers {.tabset}
 
-De laatste deelvraag voor dit onderzoek betreft de ontwikkeling en
-verhouding van de vraag vanuit mogelijke opdrachtgevers. Omdat het
-gebleken is dat de ontwikkeling van de vraag te weinig zegt wordt hier
-alleen nog gekeken naar de totale vraag vanuit opdrachtgevers. Hierop
-kunnen we binnen een aantal elementen segmenteren, namelijk: functietype
-en gevraagde skills.
+De laatste deelvraag binnen dit onderzoek richt zich op de mogelijke
+opdrachtgevers. Hiervan was het oorspronkelijk de bedoeling om een trend
+analyse te doen bij opdrachtgevers. Echter is dit door het tekort aan
+data niet te realiseren. In plaats daarvan wordt hier gekeken naar de
+huidige gap tussen de organisaties die vacatures uit hebben staan op
+Indeed en de organisaties die HoB bedient.
 
-Allereerst wordt gekeken naar de 25 bedrijven met het grootste aanbod .
-in de eerste grafiek is te zien dat er overwegend gevraagd wordt naar
-data scientisten, vervolgens data analisten, en in veel mindere maten
-naar data engineers. Wanneer andere detacheerders / uitzendbureaus /
-consultancies worden weggelaten blijft de volgende top 5 bedrijven over
-(ten tijden schrijven):
+Allereerst wordt in de eerste hieronder de top 25 bedrijven getoond op
+basis van het aantal geplaatste vacatures vanaf de eerste datum in de
+dataset. Grofweg 50% van deze organisaties betreffen detacheerders
+(waaronder House of Bèta). Dit is een interessant gegeven, de aannamen
+hier is namelijk dat de reden dat er zoveel vraag vanuit detacheerders
+en consultants is komt door de grote vraag naar data professionals in
+het algemeen.
 
-1.  Bertelsmann
-2.  NN
-3.  Rabobank
-4.  Belastingdienst
-5.  Rijkswaterstaat
+Buiten de bevestiging van de grote vraag naar data professionals is het
+vooral interessant om te kijken naar de organisaties met de hoogste
+vraag die niet vallen onder consultancy of detacheerders. In de tweede
+grafiek is een subset gemaakt van deze 25 bedrijven zonder consultancies
+of detacheerders. Uit deze grafiek zijn op dit moment 2 partijen waar
+HoB geen personeel aan levert: Bertelsmann SE & Co, en Amarant.
 
-Vanuit bovenstaande groep werkt HoB nog niet samen met Bertelsmann (een
-mediaconglomeraat) wat zou kunnen duiden op mogelijkheden tot een nieuwe
-samenwerking.
-
-In de volgende twee grafieken zijn de top 10 bedrijven (van de top 25)
-gekozen die zich niet richten op detachering, consultancy of
-traineeships. Hierin is de verdeling over functie type en de 10 meest
-gevraagde skills te zien. Het is duidelijk te zien dat zowel de functie
-type en de gevraagde vaardigheden in zekere zinnen overeenkomen met de
-eerder vastgestelde verdeling over de gehele gescrapte populatie (een
-paar afwijkingen achterwege gelaten). Zo lijkt de data analist het meest
-gezocht te worden, gevolgd door data scientist en als laatste de data
-engineers. Wat betreft vaardigheden komen de top 3 vaardigheden overeen
-met de algehele populatie. Het meest opvallende binnen de vaardigheden
-zijn "marketing" en "Tableau". Deze zijn niet veel vertegenwoordigd in
-de vacatures geplaatst door de meest frequente opdrachtgevers.
-
-Wanneer we echter naar de vierde grafiek kijken zien we de meest
-gevraagde skills door de top 10 opdrachtgevers. Het beeld lijkt hier
-vertekend door Bertelsmann omdat deze een groot deel van de aanvragen
-uit heeft staan. Des al niet te min blijft de top 4 (sql, python, R,
-(neural) network) ongewijzigd. Hier verder op in gaande is ook te zien
-data Bertelsmann in zet op big data technologie (Hive, scala en spark).
-Dit zijn interessante signalene komende van de grootst potentiele
-opdrachtgever op Indeed.
+Uiteraard is dit een summiere analyse om een daadwerkelijke gap aan te
+tonen vandaar nog twee andere aanvullende analyses onderbouwd. De derde
+grafiek laat zien dat voornamelijk python, sql, R, ai en (neural)
+network vaardigheden veel gezocht wordt door de subset van bedrijven. De
+tweede grafiek laat eenzelfde verdeling zien maar dan vanuit een andere
+invalshoek. De eerste grafiek beschouwt de meest gevraagde skills vanuit
+de hele onderzoeks populatie. De vierde grafiek daarentegen laat toont
+alleen de top skills die daadwerkelijk door deze bedrijven worden
+gezocht. Uit deze laatste grafiek komen drie inzichten naar voren. De
+belangrijkste skills blijven ongewijzigd, SAS (een programeertaal waar
+HoB zich sinds kort op richt) komt naar voren op de 5e plek. De overige
+5 vaardigheden hebben veelal te maken met big data toepassingen.
 
 #### top 20 bedrijven - functie types
 
@@ -947,227 +920,116 @@ df_indeed_skills_date_filtered %>%
     titel= "Aantal vacatures per bedrijf per funtietype",
     x= "Bedrijf"
     )
-```
-
-Bovenstaande geeft handvatten om te bepalen welke skills momenteel
-belangrijk zijn om te ontwikkelen onder consultants en welke
-opdrachtgevers benaderd kunnen worden wegens het aantal vacatures. De
-code en artefacten die dit document opleveren geven de mogelijkheid om
-naar voorkeur de analyse aan te passen door bijvoorbeeld de focus van de
-bedrijven te verleggen (indien grootste aanbieders van functies over de
-tijd wijzigt).
-
-### Ontwikkeling functie type en vraag opdrachtgevers {.tabset}
-
-Ondanks dat het niet mogelijk is om nu nog een uitspraak te doen over de
-ontwikkeling van vraag bij opdrachtgevers wordt er wel vast een artefact
-aangeleverd in de vorm van een tijdserie op basis van functietype. Deze
-grafiek en de bijbehorende code zijn hieronder en in de ondersteunende
-scripts terug te vinden voor toekomstig gebruik. Omdat er nu geen
-uitspraken worden gedaan i.v.m de statistische validiteit zal er geen
-verdere toelichting bij de grafiek te vinden zijn.
-
-Er is hier ook overweogen een tweede artefact mee te leveren, namelijk
-een stuk code om het verloop van de vraag door individuele opdracht
-gevers weer te geven. Echter zegt de grafiek door de geringe hoeveelheid
-data te weinig. Om verkeerde interpetaties van de data te voorkomen
-wordt deze code dan ook niet meegeleverd. Zodra er genoeg data verzamelt
-is kan aan de hand van deze file en bijbehorende code een nieuw
-onderdeel worden toegevoegd om deze verandering over de tijd accuraat
-weer te geven.
-
-#### tijdreeks - functie type
-
-```{r}
-df_indeed_final_date_filtered %>%
-  group_by(
-    listing_date,
-    job_type) %>%
-  summarise(
-    req_per_day= n(),
-    .groups= "keep") %>%
-  ggplot(
-    aes(
-      x= listing_date,
-      y= req_per_day
-      )) +
-  geom_line() +
-  facet_wrap(
-    vars(job_type),
-    ncol=1) +
-  stat_smooth(
-    method = "lm",
-    se= FALSE
-    ) +
-  scale_x_date(
-    date_labels = "%a\n%d-%m",
-    date_breaks = "week"
-               )
 
 knitr::knit_exit()
 ```
 
+Een kanttekening die hierbij moet worden gemaakt is dat Bertelsmann SE &
+Co. Deze uitslag lijkt te beïnvloeden door hun sterke aanwezigheid (NN
+heeft dit effect minder).
+
+Om deze deelvraag kort samen te vatten: HoB heeft een kans om bij
+Bertelsmann SE &Co. en Amarant nieuwe kansen te creëren. Om haar positie
+bij partijen te versterken is het naast bestaande cursussen nog
+waardevol om te kijken naar big data en gevorderde data science skills.
+
 ## Discussie
 
----
-# Discussie
-# 
-#     Geef een kritische evaluatie van de resultaten (bv. beperkingen of verbeterpunten)
-#     Sluit aan bij Deployment van CRISP-DM (tenzij dit echt wezenlijk deel van het project was, dan moet dat in 2. Methoden aan bod komen)
----
-
-In dit hoofdstuk koment in iedergeval de kritische verbeterpunten en
-tekortkoming aanbod. Ook wordt er aandacht besteed aan de deployement en
-wat er daadwerkelijk van waarde wordt opgeleverd.
+In dit hoofdstuk komen de verbeterpunten en tekortkoming aanbod. Ook
+wordt er aandacht besteed aan de deployement en wat er daadwerkelijk van
+waarde wordt opgeleverd.
 
 ### Data omvang
 
-Het eerste verbeterpunt zit in de omvang van de dataset. Het grootste
-deel van dit onderzoek kon goed beantwoord worden binnen de tijd en met
-de aanwezige middelen. Echter blijft een interessante deelvraag: de
-ontwikkeling van de vraag. Grotendeels onbeantwoord. Inherent aan
-tijdseries analyses is de lange termijn data die hiervoor nodig is. Bij
-aanvang van dit project was dit al een duidelijke beperking. Echter was
-de hoop er om met de hoeveelheid tijd die beschikbaar was toch een goede
-tijdsreeks op te bouwen die inzichten kon verschaffen. Dit is achteraf
-toch niet gelukt. Hoewel er in de basis genoeg data punten zijn om een
-tijdsreeks analyse te kunnen doen, maken de gewenste groeperingen
-(bedrijf, functie, skill) dat de dataset te ver versnipperd raakt. Dit
-is vooral voor toekomstige project goed om rekening mee te houden
+Allereerst de omvang van de dataset. Een groot deel van dit onderzoek is
+beantwoord met de beschikbare data. Echter zijn verdiepingen op trend
+analyses achterwegen gelaten alsmede analyses over meerdere dimensies
+waarvoor de dataset te klein is. Bij aanvang van dit project was de
+inschatting van de hoeveelheid data die binnengehaald kon worden niet
+direct duidelijk. Het voornaamste verbeterpunt is om de dataset uit te
+breiden voor verdere analyses. Een leerpunt is dat analyses over drie
+dimensies een dataset erg zullen versnipperen, hier moet volgende keer
+rekening mee gehouden worden bij het beoordelen van het aantal nodige
+observaties.
 
-#### Data kwaliteit
+### Data kwaliteit
 
-In de methoden is de datakwaliteit al kort aanbod gekomen. Toch wordt
-dit punt hier nog aangestipt. Door het ontbreken van een betrouwbare
-API, de tijdspannen van dit onderzoek en de bewerkelijkheid van de data
-zijn een aantal keuzes gemaakt die maken dat het eindproduct niet
-volledig accuraat is. De belangrijkste is de analyse omtrent
-functietypen. Deze is verdeeld in drie specialisaties en elke observatie
-in de dataset is zo goed mogelijk in een van deze drie specialisaties
-onderverdeeld. Echter, er zijn observaties waar eigenlijk geen van de
-drie specialisaties bij passen (denk aan "data entry" functies). Ook
-heeft er wegens tijdsgebrek maar een beperkte check plaatsgevonden op
-deze categorisering en andere bewerkingen zoals het omrekening naar
-maandsalaris of het extraheren het aantal jaren werkervaring. Dit zijn
-kritische verbeterpunten. Bij het door ontwikkelen van de
-functionaliteiten van dit project zou er daarom gekeken kunnen worden
-naar:
+Datakwaliteit is al kort aangestipt door het project heen. Het ontbreken
+van een API en de tijdsdruk voor dit onderzoek heeft betekend dat er
+keuzes zijn gemaakt ik en het scrapen, schonen en vereiken van de data.
+De belangrijkste om hier te benoemen zijn: functie type en vaardigheden.
 
--   Het uitbreiden van de functietypen
+Allereerst zijn er fouten aanwezig in de functie type. Er is onderscheid
+gemaakt tussen data analist, data engineers, en data scientisten. Hoewel
+er vacatures kunnen zijn voor hele andere data functies is iedere
+functie geforceerd in een van deze catagorieën.
 
--   betere extractie van werkervaring
+De tweede kwaliteit issue zit in de vaardigheden. Een goed voorbeeld is
+de vaardigheid "network". Dit had waarschijnlijk "neural network" moeten
+zijn. Wanneer er gezocht wordt op "power bi" zal "powerbi" niet worden
+gevonden hierdoor mist er data. Ook zijn skills zoals "sql" in veel
+verschillende varianten te vinden zoals "mysql". Deze skills zijn apart
+opgeslagen, dit geeft een vertekende weergaven van de vraag naar de
+echte skills.
 
--   betere extractie van vaardigheden
+### Data scraping
 
--   validatie van de formule en de bepaling van salarissoorten (uur,
-    maand, en jaar)
-
-#### Data scraping
-
-Als laatste zijn er twee kantekeningen bij het data scrapen. Allereerst
+Als laatste zijn er twee kanttekeningen bij het data scrapen. Allereerst
 is alleen Indeed als bron gebruikt. Qua website omvang is dit misschien
 een goede representatie maar het zou kunnen dat hier nog een beter
 alternatief voor is. Het gevaar van dubbele vacatures binnenhalen bij
 het gebruik van meerdere scrapers is dan natuurlijk een gevaar. Wegens
-tijdsgebrek is hier geen verder onderzoek naar gedaan en staat dit nog
-open voor verbetering.
+tijdsgebrek is hier geen verder onderzoek.
 
-De tweede kantekening betreft de zoek titel. De scraper en data is
-gericht op een zo breed mogelijk profiel. Om deze reden is als
-zoekopdracht "data" gebruikt. Echter een verbetering doe wordt
-voorgesteld is de scraper om te bouwen naar een meer generieke scraper.
-Hierbij kan de gebruikte zoek woorden vrij worden ingevuld en opgeslagen
-in een variabele die ook wordt opgeslagen in de dataset. Voor dit
-onderzoek zou dit hebben geholpen om accurater te zoeken naar analisten,
-engineers, en scientisten. Dit sluit aan op de verdere kritiek onder
-"data kwaliteit".
+Het tweede punt betreft de query. De scraper is gericht op een zo breed
+mogelijk profiel. Om deze reden is als zoekopdracht "data" gebruikt. Een
+voorgestelde verbetering is de scraper om te bouwen naar een generieke
+scraper. Hierbij kan de query vrij worden ingevuld en opgeslagen in een
+variabele die ook wordt opgeslagen in de dataset. Voor dit onderzoek zou
+dit hebben geholpen om accurater te zoeken naar analisten, engineers, en
+scientisten. Dit sluit aan op de verdere kritiek onder "data kwaliteit".
 
-#### Deployment
+### Deployment
 
-Als laatste onderwerp het stuk deployment. Vanuit dit onderzoek worden
-er een aantal artefacten opgeleverd. Deze zullen niet standaard in een
-productie omgeving draaien maar kunnen wel voor ad-hoc analyses of door
-ontwikkeling worden gebruikt.
+Als laatste deployement. Bij dit onderzoek worden een aantal artefacten
+aangeleverd die gebruikt kunnen worden voor ad-hoc analyses. De scripts
+en code zijn zonder de markdown te gebruiken en makkelijk te bewerken.
+De code is voorzien van commentaar en kan relatief makelijk worden
+uitgebreid met nieuwe functionaliteiten waar nodig.
 
-De scripts zijn lost van dit notebook te draaien en geven House of Bèta
-de mogelijkheid niet alleen het onderzoek te reproduceren maar ook
-verder uit te breiden. In onderstaande tabel de artefacten die deel
-uitmaken van dit onderzoek.
-
-| Artefact                                         | Gebruik                                                                                                                                                                                                                                                                                          |
-|---------------|---------------------------------------------------------|
-| rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses om de vraag "Hoe positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling van de vraag naar 'data specialisten'in Nederland zich kijkende naar de gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?" te kunnen beantwoorden |
-| Data_cleaned / Data_raw                          | diverse .CSV bestanden die als brondata dienen voor het hier uitgevoerde onderzoek.                                                                                                                                                                                                              |
-| indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen. de mogelijkheid is er om de functionaliteit uit te breiden met onder andere andere zoekwoorden.                                                                                                         |
-| Scraped_indeed_data_wrangler.R (Supporting_code) | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. De mogelijkheid is er om de functionaliteit uit te breiden naar eigen inzien.                                                                                                           |
-| Scraped_indeed_plotter.R (Supporting_code)       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten. Ook dit bestand kan naar eigen inzien uitgebreid worden.                                                                                                                                                   |
+| Artefact                                         | Gebruik                                                                                                  |
+|-----------------|-------------------------------------------------------|
+| rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses voor dit onderzoek.                                                    |
+| Data_cleaned / Data_raw                          | diverse .CSV bestanden met brondata.                                                                     |
+| indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
+| Scraped_indeed_data_wrangler.R (Supporting_code) | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. |
+| Scraped_indeed_plotter.R (Supporting_code)       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten.                    |
 
 ## Conclusie
 
----
-# Conclusie en aanbevelingen
-# 
-#     Beantwoord de hoofdvraag
-#     Geef eventuele aanbevelingen (SMART en terzake)
----
+Als laatste het antwoord op de vraag: "Hoe positioneert HoB zich ten
+opzichten van de Nederlandse arbeidsmarkt op het gebied van data
+professionals kijkend naar loon, vaardigheden en potentiële
+opdrachtgevers?"
 
-Het laatste onderdeel van dit onderzoek tracht de hoofdvraag: "Hoe
-positioneert HoB wat betreft het loon ten opzichten van de ontwikkeling
-van de vraag naar 'data specialisten'in Nederland zich kijkende naar de
-gevraagde vaardigheden, het geboden loon en mogelijke opdrachtgevers?"
-te beantwoorden.
+Het is duidelijk geworden data HoB een competatief salaris biedt aan
+haar medewerkers,In iedergeval vanaf jaar 3 waar zij meer dan 50% van de
+vacatures in loon voorbijgaan. Voorzowel jaar 1, 2, en 3 verdient een
+HoB consultant boven modaal. Kijkende naar de gehele onderzoeks
+populatie.
 
-Uit het onderzoek is gebleken dat HoB haar werknemers vanaf het 3e jaar
-een competatief salaris lijkt te bieden. Hiermee zou de werknemer in het
-3e jaar meer verdienen dan hij/zij in meer dan 50% van de gevallen had
-kunnen verdienen afgaande op de vacatures op Indeed. In het eerste en
-tweede jaar ligt het salaris boven het modale salaris op Indeed.
+Op het gebied van vaardigheden en opdrachtgevers doet HoB het erg goed.
+Zij bedient een groot deel van de bedrijven die de meeste vacatures uit
+hebben staan. Hierin bestaat voor HoB de kans om met Amarant en
+Bertelsmann zaken te gaan doen. Wat betrecft de vaardigheden is het
+belangrijk dat HoB blijft inzetten op de belangrijkste vaardigheden
+(sql, python en r) maar ook de verdieping aanbiedt op het gebied van
+data science (ai en neurale netwerken) en big data oplossingen (scala,
+spark en hive).
 
-Wat betreft de vaardigheden die binnen HoB worden aangemoedigd om aan te
-leren zit HoB in het segment waar de meeste vraag naar is (sql, R,
-python, excel). Echter duikt hier ook een tekort op. Een groot deel van
-dataprofessionals bezitten deze gevraagde skills of zijn deze aan het
-ontwikkelen. Hoewel de vraag naar deze skills klaarblijkelijk nog steeds
-aanwezig is zijn dit niet de plekken waar HoB zich op kan onderscheiden.
-De vaardigheden waar HoB zich daadwerkelijk in zou kunnen onderscheiden
-zijn: neural networks, ai, machine learning, azure en aws, sas, en big
-data frameworks zoals spark en scala. Deze aanbeveling berust enerzijds
-op het resultaat uit dit onderzoek zoals de meest gevraagde skills bij
-de meest frequente opdrachtgevers, anderzijds komt dit vanuit
-persoonlijke ervaring en gesprekken tijdens het uitvoeren van mijn eigen
-opdrachten als data analist / data scientist.
-
-het laatste onderdeel m.b.t de opdrachtgevers is voor nu niet te
-beantwoorden door het tekort aan data. Wel kan HoB haar inspanningen
-potentieel richten op de top 10 bedrijven (uitgezonderd andere
-consultant bureaus) voor haar business development, op het moment van
-schrijven zijn dat:
-
-1.  Bertelsmann SE & Co
-
-2.  NN Group
-
-3.  Rabobank
-
-4.  Belastingdienst
-
-5.  Rijkswaterstaat
-
-6.  Alliander
-
-7.  MN
-
-8.  ING
-
-9.  Amarant
-
-10. ABN AMRO
-
-In het kort, HoB investeert in de ontwikkeling van haar personeel
-waarbij het salaris in het 3e jaar een groot deel van de markt verslaat.
-Er zijn voornamelijk kansen voor HoB om met haar specialisten verder te
-richten op kennis van de cloud, big data oplossingen en diepgaandere
-kennis over ai en machine learning
+Kortom HoB lijkt competitief zowel op loon als aanbod waarbij er kansen
+bestaan om vooral naar opdrachtgevers toe verder uit te breiden in zowel
+vaardigheden als partners.
 
 ## oude code en tekst
 
@@ -1271,3 +1133,55 @@ kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
 
 
 ```
+
+### Ontwikkeling functie type en vraag opdrachtgevers {.tabset}
+
+Ondanks dat het niet mogelijk is om nu nog een uitspraak te doen over de
+ontwikkeling van vraag bij opdrachtgevers wordt er wel vast een artefact
+aangeleverd in de vorm van een tijdserie op basis van functietype. Deze
+grafiek en de bijbehorende code zijn hieronder en in de ondersteunende
+scripts terug te vinden voor toekomstig gebruik. Omdat er nu geen
+uitspraken worden gedaan i.v.m de statistische validiteit zal er geen
+verdere toelichting bij de grafiek te vinden zijn.
+
+Er is hier ook overweogen een tweede artefact mee te leveren, namelijk
+een stuk code om het verloop van de vraag door individuele opdracht
+gevers weer te geven. Echter zegt de grafiek door de geringe hoeveelheid
+data te weinig. Om verkeerde interpetaties van de data te voorkomen
+wordt deze code dan ook niet meegeleverd. Zodra er genoeg data verzamelt
+is kan aan de hand van deze file en bijbehorende code een nieuw
+onderdeel worden toegevoegd om deze verandering over de tijd accuraat
+weer te geven.
+
+#### tijdreeks - functie type
+
+```{r}
+df_indeed_final_date_filtered %>%
+  group_by(
+    listing_date,
+    job_type) %>%
+  summarise(
+    req_per_day= n(),
+    .groups= "keep") %>%
+  ggplot(
+    aes(
+      x= listing_date,
+      y= req_per_day
+      )) +
+  geom_line() +
+  facet_wrap(
+    vars(job_type),
+    ncol=1) +
+  stat_smooth(
+    method = "lm",
+    se= FALSE
+    ) +
+  scale_x_date(
+    date_labels = "%a\n%d-%m",
+    date_breaks = "week"
+               )
+
+
+```
+
+## 
