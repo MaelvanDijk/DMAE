@@ -928,8 +928,6 @@ df_indeed_skills_date_filtered %>%
     titel= "Aantal vacatures per bedrijf per funtietype",
     x= "Bedrijf"
     )
-
-knitr::knit_exit()
 ```
 
 Een kanttekening die hierbij moet worden gemaakt is dat Bertelsmann SE &
@@ -1136,6 +1134,8 @@ getoetst kan worden) is dat dit gaat om teamleiders of andere management
 functies waar hard skills minder van belang zijn.
 
 ```{r D001 exploration, echo=FALSE}
+
+df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 
 kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
 
