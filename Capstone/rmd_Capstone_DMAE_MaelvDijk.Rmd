@@ -22,9 +22,24 @@ knitr::opts_chunk$set(
   message = FALSE
   )
 
+# make notebook output scrollable
+
+options(width = 60)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+
 library("tidyverse")
 library("stringr")
 library("tseries")
+library("Hmisc")
 
 
 #custom functions
@@ -76,14 +91,19 @@ hebben de mogelijkheid zich na verloop van tijd te specialiseren waarin
 HoB de trainingen en opleiding faciliteert of betaald.
 
 HoB is een relatief nieuwe naam op de markt maar voert al sinds 2015
-haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De uitstroom
-van consultants die T&P heeft gezien over 2021 is de aanleiding geweest
-om meer grip op deze uitstroom te willen krijgen.
+haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De consultant
+uitstroom die T&P heeft gezien over 2021 is de aanleiding geweest om
+meer grip hierop te willen krijgen.
 
-Tijdens de een recente informatieavond van HoB zijn nieuwe
-doelstellingen voor 2022 gepresenteerd waar ook de ontwikkeling en groei
-van data professionals naar voren komt. De combinatie van de uitstroom
-en de doelstellingen vormen de aanleiding voor dit onderzoek.
+Tijdens een recente informatieavond van HoB zijn doelstellingen voor
+2022 gepresenteerd waar ook de ontwikkeling van nieuwe opdrachtgevers en
+nieuwe data professionals (30 stuks) naar voren komt. De combinatie van
+de uitstroom en de doelstellingen vormen de aanleiding voor dit
+onderzoek.
+
+Het is hier ook relevant om te melden dat HoB veel van haar IT processen
+en functionaliteiten in koopt. Dit betekent dat er weinig intern wordt
+gebouwd. Zodoende zijn er nog geen data mining activiteiten.
 
 ### Businessvraag
 
@@ -105,216 +125,126 @@ HoB?
 ### Data mining goals
 
 Om tot de businessdoelen te komen zijn er een aantal data mining doelen
-behaalt moeten worden.
+gesteld.
 
 beginnend bij een dataset ophalen die een corpus van vaardigheden bevat.
-Vervolgens moet er vacatures gescraped worden van Indeed. Door de twee
-datasets te combineren kan er getextmined worden op de vacatures, dit is
-het derde doel. Vervolgens moet met de data verrijkt worden met
-classificaties om meer structuur te bieden. moeten analyses en
-conclusies uit de data worden opgehaald op basis van segmentatie op
-loon, vaardigheden en werkervaring.
-
-### data gebruik
-
-Binnen HoB vinden nog geen datamining activiteiten op dit gebied plaats.
-Buiten de resultaten van dit onderzoek worden daarom modulaire en
-uitbreidbare scripts aangeleverd die het mogelijk maken om de datamining
-activiteiten voor dit onderzoek voort te zetten.
+Vervolgens moeten er vacatures gescraped worden van een representatieve
+vacaturebank. Ten derde moet er textmining plaatsvinden om tot tabulaire
+data te komen. Om verdere inzichten te verkrijgen moet de data verrijkt
+gaan worden met kenmerken die het mogelijk maken de dataset verder te
+segmenteren (clusteren). als laatste moeten er analyses plaats vinden om
+de vraag van de business te kunnen beantwoorden.
 
 ### Business Success criteria
 
-De volgende kwalitatieve eisen worden gesteld: er moet er een analyse
-komen van HoB versus markt inkomen, een analyse over de vraag verdeling
-over bedrijven en een over skills. Daarnaast moet er een bruikbare
-scraper voor vervolg onderzoek worden opgeleverd.
+De volgende kwalitatieve eisen worden gesteld: er moet een analyse komen
+van HoB versus markt inkomen, een analyse over de vraag verdeling over
+bedrijven en een over skills. Daarnaast moet er een bruikbare scraper
+voor vervolg onderzoek worden opgeleverd.
 
 ## Methoden
 
-Dit hoofdstuk behandelt de data en het gebruik hiervan. In "data
-understanding" worden basale kenmerken van de dataset besproken, "data
-preperation en modelling" gaat in op het schonen een verrijken van de
-data. Als laatste gaat "reproduceren van het onderzoek" over de
-mogelijkheid om dit onderzoek na te bootsten.
+Dit hoofdstuk behandelt de data en het gebruik. In "data understanding"
+worden kenmerken van de dataset besproken, "data preperation en
+modelling" gaat in op het schonen en verrijken van de data. Als laatste
+gaat "reproduceren van het onderzoek" over de reproduceerbaarheid van
+dit onderzoek.
 
 ### Data understanding
 
-Hieronder worden de scope, de gebruikte datasets en de basale kenmerken
+Hieronder worden de scope, de gebruikte datasets en kenmerken
 beschreven.
 
 #### Gekozen datasets en scope
 
-Om te beginnen is hieronder een versimpelde datalog weergegeven. Dit
-bevat informatie over de datasets in de ruwe vorm (te vinden in
+Om te beginnen is hieronder een datalog weergegeven. Dit bevat
+informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
-| ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|----------|----------|----------|--------------------------------|----------|
-| D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
-| D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
+| ID   | dataset name                   | format | beschrijving                                                                         | dataset owner | Locatie                                                                                         |
+|------------|------------|------------|--------------|------------|------------|
+| D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         | extern: <https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer> |
+| D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          | scraper: ./Supporting_code/indeed_scraper.R                                                     |
 
 : datalog (shortened)
 
-D001 is na vooronderzoek gekozen als basis dataset. Hierin staan onder
-andere (hard)skills, functie type (data analist, -engineer, -scientist).
-Dit legt een goede basis voor het onderzoek naar data specialisaties
-binnen HoB, hier worden namelijk dezelfde specialisaties ook aangeboden.
-Er zijn andere datasets overwogen echter bevatte deze te weinig
-relevantie functie type (\< 200 rijen) of ontbraken hier relevante
-skills.
+D001 is na vooronderzoek gekozen als basis dataset (zie ook hoofdstuk
+"Addendum" voor aansluitende analyses). Hierin staan onder andere
+(hard)skills, functie type (data analist, -engineer, -scientist). Dit
+legt een goede basis voor dit onderzoek, de functie type sluiten
+namelijk aan op de specialisaties die HoB biedt. Andere overwogen
+datasets miste vaak de kolom met vaardigheden of \<200 observaties
+aangaande data functies. Vandaar dat de keuze op D001 is komen te liggen
 
 D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig
 scrapen van Indeed data komt voort uit het tekortschieten van bestaande
-API's en afwezigheid van relevante datasets.
+API's en afwezigheid van relevante datasets. Indeed is gekozen omdat dit
+een van de grotere vacaturebanken is. Ook kan de scraper (na bewerking)
+andere functies binnen halen niet gerelateerd aan het data domein. Op
+deze manier is de scraper en de vacaturebank multipurpose.
 
 #### Beschrijving van de ruwe data
 
 Beginnend bij de beschrijving van D001. Deze dataset is al erg
-opgeschoond. Een aantal basale kenmerken zijn hieronder programmatische
-weergegeven. Allereerst is duidelijk dat er 43 kolommen aanwezig zijn.
-Echter voor het doel van dit onderzoek zijn maar twee kolommen echt
-interessant. Dit zijn "Skill" en "Job_Type". Hierin staan
-respectievelijk een lijst van (hard)skills en de functie soort per
-observatie.
+opgeschoond. De basale kenmerken zijn in onderstaande overzicht te
+vinden. Voor dit onderzoek lijken gelijk twee kolommen interessant. Dit
+zijn "Skill" en "Job_Type". Hierin staan respectievelijk een lijst van
+(hard)skills en de functie soort per observatie.
 
-```{r basic D001 data, echo=FALSE}
+```{r basic D001 data, echo=FALSE, max.height='400px'}
 # kenmerken D001 dataset
-df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
+df_indeed_kaggle <-read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 
-# head(df_indeed_kaggle)
-# df_indeed_kaggle %>% summary()
-writeLines(
-  sprintf(
-    "Number of columns in the dataset:\n%s\n",
-    ncol(df_indeed_kaggle)
-  )
-)
-
-writeLines(
-  sprintf(
-    "Number of rows in the dataset:\n%s\n",
-    nrow(df_indeed_kaggle)
-  )
-)
-
-writeLines(
-  sprintf(
-    "Number of Skill (combinations) in the dataset:\n%s\n",
-    df_indeed_kaggle$Skill %>% unique() %>% length()
-  )
-)
-
-writeLines(
-  sprintf(
-    "Number of salaries  in the dataset:\n%s\n",
-    df_indeed_kaggle$Queried_Salary %>% unique() %>% length()
-  )
-)
-
-writeLines(
-  sprintf(
-    "number of observations per job type (analist, engineer, scientist):\n%s",
-    aggregate(
-      df_indeed_kaggle$Job_Type,
-      by=list(df_indeed_kaggle$Job_Type),
-      FUN=length
-      )[2]
-  )
-)
+describe(df_indeed_kaggle)
 
 
 ```
 
-Zoals hierboven getoond komt duidelijk naar voren dat het aantal unieke
-"Skills" bijna gelijk is aan het aantal unieke rijen. Dit betekent
-echter niet dat er zoveel verschil zit tussen de vacatures. Het is
-namelijk zo dat [SQL, Python] en [Python, SQL] hetzelfde betekenen maar
-wordt gezien als twee unieke rijen. Deze informatie wordt gebruikt in
-latere ETL stappen. Daarnaast is opvallend dat de verdeling tussen data
-analist (31%), data engineer (24%) en data scientist (45%) niet volledig
-evenredig is.
+het overzicht hierboven toont dat het aantal unieke "Skills" bijna
+gelijk is aan het aantal unieke rijen. Dit betekent echter niet dat er
+zoveel verschil zit tussen de vacatures. Het is namelijk zo dat [SQL,
+Python] en [Python, SQL] hetzelfde betekenen maar wordt gezien als twee
+unieke rijen. Deze informatie wordt gebruikt in latere ETL stappen.
+Daarnaast is opvallend dat de verdeling tussen data analist (31%), data
+engineer (24%) en data scientist (45%) niet volledig evenredig is.
 
-Dataset D002 bevat datavan Indeed. Hiervoor is er gezocht naar alle
-functies waar het woord "data" in voorkomt. D002 bestaat in de ruwe vorm
-uit meerdere losse bestanden (een voor elke dag dat er een run is
-geweest van de scraper). Om een indruk te krijgen van wat er in een
-dergelijk bestand staat kan er gekeken worden naar
-".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv". Hieronder
-worden weer de voornaamste kenmerken.
+Dataset D002 bevat Indeed data. Hiervoor is er gezocht op functies met
+het woord "data". D002 bestaat in de uit meerdere losse bestanden (een
+voor elke dag dat er een run is geweest van de scraper). als voorbeeld
+wordt hier gekeken naar: ".\\Data_raw\\D002\\2022-03-08 scraped indeed
+data.csv". Hieronder weer de voornaamste kenmerken.
 
-```{r basic D002 data, echo=FALSE}
+```{r basic D002 data, echo=FALSE, max.height='400px'}
 # kenmerken D002 dataset
 df_indeed_scraped <- read.csv(".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv")
 
-writeLines(
-  sprintf(
-    "Number of columns in the dataset:\n%s\n",
-    ncol(df_indeed_scraped)
-  )
-)
+describe(df_indeed_scraped)
 
-writeLines(
-  sprintf(
-    "Number of rows in the dataset:\n%s\n",
-    nrow(df_indeed_scraped)
-  )
-)
-
-writeLines(
-  sprintf(
-    "number of unique skill(s) and combinations:\n%s\n",
-    df_indeed_scraped$skills %>% unique() %>% length()
-  )
-)
-
-writeLines(
-  sprintf(
-    "number of unique URL's:\n%s\n",
-    df_indeed_scraped$job_link %>% unique() %>% length()
-  )
-)
-
-writeLines(
-  sprintf(
-    "Example of salary:\n%s\n",
-    df_indeed_scraped$salary[2]
-  )
-)
-
-writeLines(
-  sprintf(
-    "number of NA's:\n%s\n",
-    sum(is.na(df_indeed_scraped))
-  )
-)
-
-writeLines(
-  sprintf(
-    "earliest job listing:\n%s\n",
-    df_indeed_scraped$listing_date %>% min(na.rm = TRUE)
-  )
-)
-
-writeLines(
-  sprintf(
-    "Skills example:\n%s\n",
-    df_indeed_scraped$skills[2]
-  )
-)
+knitr::knit_exit()
 ```
 
-Het is gelijk duidelijk dat de data niet verder terug gaat dan 6
-februari 2022. Dit zal effect hebben op de trend analyses in dit
-onderzoek. Ook wordt duidelijk dat een dataset meer rijen heeft dan
-unieke URL's. Dit betekent dat dezelfde URL waarschijnlijke meerdere
-keren is gescraped. Het derde feit dat duidelijk wordt, euro symbolen
-(€) worden foutief weergegeven (ï¿½). Dit en andere
-datakwaliteitsproblemen worden in het ETL proces opgelost.
+Afgaande op de kenmerken wordt duidelijk dat:
+
+1.   de dataset heeft als vroegste datum 6 februari 2022
+2.  Er zijn geen volledige dubbele rijen of rijen die volledig leeg
+    zijn.
+3.  Wel bevatten 283 rijen unieke URL's en 266 rijen unieke
+    beschrijvingen dit zou toch op dubbele vacatures kunnen duiden.
+4.  Er zijn 226 bedrijven in de dataset aanwezig.
+5.  Het salaris lijkt foute symbolen te bevatten en lijk zowel uur-,
+    maand-, en jaarsalarissen te bevatten.
+6.  Een vacature lijkt gemiddeld 22 dagen online te staan met een
+    mediaan van 30 dagen. Wat aangeeft dat er relatief weinig nieuwe
+    vacatures op de dag van scrapen zijn geplaatst.
+
+Uiteindelijk lijkt de dataset vrij goed geconstrueert op de kolommen met
+vaardigheden en salaris na. Deze worden dan ook het meest onderhanden
+genomen in de volgende stappen.
 
 ### Data preperation en modeling
 
-Onderstaande processflow geeft in grote lijnen weer hoe er vanaf de ruwe
-data wordt gekomen tot een eindproduct.
+Onderstaande processflow geeft in grote lijnen het proces van ruwe data
+tot resultaat weer.
 
 Het volledige proces is in drie segmenten op te delen. Bovenin betreft
 D001. Segment twee (midden) betreft D002. Onderin staat segment drie
@@ -326,7 +256,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|----------|----------|---------------------------------------------------|
+|--------------|--------------|---------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -1016,13 +946,13 @@ en code zijn zonder de markdown te gebruiken en makkelijk te bewerken.
 De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
-| Artefact                                         | Gebruik                                                                                                  |
+| Artefact                                       | Gebruik                                                                                                  |
 |------------------------|------------------------------------------------|
-| rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses voor dit onderzoek.                                                    |
-| Data_cleaned / Data_raw                          | diverse .CSV bestanden met brondata.                                                                     |
-| indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
-| Scraped_indeed_data_wrangler.R (Supporting_code) | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. |
-| Scraped_indeed_plotter.R (Supporting_code)       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten.                    |
+| rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
+| Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
+| Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
+| Supporting_code/Scraped_indeed_data_wrangler.R | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. |
+| Supporting_code/Scraped_indeed_plotter.R       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten.                    |
 
 ## Conclusie
 
@@ -1049,6 +979,13 @@ spark en hive).
 Kortom HoB lijkt competitief zowel op loon als aanbod waarbij er kansen
 bestaan om vooral naar opdrachtgevers toe verder uit te breiden in zowel
 vaardigheden als partners.
+
+Om tot deze conclusie te komen zijn naast de analyses in het
+hoofddocument nog andere analyses gedaan. Door ruimte gebrek en het
+ontbreken van statistische validiteit zijn deze verplaatst naar het
+volgende hoofdstuk "Addendum". De analyses en code in dit laatste
+hoofdstukken kunnen op een later moment gebruikt worden mocht er meer
+data beschikbaar zijn.
 
 ## Addendum
 
