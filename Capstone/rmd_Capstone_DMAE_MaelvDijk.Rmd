@@ -35,15 +35,17 @@ source('./supporting_code/Kaggle_indeed_plotter.R')
 
 ## Samenvating
 
-*Samenvatting (max. 250 woorden)*
-
-HoB blijkt vanaf haar 3e jaar een competatief salaris te bieden waarin
+HoB blijkt vanaf haar 3e jaar een competitief salaris te bieden waarin
 het meer dan 50% van de markt verslaat. In de eerste 2 jaren verdienen
-werknemers boven het modale loon. Het blijkt echter dat House of Bèta
-nog ruimte heeft om de hard skills van haar personeel te ontwikkeling.
-Het belangrijkste zijn skills m.b.t de cloud, big data, en geavanceerde
-data science skills. Op het moment van schrijven staan de volgende
-potentiële opdrachtgevers boven aan de lijst met openstaande vacatures:
+werknemers boven het modale loon. Hierin is zeker te stellen dat HoB een
+competitief salaris biedt. Het blijkt echter dat House of Bèta nog
+ruimte heeft om de hard skills van haar personeel te ontwikkeling. Het
+belangrijkste zijn skills m.b.t cloud, big data, en geavanceerde data
+science skills. Deze skills worden steeds meer gevraagd onder de huidige
+opdrachtgevers en potentiële nieuwe opdrachtgevers. Wat betreft nieuwe
+opdrachtgevers blijken er kansen te liggen bij Bertelsmann en Amarant.
+Als laatste is het belangrijk om de skills sql, python en R te blijven
+aanbieden en aansterken.
 
 ## Inleiding
 
@@ -75,20 +77,20 @@ HoB de trainingen en opleiding faciliteert of betaald.
 
 HoB is een relatief nieuwe naam op de markt maar voert al sinds 2015
 haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De uitstroom
-van consultants die T&P heeft gezien over2021 is de aanleiding geweest
-om meer grip op deze uitstroom te willen krijgen (de eerste wens).
+van consultants die T&P heeft gezien over 2021 is de aanleiding geweest
+om meer grip op deze uitstroom te willen krijgen.
 
 Tijdens de een recente informatieavond van HoB zijn nieuwe
 doelstellingen voor 2022 gepresenteerd waar ook de ontwikkeling en groei
-van data professionals naar voren komt. Dit is dan ook de aanleiding
-voor de tweede wens van HoB.
+van data professionals naar voren komt. De combinatie van de uitstroom
+en de doelstellingen vormen de aanleiding voor dit onderzoek.
 
 ### Businessvraag
 
 Dit onderzoek en de wensen van HoB kunnen worden vastgelegd in een
 centrale vraag: "Hoe positioneert HoB zich ten opzichten van de
-Nederlandse arbeidsmarkt op het gebied van data professionals kijkend
-naar loon, vaardigheden en potentiële opdrachtgevers?"
+Nederlandse arbeidsmarkt van data professionals kijkend naar loon,
+vaardigheden en potentiële opdrachtgevers?"
 
 Deze vraag kan verder worden opgedeeld in 3 deelvragen:
 
@@ -103,11 +105,9 @@ HoB?
 ### data gebruik
 
 Binnen HoB vinden nog geen datamining activiteiten op dit gebied plaats.
-Buiten de resultaten van dit onderzoek wordt er dan ook een een script
-aangeleverd die het mogelijk maakt om de datamining voor dit onderzoek
-voort te zetten. Dit script is beperkt tot het zoekwoord "data" op de
-vacaturesite Indeed, maar kan uitgebreid worden om op andere woorden te
-zoeken.
+Buiten de resultaten van dit onderzoek worden daarom modulaire en
+uitbreidbare scripts aangeleverd die het mogelijk maken om de datamining
+activiteiten voor dit onderzoek voort te zetten.
 
 ### Business Success criteria
 
@@ -136,7 +136,7 @@ bevat informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|------------|------------|------------|-------------------------|------------|
+|---------------|---------------|---------------|---------------|---------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -313,7 +313,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|--------------|--------------|---------------------------------------------|
+|------------------|------------------|-------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -342,6 +342,14 @@ markdown document worden de data en benodigde scripts aangeroepen om tot
 het eindresultaat te komen. De benodigde R libraries zijn: "tidyverse",
 "stringr", "lubridate", "tibble", "textTinyR", "XML", "rvest",
 "tseries".
+
+Verder is aan het eind van dit document een hoofdstuk "Addendum"
+toegevoegd. Dit zijn stukken code en analyses geschreven ten behoeven
+van het onderzoek. Echter wegens het gebrek aan ruimte en data zijn deze
+uit het onderzoek gehaald. Dit hoofdstuk kan als referentie worden
+gebruikt om inzicht te krijgen in de tussenstappen van dit onderzoek en
+de artefacten kunnen eventueel later worden toegepast indien er meer
+data beschikbaar komt.
 
 ## Resultaten
 
@@ -785,17 +793,17 @@ of detacheerders. Uit deze grafiek zijn op dit moment 2 partijen waar
 HoB geen personeel aan levert: Bertelsmann SE & Co, en Amarant.
 
 Uiteraard is dit een summiere analyse om een daadwerkelijke gap aan te
-tonen vandaar nog twee andere aanvullende analyses onderbouwd. De derde
-grafiek laat zien dat voornamelijk python, sql, R, ai en (neural)
-network vaardigheden veel gezocht wordt door de subset van bedrijven. De
-tweede grafiek laat eenzelfde verdeling zien maar dan vanuit een andere
-invalshoek. De eerste grafiek beschouwt de meest gevraagde skills vanuit
-de hele onderzoeks populatie. De vierde grafiek daarentegen laat toont
-alleen de top skills die daadwerkelijk door deze bedrijven worden
-gezocht. Uit deze laatste grafiek komen drie inzichten naar voren. De
-belangrijkste skills blijven ongewijzigd, SAS (een programeertaal waar
-HoB zich sinds kort op richt) komt naar voren op de 5e plek. De overige
-5 vaardigheden hebben veelal te maken met big data toepassingen.
+tonen vandaar nog twee aanvullende analyses. De derde grafiek laat zien
+dat voornamelijk python, sql, R, ai en (neural) network vaardigheden
+veel gezocht wordt door de subset van bedrijven. De tweede grafiek laat
+eenzelfde verdeling zien maar dan vanuit een andere invalshoek. De
+eerste grafiek beschouwt de meest gevraagde skills vanuit de hele
+onderzoeks populatie. De vierde grafiek daarentegen laat toont alleen de
+top skills die daadwerkelijk door deze bedrijven worden gezocht. Uit
+deze laatste grafiek komen drie inzichten naar voren. De belangrijkste
+skills blijven ongewijzigd, SAS (een programeertaal waar HoB zich sinds
+kort op richt) komt naar voren op de 5e plek. De overige 5 vaardigheden
+hebben veelal te maken met big data toepassingen.
 
 #### top 20 bedrijven - functie types
 
@@ -998,7 +1006,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                         | Gebruik                                                                                                  |
-|-----------------|-------------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                          | diverse .CSV bestanden met brondata.                                                                     |
 | indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
