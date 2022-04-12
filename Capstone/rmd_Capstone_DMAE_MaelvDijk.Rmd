@@ -102,6 +102,20 @@ ontwikkelende markt?
 3\. Welke opdrachtgevers actief op de markt worden nog niet bediend door
 HoB?
 
+### Data mining goals
+
+Om tot de businessdoelen te komen zijn er een aantal data mining doelen
+behaalt moetenworden.
+
+1.  Er is een dataset nodig die als referentie kan dienen voor de
+    vaardigheden die onderzocht moeten worden in dit onderzoek.
+2.  Er moeten vacatures gescraped worden om de markt te analyseren.
+3.  Er moet tekst mining plaats vinden om de juiste gegevens uit de
+    vacatures op te halen dit moet gebeuren met het resultaat van mining
+    goal 1 en 2.
+4.  De dataset moet worden omgezet in kolommen en dusdanig verrijkt op
+    basis van de kenmerken in de hoofdtekst (classificatie).
+
 ### data gebruik
 
 Binnen HoB vinden nog geen datamining activiteiten op dit gebied plaats.
