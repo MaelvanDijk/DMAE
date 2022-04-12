@@ -105,16 +105,15 @@ HoB?
 ### Data mining goals
 
 Om tot de businessdoelen te komen zijn er een aantal data mining doelen
-behaalt moetenworden.
+behaalt moeten worden.
 
-1.  Er is een dataset nodig die als referentie kan dienen voor de
-    vaardigheden die onderzocht moeten worden in dit onderzoek.
-2.  Er moeten vacatures gescraped worden om de markt te analyseren.
-3.  Er moet tekst mining plaats vinden om de juiste gegevens uit de
-    vacatures op te halen dit moet gebeuren met het resultaat van mining
-    goal 1 en 2.
-4.  De dataset moet worden omgezet in kolommen en dusdanig verrijkt op
-    basis van de kenmerken in de hoofdtekst (classificatie).
+beginnend bij een dataset ophalen die een corpus van vaardigheden bevat.
+Vervolgens moet er vacatures gescraped worden van Indeed. Door de twee
+datasets te combineren kan er getextmined worden op de vacatures, dit is
+het derde doel. Vervolgens moet met de data verrijkt worden met
+classificaties om meer structuur te bieden. moeten analyses en
+conclusies uit de data worden opgehaald op basis van segmentatie op
+loon, vaardigheden en werkervaring.
 
 ### data gebruik
 
@@ -150,7 +149,7 @@ bevat informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner |
-|---------------|---------------|---------------|---------------|---------------|
+|----------|----------|----------|--------------------------------|----------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          |
 
@@ -327,7 +326,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|------------------|------------------|-------------------------------------|
+|----------|----------|---------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -1018,7 +1017,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                         | Gebruik                                                                                                  |
-|--------------------|----------------------------------------------------|
+|------------------------|------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                  | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                          | diverse .CSV bestanden met brondata.                                                                     |
 | indeed_scraper.R (Supporting_code)               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
