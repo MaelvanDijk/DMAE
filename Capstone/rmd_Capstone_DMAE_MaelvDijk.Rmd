@@ -162,7 +162,7 @@ informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner | Locatie                                                                                         |
-|------------|------------|------------|--------------|------------|------------|
+|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         | extern: <https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer> |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          | scraper: ./Supporting_code/indeed_scraper.R                                                     |
 
@@ -225,7 +225,7 @@ knitr::knit_exit()
 
 Afgaande op de kenmerken wordt duidelijk dat:
 
-1.   de dataset heeft als vroegste datum 6 februari 2022
+1.  de dataset heeft als vroegste datum 6 februari 2022
 2.  Er zijn geen volledige dubbele rijen of rijen die volledig leeg
     zijn.
 3.  Wel bevatten 283 rijen unieke URL's en 266 rijen unieke
@@ -256,7 +256,7 @@ Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
 aannames gedaan om problemen en complexiteit te voorkomen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|--------------|--------------|---------------------------------------------|
+|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -947,7 +947,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                       | Gebruik                                                                                                  |
-|------------------------|------------------------------------------------|
+|------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
 | Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
