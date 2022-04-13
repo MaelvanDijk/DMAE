@@ -162,7 +162,7 @@ informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner | Locatie                                                                                         |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------------------|
+|----------|----------|----------|----------------|----------|-------------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         | extern: <https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer> |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          | scraper: ./Supporting_code/indeed_scraper.R                                                     |
 
@@ -191,13 +191,11 @@ vinden. Voor dit onderzoek lijken gelijk twee kolommen interessant. Dit
 zijn "Skill" en "Job_Type". Hierin staan respectievelijk een lijst van
 (hard)skills en de functie soort per observatie.
 
-```{r basic D001 data, echo=FALSE, max.height='400px'}
+```{r basic D001 data, echo=FALSE, max.height='400px', comment= NA}
 # kenmerken D001 dataset
 df_indeed_kaggle <-read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 
 describe(df_indeed_kaggle)
-
-
 ```
 
 het overzicht hierboven toont dat het aantal unieke "Skills" bijna
@@ -214,13 +212,11 @@ voor elke dag dat er een run is geweest van de scraper). als voorbeeld
 wordt hier gekeken naar: ".\\Data_raw\\D002\\2022-03-08 scraped indeed
 data.csv". Hieronder weer de voornaamste kenmerken.
 
-```{r basic D002 data, echo=FALSE, max.height='400px'}
+```{r basic D002 data, echo=FALSE, max.height='400px', comment= NA}
 # kenmerken D002 dataset
 df_indeed_scraped <- read.csv(".\\Data_raw\\D002\\2022-03-08 scraped indeed data.csv")
 
 describe(df_indeed_scraped)
-
-knitr::knit_exit()
 ```
 
 Afgaande op de kenmerken wordt duidelijk dat:
@@ -253,10 +249,12 @@ waarin het eindresultaat weergegeven wordt.
 ![Data process flow](Images/data%20flow%20process.png)
 
 Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
-aannames gedaan om problemen en complexiteit te voorkomen:
+aannames gedaan om problemen en complexiteit te voorkomen, verder wegens
+beperkte tijd en de afwezigheid van een ML model is er voor gekozen om
+de missende waarden niet onderhanden te nemen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------|----------|---------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -295,14 +293,6 @@ de artefacten kunnen eventueel later worden toegepast indien er meer
 data beschikbaar komt.
 
 ## Resultaten
-
----
-# Resultaten
-# 
-#     Sluit aan bij Evaluation van CRISP-DM
-#     Presenteer de resultaten die nodig zijn voor het beantwoorden van de onderzoeksvragen
-#     Ondersteun de tekst met figuren en tabellen
----
 
 Dit hoofdstuk beantwoord de deelvragen aan de hand van diverse analyses.
 Ook wordt besproken welke vragen (nog) niet kunnen worden beantwoord en
@@ -347,7 +337,12 @@ dan het mediaan salaris op Indeed. Ofwel, HoB biedt een hoger
 maandsalaris in jaar 3 dan 50% van de markt (afgaande op Indeed).
 
 ```{r plot indeed salary distribution vs hob salary, echo=FALSE}
-plot_hob_salary_vs_indeed_salary_dist(df_indeed_final)
+plot_hob_salary_vs_indeed_salary_dist(
+  df_indeed_final,
+  first_salary= 2763,
+  second_salary= 3087,
+  third_salary= 3519
+)
 ```
 
 Bovenstaande analyse zegt echter niet alles. Hierin wordt het 3
@@ -360,48 +355,18 @@ opgeslagen als 1).
 Hieronder is de salaris verdeling te zien gesegmenteerd op gevraagde
 ervaring. Door de dataset op te delen in negen segmenten (gemiddeld 166
 observaties) is de verdeling gevoeliger en minder accuraat. Toch geeft
-het de indruk dat het salaris geboden door HoB doorgaans beter is dan
-het salaris van Indeed (jaren 6 en 7 buiten beschouwing gelaten).
+het de indruk dat het salaris geboden door HoB doorgaans (2, 3, 8, en
+NA) beter is dan het salaris van Indeed (jaren 6 en 7 buiten beschouwing
+gelaten).
 
 ```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
-df_indeed_final %>%
-    ggplot(aes(x= salary)) +
-    geom_density(alpha=0.5) +
-    geom_segment(
-      aes(
-        x =2763, xend =2763,
-        y= 0.0000, yend=0.003,
-        linetype= "HoB 1ste jaar"
-      )
-    ) +
-      geom_segment(
-      aes(
-        x =3087, xend =3087,
-        y= 0.0000, yend=0.003,
-        linetype= "HoB 2de jaar"
-      )
-    ) +
-      geom_segment(
-      aes(
-        x =3519, xend =3519,
-        y= 0.0000, yend=0.003,
-        linetype= "HoB 3de jaar"
-      )
-    ) +
-    facet_wrap(vars(cleaned_werkervaring_jaren)) +
-    labs(
-      title="Verdeling geboden salaris per jaren werkervaring",
-      y= "Frequentie (%)",
-      x= "Geboden salaris (\u20ac)"
-    ) +
-    theme(
-      plot.title=element_text(hjust=0.5))+
-    scale_y_continuous(
-      breaks= seq(0.0000, 0.004, 0.001),
-      labels=seq(0.00, 0.04, 0.01),
-      limits= c(0, 0.003)
-    ) +
-  xlim(2000,6000)
+
+plt_hob_vs_indeed_salary_dist_per_experience(
+  df_indeed_final,
+  hob_first_salary= 2763,
+  hob_second_salary= 3087,
+  hob_third_salary= 3519
+)
 ```
 
 Het salaris bij HoB wordt niet alleen bepaalt door werkervaring. Ook het
@@ -420,82 +385,31 @@ verslaat het de markt kijkend naar skill,-, loonratio.
 #### 1ste jaars HoB
 
 ```{r}
-df_indeed_final %>%
-  group_by(skill_count) %>%
-  summarise(med= median(salary, na.rm = T)) %>%
-  ggplot(
-    aes(x=skill_count, y=med)) +
-  geom_col(
-    aes(
-      fill = ifelse(med < 2763, 'red', 'blue')
-      )
-    )+
-  geom_hline(linetype= 1,
-             yintercept = 2763
-             )+
-  labs(
-    title = "Mediaan salaris Indeed vs. aantal skills",
-    subtitle = "HoB 1ste jaars salaris als referentie lijn",
-    y = "Mediaan salaris Indeed",
-    x = "Aantal skills"
-  ) +
-  theme(
-    legend.position= "none"
-  )
+plot_indeed_median_salary_per_amount_skills(
+    df_indeed_final,
+    add_ref_line= TRUE,
+    ref_salary= 2763
+)
 ```
 
 #### 2de jaars HoB
 
 ```{r}
-df_indeed_final %>%
-  group_by(skill_count) %>%
-  summarise(med= median(salary, na.rm = T)) %>%
-  ggplot(
-    aes(x=skill_count, y=med)) +
-  geom_col(
-    aes(
-      fill = ifelse(med < 3087, 'red', 'blue')
-      )
-    )+
-  geom_hline(linetype= 1,
-             yintercept = 3087
-             )+
-  labs(
-    title = "Mediaan salaris Indeed vs. aantal skills",
-    subtitle = "HoB 2de jaars salaris als referentie lijn",
-    y = "Mediaan salaris Indeed",
-    x = "Aantal skills"
-  ) +
-  theme(
-    legend.position= "none"
-  )
+plot_indeed_median_salary_per_amount_skills(
+    df_indeed_final,
+    add_ref_line= TRUE,
+    ref_salary= 3087
+)
 ```
 
 #### 3de jaars HoB
 
 ```{r}
-df_indeed_final %>%
-  group_by(skill_count) %>%
-  summarise(med= median(salary, na.rm = T)) %>%
-  ggplot(
-    aes(x=skill_count, y=med)) +
-  geom_col(
-    aes(
-      fill = ifelse(med < 3519, 'red', 'blue')
-      )
-    )+
-  geom_hline(linetype= 1,
-             yintercept = 3519
-             )+
-  labs(
-    title = "Mediaan salaris Indeed vs. aantal skills",
-    subtitle = "HoB 3de jaars salaris als referentie lijn",
-    y = "Mediaan salaris Indeed",
-    x = "Aantal skills"
-  ) +
-  theme(
-    legend.position= "none"
-  )
+plot_indeed_median_salary_per_amount_skills(
+    df_indeed_final,
+    add_ref_line= TRUE,
+    ref_salary= 3519
+)
 
 ```
 
@@ -947,7 +861,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                       | Gebruik                                                                                                  |
-|------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+|-----------------------|-------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
 | Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
@@ -1089,6 +1003,7 @@ df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 
 kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
 
+rm(kaggle_plots)
 
 ```
 
