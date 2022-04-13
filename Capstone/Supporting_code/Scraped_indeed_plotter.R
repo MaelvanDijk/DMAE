@@ -10,10 +10,8 @@ plot_hob_salary_vs_indeed_salary_dist <- function(
     ){
   # bepaal constanten op basis van HoB vacature
   options(scipen=999)
-  # bepaal constanten op basis van HoB vacature
-  hob_first_salary <- first_salary
-  hob_second_salary <- second_salary
-  hob_third_salary <- third_salary 
+  
+  # bepaal median indeed salary
   indeed_median_salary <- median(df_indeed_scraped$salary,na.rm = TRUE)
   
   # maak density tables
@@ -24,15 +22,15 @@ plot_hob_salary_vs_indeed_salary_dist <- function(
   
   # Bepaal de density (hoogte) van het 1ste, 2e en 3de salaris door deze te benaderen op basis van x en y verhoudingen
   dens_first_salary <- dens$data[[1]] %>%
-    mutate(dens.mean = approx(x, y, xout = hob_first_salary)[[2]])%>%
+    mutate(dens.mean = approx(x, y, xout = first_salary)[[2]])%>%
     .$dens.mean %>% .[1]
   
   dens_second_salary <- dens$data[[1]] %>%
-    mutate(dens.mean = approx(x, y, xout = hob_second_salary)[[2]])%>%
+    mutate(dens.mean = approx(x, y, xout = second_salary)[[2]])%>%
     .$dens.mean %>% .[1]
   
   dens_third_salary <- dens$data[[1]] %>%
-    mutate(dens.mean = approx(x, y, xout = hob_third_salary)[[2]])%>%
+    mutate(dens.mean = approx(x, y, xout = third_salary)[[2]])%>%
     .$dens.mean %>% .[1] 
   
   dens_indeed_median_salary <- dens$data[[1]] %>%
@@ -43,34 +41,36 @@ plot_hob_salary_vs_indeed_salary_dist <- function(
   df_indeed_scraped %>%
     ggplot(
       aes(
-        x= salary,
-        # y= (..count../(sum(..count..)))
+        x= salary
         )
       ) +
     geom_density(alpha=0.5) +
-    # onderstaande regel vult alles rechts van de gekozen lijn
-    # geom_area(data=subset(dens$data[[1]], x > hob_first_salary), aes(x=x, y=y), fill="red")+
     geom_segment(
       aes(
-        x=hob_first_salary,xend=hob_first_salary,
-        y=0, yend= dens_first_salary )
+        x=first_salary,xend=first_salary,
+        y=0, yend= dens_first_salary,
+        linetype= "HoB 1ste jr."
+        )
     ) +
     geom_segment(
       aes(
-        x=hob_second_salary, xend=hob_second_salary,
-        y=0, yend= dens_second_salary )
+        x=second_salary, xend=second_salary,
+        y=0, yend= dens_second_salary,
+        linetype= "HoB 2de jr."
+        )
     ) +
     geom_segment(
       aes(
-        x=hob_third_salary, xend=hob_third_salary,
-        y=0, yend= dens_third_salary )
+        x=third_salary, xend=third_salary,
+        y=0, yend= dens_third_salary,
+        linetype= "HoB 3de jr."
+        )
     ) +
     geom_segment(
       aes(
         x=indeed_median_salary, xend=indeed_median_salary,
         y=0, yend= dens_indeed_median_salary,
-        linetype= "median loon Indeed"),
-      color = "blue",
+        color = "median loon Indeed"),
       size = 1.0
     ) +
     labs(
@@ -82,34 +82,12 @@ plot_hob_salary_vs_indeed_salary_dist <- function(
       plot.title=element_text(hjust=0.5),
       legend.title= element_blank()
     ) +
-    annotate(
-      "text",
-      x= hob_first_salary - 200,
-      y = 1e-04,
-      label= "HoB 1ste jr.",
-      angle=90
-      
-    ) +
-    annotate(
-      "text",
-      x= hob_second_salary - 200,
-      y = 2e-04,
-      label= "HoB 2de jr.",
-      angle=90
-      
-    ) +
-    annotate(
-      "text",
-      x= hob_third_salary + 200,
-      y = 3e-04,
-      label= "HoB 3de jr.",
-      angle=90
-      
-    )+
     scale_y_continuous(
-      breaks= seq(0.0001, 0.0005, 0.0001),
-      labels=seq(0.01, 0.05, 0.01)
-    )
+      breaks= seq(0.0001, 0.0005, 0.0002),
+      labels=seq(0.01, 0.05, 0.02)
+    ) +
+    theme_classic()+
+    scale_color_manual(values=c("median loon Indeed"="#07E597"))
 }
 
 
@@ -147,7 +125,7 @@ plt_hob_vs_indeed_salary_dist_per_experience <- function(
     labs(
       title="Verdeling geboden salaris per jaren werkervaring",
       y= "Frequentie (%)",
-      x= "Geboden salaris (\u20ac)"
+      x= "Geboden salaris x1.000 (\u20ac)"
     ) +
     theme(
       plot.title=element_text(hjust=0.5))+
@@ -156,7 +134,12 @@ plt_hob_vs_indeed_salary_dist_per_experience <- function(
       labels=seq(0.00, 0.04, 0.01),
       limits= c(0, 0.003)
     ) +
-    xlim(2000,6000)
+    scale_x_continuous(
+      breaks= seq(2000, 6000, 1000),
+      labels=seq(2, 6, 1),
+      limits = c(2000, 6000)
+    ) +
+    theme_classic()
 }
 
 plot_indeed_median_salary_per_amount_skills <- function(
@@ -172,7 +155,7 @@ plot_indeed_median_salary_per_amount_skills <- function(
         aes(x=skill_count, y=med)) +
       geom_col(
         aes(
-          fill = ifelse(med < ref_salary, 'red', 'blue')
+          fill = ifelse(med < ref_salary, '#07E597', '#2C435E')
         )
       )+
       geom_hline(linetype= 1,
@@ -181,12 +164,14 @@ plot_indeed_median_salary_per_amount_skills <- function(
       labs(
         title = "Mediaan salaris Indeed vs. aantal skills",
         subtitle = "Met gekozen salaris als referentie lijn",
-        y = "Mediaan salaris Indeed",
+        y = "Mediaan salaris Indeed (\u20ac)",
         x = "Aantal skills"
       ) +
+      theme_classic()+
       theme(
         legend.position= "none"
-      )
+      )+
+      scale_fill_manual(values=c('#07E597', '#2C435E'))
   }
   else{
     df_indeed_final %>%
@@ -199,24 +184,16 @@ plot_indeed_median_salary_per_amount_skills <- function(
       )+
       labs(
         title = "Mediaan salaris Indeed vs. aantal skills",
-        y = "Mediaan salaris Indeed",
+        y = "Mediaan salaris Indeed (\u20ac)",
         x = "Aantal skills"
-      ) +
+      )+
+      theme_classic() +
       theme(
         legend.position= "none"
       )
   }
 
 }
-
-
-
-
-
-
-
-
-
 
 
 plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){

@@ -23,7 +23,6 @@ knitr::opts_chunk$set(
   )
 
 # make notebook output scrollable
-
 options(width = 60)
 local({
   hook_output <- knitr::knit_hooks$get('output')
@@ -46,6 +45,10 @@ library("Hmisc")
 source('./supporting_code/Scraped_indeed_data_wrangler.R')
 source('./supporting_code/Scraped_indeed_plotter.R')
 source('./supporting_code/Kaggle_indeed_plotter.R')
+
+#implement color palette for plots
+HoB_color_palet <- c("#07E597", "#FE4F00", "#2C435E", "#2E7D7B", "#0B191D")
+
 ```
 
 ## Samenvating
@@ -363,9 +366,9 @@ gelaten).
 
 plt_hob_vs_indeed_salary_dist_per_experience(
   df_indeed_final,
-  hob_first_salary= 2763,
-  hob_second_salary= 3087,
-  hob_third_salary= 3519
+  first_salary= 2763,
+  second_salary= 3087,
+  third_salary= 3519
 )
 ```
 
@@ -434,6 +437,7 @@ Hieronder zijn twee grafieken te vinden. De eerste grafiek geeft de top
 
 ```{r}
 
+# get sorted vector of all skills
 all_skills <- df_indeed_skills$skills %>% sort(decreasing= TRUE)
 
 # create a top and bottom 20
@@ -461,8 +465,12 @@ df_indeed_skills %>%
       size= 14)) + # Rotate x-labels and change font
       coord_flip() +
   labs(
-    x= "Skill"
-  )
+    title= "Functie verdeling over 20 meest gevraagde vaardigheden",
+    y= "aantal"
+  )+
+  theme_classic()+
+  theme(axis.title.y=element_blank())+
+  scale_fill_manual(values=HoB_color_palet)
 
 
 ```
@@ -492,8 +500,12 @@ df_indeed_skills %>%
       size= 14)) + # Rotate x-labels and change font
       coord_flip() +
   labs(
-    x= "Skill"
-  )
+    title= "Functie verdeling over 20 minst gevraagde vaardigheden",
+    y= "aantal"
+  )+
+  theme_classic()+
+  theme(axis.title.y=element_blank())+
+  scale_fill_manual(values=HoB_color_palet)
 ```
 
 Zoals gesteld zijn de consultants in de eerste 3 jaar voornamelijk bezig
