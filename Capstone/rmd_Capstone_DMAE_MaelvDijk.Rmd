@@ -53,60 +53,55 @@ HoB_color_palet <- c("#07E597", "#FE4F00", "#2C435E", "#2E7D7B", "#0B191D")
 
 ## Samenvating
 
-HoB blijkt vanaf haar 3e jaar een competitief salaris te bieden waarin
-het meer dan 50% van de markt verslaat. In de eerste 2 jaren verdienen
-werknemers boven het modale loon. Hierin is zeker te stellen dat HoB een
-competitief salaris biedt. Het blijkt echter dat House of Bèta nog
-ruimte heeft om de hard skills van haar personeel te ontwikkeling. Het
-belangrijkste zijn skills m.b.t cloud, big data, en geavanceerde data
-science skills. Deze skills worden steeds meer gevraagd onder de huidige
-opdrachtgevers en potentiële nieuwe opdrachtgevers. Wat betreft nieuwe
-opdrachtgevers blijken er kansen te liggen bij Bertelsmann en Amarant.
-Als laatste is het belangrijk om de skills sql, python en R te blijven
-aanbieden en aansterken.
+House of Bèta (HoB) blijkt vanaf haar 3e jaar een competitief salaris te
+bieden waarin het meer dan 50% van de markt verslaat. In de eerste 2
+jaren verdienen werknemers boven het modale loon. Hierin is zeker te
+stellen dat HoB een competitief salaris biedt. Het blijkt echter dat HoB
+nog ruimte heeft om de hard skills van haar personeel te ontwikkeling.
+Het belangrijkste zijn skills m.b.t cloud, big data, en geavanceerde
+data science skills. Deze skills worden steeds meer gevraagd onder de
+huidige opdrachtgevers en potentiële nieuwe opdrachtgevers. Wat betreft
+nieuwe opdrachtgevers blijken er kansen te liggen bij Bertelsmann en
+Amarant. Als laatste is het belangrijk om de skills sql, python en R te
+blijven aanbieden en aansterken.
 
 ## Inleiding
 
-Dit onderzoek richt zich op de vraag hoe competitief House of Bèta is op
-de markt voor data professionals. Hierin wordt gekeken naar zowel het
-salaris (dus wat House of Bèta biedt aan het personeel) als de
-mogelijkheden voor House of Bèta om een groter deel van de markt te
-bedienen (gevraagde vaardigheden en potentiële opdrachtgevers).
+Dit onderzoek richt zich op de vraag hoe competitief HoB is op de markt
+voor data professionals. Hierin wordt gekeken naar zowel het salaris
+(dus wat HoB biedt aan het personeel) als de mogelijkheden voor HoB om
+een groter deel van de markt te bedienen (gevraagde vaardigheden en
+potentiële opdrachtgevers).
 
-House of Bèta heeft al langer de wens om inzichten te krijgen in de
-reden van uitstroom van haar consultants, gezien dit een belangrijke
-asset is van de organisatie. Wegens juridische en technische beperkingen
-is het echter niet mogelijk om hierop diepgaand onderzoek op te doen.
+HoB heeft al langer de wens om inzichten te krijgen in de reden van
+uitstroom van haar consultants, gezien dit een belangrijke asset is van
+de organisatie. Wegens juridische en technische beperkingen is het
+momenteel niet mogelijk hier onderzoek naar te doen.
 
 Een tweede wens is om de markt beter te kunnen bedienen en te groeien
 als de leverancier van IT personeel. Na overleg is gebleken dat beide
-wensen gekoppeld kunnen worden in dit onderzoek. Het onderzoek helpt
-House of Bèta inzichten te krijgen in een ontwikkelende markt, haar
-eigen arbeidsvoorwaarden op waarden te schatten en biedt een basis voor
+wensen gekoppeld kunnen worden in dit onderzoek. Het onderzoek helpt HoB
+inzichten te krijgen in een ontwikkelende markt, haar eigen
+arbeidsvoorwaarden op waarden te schatten en biedt een basis voor
 verdere analyse aangaande de churn van haar personeel.
 
 ### House of Bèta
 
-House of Bèta (HoB) is een detacheerder op het gebied van (business) IT.
-HoB probeert voornamelijk starters op de arbeidsmarkt aan te trekken en
-probeert deze te matchen aan passende opdrachtgevers. De consultants
-hebben de mogelijkheid zich na verloop van tijd te specialiseren waarin
-HoB de trainingen en opleiding faciliteert of betaald.
+HoB is een detacheerder op het gebied van (business) IT. HoB probeert
+voornamelijk starters op de arbeidsmarkt aan te trekken en probeert deze
+te matchen aan passende opdrachtgevers. De consultants hebben de
+mogelijkheid zich na verloop van tijd te specialiseren waarin HoB de
+trainingen en opleiding faciliteert of betaald.
 
 HoB is een relatief nieuwe naam op de markt maar voert al sinds 2015
 haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De consultant
 uitstroom die T&P heeft gezien over 2021 is de aanleiding geweest om
 meer grip hierop te willen krijgen.
 
-Tijdens een recente informatieavond van HoB zijn doelstellingen voor
-2022 gepresenteerd waar ook de ontwikkeling van nieuwe opdrachtgevers en
-nieuwe data professionals (30 stuks) naar voren komt. De combinatie van
-de uitstroom en de doelstellingen vormen de aanleiding voor dit
-onderzoek.
-
-Het is hier ook relevant om te melden dat HoB veel van haar IT processen
-en functionaliteiten in koopt. Dit betekent dat er weinig intern wordt
-gebouwd. Zodoende zijn er nog geen data mining activiteiten.
+Tijdens een informatie avond heeft HoB haar 2022 doelstellingen bekend
+gemaakt. Meer opdrachtgevers bedienen en het consultant team met 30
+personen uitbreiden staan hier centraal. De uitstroom en doelstellingen
+vormen de aanleiding voor dit onderzoek.
 
 ### Businessvraag
 
@@ -128,7 +123,9 @@ HoB?
 ### Data mining goals
 
 Om tot de businessdoelen te komen zijn er een aantal data mining doelen
-gesteld.
+gesteld. Gezien HoB nog geen datamining activiteiten uitvoert betekent
+dit dat een groot deel van dit onderzoek besteed wordt aan (externe)
+data ophalen.
 
 beginnend bij een dataset ophalen die een corpus van vaardigheden bevat.
 Vervolgens moeten er vacatures gescraped worden van een representatieve
@@ -171,20 +168,19 @@ informatie over de datasets in de ruwe vorm (te vinden in
 
 : datalog (shortened)
 
-D001 is na vooronderzoek gekozen als basis dataset (zie ook hoofdstuk
-"Addendum" voor aansluitende analyses). Hierin staan onder andere
-(hard)skills, functie type (data analist, -engineer, -scientist). Dit
-legt een goede basis voor dit onderzoek, de functie type sluiten
-namelijk aan op de specialisaties die HoB biedt. Andere overwogen
-datasets miste vaak de kolom met vaardigheden of \<200 observaties
-aangaande data functies. Vandaar dat de keuze op D001 is komen te liggen
+D001 is gekozen als basis dataset (zie ook hoofdstuk "Addendum" voor
+aansluitende analyses). Hierin staan onder andere vaardigheden en
+functietypeDit legt een goede basis voor dit onderzoek, de functietype
+sluiten namelijk aan op de specialisaties binnen HoB. Andere datasets
+hadden te weinig observaties of miste cruciale gegevens (vaardigheden),
+vandaar de keuze voor D001.
 
-D002 is gescrapte data van Indeed. Het rationaal achter het zelfstandig
-scrapen van Indeed data komt voort uit het tekortschieten van bestaande
-API's en afwezigheid van relevante datasets. Indeed is gekozen omdat dit
-een van de grotere vacaturebanken is. Ook kan de scraper (na bewerking)
-andere functies binnen halen niet gerelateerd aan het data domein. Op
-deze manier is de scraper en de vacaturebank multipurpose.
+D002 is gescrapte data van Indeed. Het rationaal achter het scrapen van
+Indeed komt voort uit het tekortschieten van bestaande API's en
+afwezigheid van relevante datasets. Indeed is gekozen omdat dit een van
+de grotere vacaturebanken is. Ook kan de scraper andere functies binnen
+halen niet gerelateerd aan het data domein. Op deze manier is de scraper
+multipurpose.
 
 #### Beschrijving van de ruwe data
 
@@ -210,10 +206,9 @@ Daarnaast is opvallend dat de verdeling tussen data analist (31%), data
 engineer (24%) en data scientist (45%) niet volledig evenredig is.
 
 Dataset D002 bevat Indeed data. Hiervoor is er gezocht op functies met
-het woord "data". D002 bestaat in de uit meerdere losse bestanden (een
-voor elke dag dat er een run is geweest van de scraper). als voorbeeld
-wordt hier gekeken naar: ".\\Data_raw\\D002\\2022-03-08 scraped indeed
-data.csv". Hieronder weer de voornaamste kenmerken.
+het woord "data". D002 bestaat uit meerdere losse bestanden (een voor
+elke dag dat er een run is geweest van de scraper). Hieronder de
+voornaamste kenmerken van de run van 2022-03-08:
 
 ```{r basic D002 data, echo=FALSE, max.height='400px', comment= NA}
 # kenmerken D002 dataset
@@ -225,10 +220,9 @@ describe(df_indeed_scraped)
 Afgaande op de kenmerken wordt duidelijk dat:
 
 1.  de dataset heeft als vroegste datum 6 februari 2022
-2.  Er zijn geen volledige dubbele rijen of rijen die volledig leeg
-    zijn.
-3.  Wel bevatten 283 rijen unieke URL's en 266 rijen unieke
-    beschrijvingen dit zou toch op dubbele vacatures kunnen duiden.
+2.  Er zijn geen volledige dubbele rijen.
+3.  283 rijen unieke URL's en 266 rijen unieke beschrijvingen bevatten.
+    Dit duidt mogelijk op dubbele vacature
 4.  Er zijn 226 bedrijven in de dataset aanwezig.
 5.  Het salaris lijkt foute symbolen te bevatten en lijk zowel uur-,
     maand-, en jaarsalarissen te bevatten.
@@ -289,11 +283,8 @@ het eindresultaat te komen. De benodigde R libraries zijn: "tidyverse",
 
 Verder is aan het eind van dit document een hoofdstuk "Addendum"
 toegevoegd. Dit zijn stukken code en analyses geschreven ten behoeven
-van het onderzoek. Echter wegens het gebrek aan ruimte en data zijn deze
-uit het onderzoek gehaald. Dit hoofdstuk kan als referentie worden
-gebruikt om inzicht te krijgen in de tussenstappen van dit onderzoek en
-de artefacten kunnen eventueel later worden toegepast indien er meer
-data beschikbaar komt.
+van het onderzoek maar wegens ruimte gebrek of de statistische
+betrouwbaarheid achterwegen gelaten.
 
 ## Resultaten
 
@@ -326,12 +317,9 @@ rm(
 
 ### Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op het gebied van data specialisten? {.tabset}
 
-HoB biedt verschillende manieren om salaris verhoging te halen, dit
-tezamen met de gesloten HR systemen maakt het lastig om een referentie
-salaris te bepalen. In dit geval heeft HoB op haar website aangegeven
-wat een collega kan verdienen in jaar 1, 2 en 3 (€2.763,- , €3.087,- ,
-€3.591,- respectievelijk). Om deze deelvraag te beantwoorden worden deze
-drie salarissen gebruikt.
+HoB heeft op haar website aangegeven wat een collega kan verdienen in
+jaar 1, 2 en 3 (€2.763,- , €3.087,- , €3.591,- respectievelijk). Om deze
+deelvraag te beantwoorden worden deze drie salarissen gebruikt.
 
 De grafiek hieronder geeft de salaris verdeling van data vacatures op
 Indeed weer. Het eerste wat duidelijk wordt is dat het loon van HoB bij
