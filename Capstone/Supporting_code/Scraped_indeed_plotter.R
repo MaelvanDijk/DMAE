@@ -2,6 +2,10 @@
 library("tidyverse")
 library("stringr")
 
+HoB_color_palet <- c("#07E597", "#FE4F00", "#2C435E", "#2E7D7B", "#0B191D")
+complementary_color_palet <- c("#AD91A3", "#6D9DC5", "#AF125A", "#8FB8DE", "#FFD791" )
+color_brewer <- c(HoB_color_palet, complementary_color_palet)
+
 plot_hob_salary_vs_indeed_salary_dist <- function(
     df_indeed_scraped,
     first_salary= 2763,
@@ -209,7 +213,17 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
       ) +
       geom_line() +
       stat_smooth(method = "lm",
-                  se= FALSE
+                  se= FALSE,
+                  color="#07E597"
+      ) +
+      labs(
+        title = "Instroom data vacatures ",
+        y = "Aantal vacatures",
+        x = "plaatsingsdatum"
+      )+
+      theme_classic() +
+      scale_x_date(date_labels = "%a\n%d-%m",
+                   date_breaks = "week"
       ) +
       scale_x_date(date_labels = "%a\n%d-%m",
                    date_breaks = "week"
@@ -238,7 +252,7 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
                   color="#07E597"
                   )+
       labs(
-        title = "Geplaatst aantal vacatures voor geselecteerde vaardigheid",
+        title = "Instroom vacatures voor geselecteerde vaardigheid",
         y = "Aantal vacatures",
         x = "plaatsingsdatum"
       )+
@@ -250,4 +264,54 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
            (max_count * 1.1)
            )# keep y-axis consistent over different plots
             }
+}
+
+plot_job_type_per_company <- function(df_indeed_final, company_names){
+  df_indeed_final %>%
+    filter(Company %in% company_names) %>%
+    ggplot(
+      aes(
+        x = reorder(
+          Company,
+          Company,
+          function(x) + length(x) # decreasing order company
+        ),
+        fill= job_type
+      )
+    ) +
+    geom_bar() +
+    coord_flip() +
+    labs(
+      title= "Aantal vacatures per bedrijf per funtietype",
+      y= "Bedrijf"
+    )+
+    theme_classic()+
+    theme(axis.title.y=element_blank())+
+    scale_fill_manual(values=HoB_color_palet)
+}
+
+plot_skills_per_company <- function(df_indeed_skills_date_filtered, company_list,  skill_list){
+  df_indeed_skills_date_filtered %>%
+    filter(
+      Company %in% company_list &
+        skills %in% skill_list) %>%
+    ggplot(
+      aes(
+        x = reorder(
+          skills,
+          skills,
+          function(x) + length(x) # decreasing order company
+        ),
+        fill= Company
+      )
+    ) +
+    geom_bar() +
+    coord_flip() +
+    # facet_wrap(vars(Company), ncol=3)+
+    labs(
+      title= "Aantal vacatures per skill per bedrijf"
+    )+
+    theme_classic()+
+    theme(axis.title.y=element_blank())+
+    scale_fill_manual(values=color_brewer)
 }

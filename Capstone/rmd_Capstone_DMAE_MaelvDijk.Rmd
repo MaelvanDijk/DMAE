@@ -36,9 +36,9 @@ local({
 })
 
 library("tidyverse")
-library("stringr")
-library("tseries")
-library("Hmisc")
+library("stringr") # textmining toepassingen
+library("tseries") # tijdseries plotten
+library("Hmisc") # basale data beschrijvingen
 
 
 #custom functions
@@ -165,7 +165,7 @@ informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner | Locatie                                                                                         |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------------------|
+|------------|------------|------------|------------|------------|------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         | extern: <https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer> |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          | scraper: ./Supporting_code/indeed_scraper.R                                                     |
 
@@ -257,7 +257,7 @@ beperkte tijd en de afwezigheid van een ML model is er voor gekozen om
 de missende waarden niet onderhanden te nemen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------------|----------------|-----------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -614,14 +614,14 @@ slechts 0.3 wat aanduidt dat het patroon erg zwak is.
 
 #### Instroom vanaf 5 februari 2022
 
-```{r filtered date counts}
+```{r date counts}
 
 # filter data to contain only points after 5th of february
-
-
 plot_indeed_timeseries_data(df_indeed_final_date_filtered)
 
 ```
+
+![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAaCAYAAADFTB7LAAAAa0lEQVR42u3OywnAIBBAwcXSUoCW5D11xDoNCBGNv0MOecJOBSOi1OZMsJ4dvFxEJ1OQnMxBarIKEpNNkJbsBknJYZCSnAYJyVVQziNig7/nZkFEbhTE5HpBVO4dxOXKIDL3BLG5BJ1T6rsbMfep2CaMN00AAAAASUVORK5CYII= "Run Current Chunk")
 
 #### Auto-correlatie instroom
 
@@ -678,26 +678,31 @@ hebben veelal te maken met big data toepassingen.
 
 ```{r}
 
-top_companies <- table(df_indeed_final$Company) %>% sort() %>% tail(25)
+top_companies <- table(df_indeed_final$Company) %>%
+  sort() %>%
+  tail(25) %>%
+  names()
 
-df_indeed_final %>%
-  filter(Company %in% names(top_companies)) %>%
-  ggplot(
-    aes(
-        x = reorder(
-          Company,
-          Company,
-          function(x) + length(x) # decreasing order company
-        ),
-        fill= job_type
-    )
-  ) +
-  geom_bar() +
-  coord_flip() +
-  labs(
-    titel= "Aantal vacatures per bedrijf per funtietype",
-    x= "Bedrijf"
-    )
+plot_job_type_per_company(df_indeed_final, top_companies)
+
+# df_indeed_final %>%
+#   filter(Company %in% names(top_companies)) %>%
+#   ggplot(
+#     aes(
+#         x = reorder(
+#           Company,
+#           Company,
+#           function(x) + length(x) # decreasing order company
+#         ),
+#         fill= job_type
+#     )
+#   ) +
+#   geom_bar() +
+#   coord_flip() +
+#   labs(
+#     titel= "Aantal vacatures per bedrijf per funtietype",
+#     x= "Bedrijf"
+#     )
 ```
 
 #### top 10 bedrijven - functie types
@@ -717,24 +722,26 @@ companies_of_interest <- c(
   "ABN AMRO"
 )
 
-df_indeed_final %>%
-  filter(Company %in% companies_of_interest) %>%
-  ggplot(
-    aes(
-        x = reorder(
-          Company,
-          Company,
-          function(x) + length(x) # decreasing order company
-        ),
-        fill= job_type
-    )
-  ) +
-  geom_bar() +
-  coord_flip() +
-  labs(
-    titel= "Aantal vacatures per bedrijf per funtietype",
-    x= "Bedrijf"
-    )
+plot_job_type_per_company(df_indeed_final, companies_of_interest)
+
+# df_indeed_final %>%
+#   filter(Company %in% companies_of_interest) %>%
+#   ggplot(
+#     aes(
+#         x = reorder(
+#           Company,
+#           Company,
+#           function(x) + length(x) # decreasing order company
+#         ),
+#         fill= job_type
+#     )
+#   ) +
+#   geom_bar() +
+#   coord_flip() +
+#   labs(
+#     titel= "Aantal vacatures per bedrijf per funtietype",
+#     x= "Bedrijf"
+#     )
 ```
 
 #### top 10 bedrijven - top 10 skills (gehele populatie)
@@ -742,12 +749,15 @@ df_indeed_final %>%
 ```{r}
 
 
-important_skills_full_pop <- table(df_indeed_skills$skills) %>% sort() %>% tail(10)
+important_skills_full_pop <- table(df_indeed_skills$skills) %>%
+  sort() %>%
+  tail(10) %>%
+  names()
 
 df_indeed_skills_date_filtered %>%
   filter(
     Company %in% companies_of_interest &
-    skills %in% names(important_skills_full_pop)) %>%
+    skills %in% important_skills_full_pop) %>%
   ggplot(
     aes(
         x = reorder(
@@ -766,21 +776,22 @@ df_indeed_skills_date_filtered %>%
     )
 ```
 
-#### Top 10 bedrijven - top 10 skills
+#### Top 10 bedrijven - top 10 skills (binnen top 10 bedrijven)
 
 ```{r}
 
 df_important_companies <- df_indeed_skills_date_filtered %>%
-  filter(Company %in% companies_of_interest)
+  filter(Company %in% companies_of_interest) 
 
 important_skills <- table(df_important_companies$skills) %>%
   sort() %>%
-  tail(10)
+  tail(10) %>%
+  names()
 
 df_indeed_skills_date_filtered %>%
   filter(
     Company %in% companies_of_interest &
-    skills %in% names(important_skills)) %>%
+    skills %in% important_skills) %>%
   ggplot(
     aes(
         x = reorder(
@@ -873,7 +884,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                       | Gebruik                                                                                                  |
-|------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+|------------------------|------------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
 | Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
