@@ -1,7 +1,7 @@
 ---
 title: "Capstone_MaelvDijk_DMaE"
 author: "Maël"
-date: '2022-03-15'
+date: '2022-04-14'
 output: 
   html_document:
     toc: true
@@ -257,7 +257,7 @@ beperkte tijd en de afwezigheid van een ML model is er voor gekozen om
 de missende waarden niet onderhanden te nemen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|----------------|----------------|-----------------------------------------|
+|-----------------|-----------------|--------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -416,6 +416,8 @@ plot_indeed_median_salary_per_amount_skills(
 
 ```
 
+### {.unlisted .unnumbered}
+
 Bovenstaande analyse zou nog verdiept kunnen worden in een vervolg
 onderzoek door het aantal jaren werkervaring mee te nemen. Dit levert nu
 echter te weinig observaties (11) per categorie op.
@@ -507,6 +509,8 @@ df_indeed_skills %>%
   theme(axis.title.y=element_blank())+
   scale_fill_manual(values=HoB_color_palet)
 ```
+
+### {.unlisted .unnumbered}
 
 Zoals gesteld zijn de consultants in de eerste 3 jaar voornamelijk bezig
 met de skills data modeling, excel, R, Python, SQL en PowerBI. Zoals te
@@ -621,8 +625,6 @@ plot_indeed_timeseries_data(df_indeed_final_date_filtered)
 
 ```
 
-![](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAaCAYAAADFTB7LAAAAa0lEQVR42u3OywnAIBBAwcXSUoCW5D11xDoNCBGNv0MOecJOBSOi1OZMsJ4dvFxEJ1OQnMxBarIKEpNNkJbsBknJYZCSnAYJyVVQziNig7/nZkFEbhTE5HpBVO4dxOXKIDL3BLG5BJ1T6rsbMfep2CaMN00AAAAASUVORK5CYII= "Run Current Chunk")
-
 #### Auto-correlatie instroom
 
 ```{r}
@@ -632,6 +634,8 @@ listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
 #calculate autocorrelation
 acf(listing_date_table, main= "Instroom autocorrelatie")
 ```
+
+### {.unlisted .unnumbered}
 
 Hoewel de dataset te klein is om momenteel een gegronde analyse te doen
 zijn bovenstaande grafieken en code zeker bruikbaar voor een latere
@@ -684,25 +688,6 @@ top_companies <- table(df_indeed_final$Company) %>%
   names()
 
 plot_job_type_per_company(df_indeed_final, top_companies)
-
-# df_indeed_final %>%
-#   filter(Company %in% names(top_companies)) %>%
-#   ggplot(
-#     aes(
-#         x = reorder(
-#           Company,
-#           Company,
-#           function(x) + length(x) # decreasing order company
-#         ),
-#         fill= job_type
-#     )
-#   ) +
-#   geom_bar() +
-#   coord_flip() +
-#   labs(
-#     titel= "Aantal vacatures per bedrijf per funtietype",
-#     x= "Bedrijf"
-#     )
 ```
 
 #### top 10 bedrijven - functie types
@@ -723,25 +708,6 @@ companies_of_interest <- c(
 )
 
 plot_job_type_per_company(df_indeed_final, companies_of_interest)
-
-# df_indeed_final %>%
-#   filter(Company %in% companies_of_interest) %>%
-#   ggplot(
-#     aes(
-#         x = reorder(
-#           Company,
-#           Company,
-#           function(x) + length(x) # decreasing order company
-#         ),
-#         fill= job_type
-#     )
-#   ) +
-#   geom_bar() +
-#   coord_flip() +
-#   labs(
-#     titel= "Aantal vacatures per bedrijf per funtietype",
-#     x= "Bedrijf"
-#     )
 ```
 
 #### top 10 bedrijven - top 10 skills (gehele populatie)
@@ -754,26 +720,11 @@ important_skills_full_pop <- table(df_indeed_skills$skills) %>%
   tail(10) %>%
   names()
 
-df_indeed_skills_date_filtered %>%
-  filter(
-    Company %in% companies_of_interest &
-    skills %in% important_skills_full_pop) %>%
-  ggplot(
-    aes(
-        x = reorder(
-          skills,
-          skills,
-          function(x) + length(x) # decreasing order company
-        ),
-        fill= Company
-    )
-  ) +
-  geom_bar() +
-  coord_flip() +
-  labs(
-    titel= "Aantal vacatures per bedrijf per funtietype",
-    x= "Bedrijf"
-    )
+plot_skills_per_company(
+  df_indeed_skills_date_filtered,
+  companies_of_interest,
+  important_skills_full_pop
+)
 ```
 
 #### Top 10 bedrijven - top 10 skills (binnen top 10 bedrijven)
@@ -788,31 +739,18 @@ important_skills <- table(df_important_companies$skills) %>%
   tail(10) %>%
   names()
 
-df_indeed_skills_date_filtered %>%
-  filter(
-    Company %in% companies_of_interest &
-    skills %in% important_skills) %>%
-  ggplot(
-    aes(
-        x = reorder(
-          skills,
-          skills,
-          function(x) + length(x) # decreasing order company
-        ),
-        fill= Company
-    )
-  ) +
-  geom_bar() +
-  coord_flip() +
-  labs(
-    titel= "Aantal vacatures per bedrijf per funtietype",
-    x= "Bedrijf"
-    )
+plot_skills_per_company(
+  df_indeed_skills_date_filtered,
+  companies_of_interest,
+  important_skills
+)
 ```
+
+### {.unlisted .unnumbered}
 
 Een kanttekening die hierbij moet worden gemaakt is dat Bertelsmann SE &
 Co. Deze uitslag lijkt te beïnvloeden door hun sterke aanwezigheid (NN
-heeft dit effect minder).
+heeft dit effect ook maar in mindere maten).
 
 Om deze deelvraag kort samen te vatten: HoB heeft een kans om bij
 Bertelsmann SE &Co. en Amarant nieuwe kansen te creëren. Om haar positie
@@ -884,7 +822,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                       | Gebruik                                                                                                  |
-|------------------------|------------------------------------------------|
+|------------------------|-----------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
 | Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
@@ -926,99 +864,43 @@ data beschikbaar zijn.
 
 ## Addendum
 
-------------------------------------------------------------------------
+In deze bijlagen worden nog een paar analyses gedeeld die geen onderdeel
+meer uitmaken van de hoofdtekst. De overwegingen hiervoor zijn ruimte
+gebrek, data gebrek en een lage statische betrouwbaarheid. Toch worden
+de code, grafieken en analyses hieronder nog meegenomen ter referentie
+en om de mogelijkheid te bieden om deze later toe te passen. De
+grafieken zijn verder niet voorzien van opmaak in tegenstelling tot de
+grafieken in de hoofdtekst gezien deze dienen voor exploratie doeleinden
+en zijn niet bedoelt voor presentaties o.i.d.
 
-------------------------------------------------------------------------
+Analyse D001
 
-------------------------------------------------------------------------
+D001 is weinig behandelt in de hoofdtekst omdat de focus van dit
+onderzoek de Nederlandse banenmarkt heeft. Toch bevat D001 interessante
+inzichten. Hoewel de vertaling naar de Nederlandse markt niet makkelijk
+te maken is. Zo is loon nagenoeg niet vergelijkbaar (bijv. door
+afwezigheid van medische voorzieningen in het Amerikaanse salaris). Toch
+kan kunnen overkoepelende inzichten verhelderend werken
 
-------------------------------------------------------------------------
+Neem de eerste van onderstaande drie grafieken. Hierin kan uit de
+verdeling worden afgeleid dat een data analist een doorgaans lichter
+profiel (minder skills) nodig heeft dan een data engineer of data
+scientist. Wanneer vervolgens de tweede grafiek beoordeeld wordt komt er
+nog iets interessants naar boven. Het feit dat data scientisten meer
+verdienen dan data engineers. Gezien het grote gat tussen de vraag naar
+data engineers en data scientisten in deze set is dit misschien niet
+geheel onverwacht. Maar, een hypothese bij aanvang van dit onderzoek was
+dat data engineers het hoogste salaris zouden genieten van deze drie
+rollen.
 
-------------------------------------------------------------------------
-
-```{r Indeed salaris verdeling per skill, echo=FALSE}
-
-df_indeed_rel_skill <- df_indeed_final[df_indeed_final$skill_count %in% c(3,4,5), ]
-
-df_indeed_rel_skill %>%
-    ggplot(aes(x= salary)) +
-      geom_density(alpha=0.5) +
-      geom_segment(
-        aes(
-          x =2763, xend =2763,
-          y= 0.0000, yend=0.0001,
-          linetype= "HoB 1ste jaar"
-        )
-      ) +
-        geom_segment(
-        aes(
-          x =3087, xend =3087,
-          y= 0.0000, yend=0.0001,
-          linetype= "HoB 2de jaar"
-        )
-      ) +
-        geom_segment(
-        aes(
-          x =3519, xend =3519,
-          y= 0.0000, yend=0.0001,
-          linetype= "HoB 3de jaar"
-        )
-      )+
-      facet_wrap(vars(skill_count)) +
-      labs(
-        title="Verdeling geboden salaris per aantal gevraagde skills",
-        y= "Frequentie (%)",
-        x= "Geboden salaris (\u20ac)"
-      ) +
-      theme(
-        plot.title=element_text(hjust=0.5))+
-      scale_y_continuous(
-        breaks= seq(0.0000, 0.0007, 0.0001),
-        labels= seq(0.00, 0.07, 0.01)
-      )
-```
-
-Hieronder wordt de data verkend. D001 is al een beetje geschoond en kan
-hieronder makkelijk verkend worden. D002 bevat een ruwe data die niet
-goed te gebruiken is. Hiervoor is het script
-*'./supporting_code/Scraped_indeed_data_wrangler.R'* beschikbaar. Dit
-script bevat functies om de data vanuit de scraper op te schonen zodat
-er wel inzichten uit de data gehaald kunnen worden.
-
-#### D001
-
-Voor D001 wordt in dit onderdeel de verdeling bekeken voor het aantal
-skills en salaris over de totale dataset en gesegmenteerd op baan type.
-
-**Data Analist**
-
-Wat gelijk opvalt aan deze dataset is dat de data analist de "minst
-zware" functie lijkt. Er worden minder skills verwacht van een data
-analist en het loon voor deze rol ligt ook doorgaans lager dan de andere
-twee rollen.
-
-**Data Engineer**
-
-Het is gelijk duidelijk dat data engineers de minste vraag genieten maar
-wel een zwaarder profiel moeten hebben. Het salaris van de data engineer
-volgt ongeveer de verdeling van de data scientist. Wel valt op dat
-ondanks de lagere hoeveelheid vacatures dat de data engineer het
-zwaarste skill profiel dient te hebben.
-
-**Data Scientist**
-
-Naar data scientisten lijkt de hoogste vraag te zijn. Het skill profiel
-van de data scientist is gemiddeld de verdeling neigt meer naar links
-dan de data engineer. Ondanks dit lijkt de salaris verdeling gelijk te
-zijn aan die verdeling van de data engineer.
-
-**Andere inzichten**
-
-Verder is in deze dataset te zien dat, wanneer er om meer skills
-gevraagd wordt er een iets hoger salaris wordt geboden. Voor de hoogste
-salaris groep lijkt dit echter niet te gelden. De aannamen (die nog
-getoetst kan worden) is dat dit gaat om teamleiders of andere management
-functies waar hard skills minder van belang zijn.
+een laatste interessante ontdekking is dat het aantal gevraagde
+vaardigheden nauwelijks toeneemt naarmate het aangeboden salaris stijgt.
+De curve in de derde grafiek verschuift nagenoeg niet naar rechts
+naarmaten er in hogere salaris groepen wordt gekeken. Hier zou een
+aannamen zijn dat werknemers in het data veld worden beloond op basis
+van diepgaande kennis en specialisatie in plaats van een breed en
+oppervlakkig kennis gebied. Het kantel punt lijkt hier te liggen op
+ongeveer 7 a 8 vaardigheden.
 
 ```{r D001 exploration, echo=FALSE}
 
@@ -1030,26 +912,23 @@ rm(kaggle_plots)
 
 ```
 
-### Ontwikkeling functie type en vraag opdrachtgevers {.tabset}
+### Ontwikkeling functie type opdrachtgevers {.tabset}
 
 Ondanks dat het niet mogelijk is om nu nog een uitspraak te doen over de
 ontwikkeling van vraag bij opdrachtgevers wordt er wel vast een artefact
 aangeleverd in de vorm van een tijdserie op basis van functietype. Deze
-grafiek en de bijbehorende code zijn hieronder en in de ondersteunende
-scripts terug te vinden voor toekomstig gebruik. Omdat er nu geen
-uitspraken worden gedaan i.v.m de statistische validiteit zal er geen
-verdere toelichting bij de grafiek te vinden zijn.
+grafiek en de bijbehorende code zijn hieronder terug te vinden voor
+toekomstig gebruik. Omdat er te weinig data is om een goede tijdsreeks
+analyse te maken zal de grafiek verder niet van commentaar worden
+voorzien.
 
-Er is hier ook overweogen een tweede artefact mee te leveren, namelijk
+Er is hier wel overwogen een tweede artefact mee te leveren, namelijk
 een stuk code om het verloop van de vraag door individuele opdracht
 gevers weer te geven. Echter zegt de grafiek door de geringe hoeveelheid
 data te weinig. Om verkeerde interpetaties van de data te voorkomen
 wordt deze code dan ook niet meegeleverd. Zodra er genoeg data verzamelt
-is kan aan de hand van deze file en bijbehorende code een nieuw
-onderdeel worden toegevoegd om deze verandering over de tijd accuraat
-weer te geven.
-
-#### tijdreeks - functie type
+is kan aan de hand van deze file een nieuw onderdeel worden toegevoegd
+om deze verandering over de tijd weer te geven.
 
 ```{r}
 df_indeed_final_date_filtered %>%
@@ -1075,7 +954,10 @@ df_indeed_final_date_filtered %>%
   scale_x_date(
     date_labels = "%a\n%d-%m",
     date_breaks = "week"
-               )
+               ) +
+  labs(
+    title= "Ontwikkeling vraag per functie type"
+  )
 
 
 ```
