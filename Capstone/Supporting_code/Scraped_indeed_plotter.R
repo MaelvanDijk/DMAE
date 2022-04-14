@@ -234,13 +234,20 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
       ) +
       geom_line() +
       stat_smooth(method = "lm",
-                  se= FALSE
-                  ) +
+                  se= FALSE,
+                  color="#07E597"
+                  )+
+      labs(
+        title = "Geplaatst aantal vacatures voor geselecteerde vaardigheid",
+        y = "Aantal vacatures",
+        x = "plaatsingsdatum"
+      )+
+      theme_classic() +
       scale_x_date(date_labels = "%a\n%d-%m",
                    date_breaks = "week"
                    ) +
       ylim(0,
            (max_count * 1.1)
-           ) # keep y-axis consistent over different plots
-  }
+           )# keep y-axis consistent over different plots
+            }
 }
