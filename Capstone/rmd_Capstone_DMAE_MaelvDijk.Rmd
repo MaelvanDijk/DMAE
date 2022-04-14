@@ -322,10 +322,9 @@ jaar 1, 2 en 3 (€2.763,- , €3.087,- , €3.591,- respectievelijk). Om deze
 deelvraag te beantwoorden worden deze drie salarissen gebruikt.
 
 De grafiek hieronder geeft de salaris verdeling van data vacatures op
-Indeed weer. Het eerste wat duidelijk wordt is dat het loon van HoB bij
-aanvang al boven modaal ligt. Daarnaast is het salaris in jaar 3 hoger
-dan het mediaan salaris op Indeed. Ofwel, HoB biedt een hoger
-maandsalaris in jaar 3 dan 50% van de markt (afgaande op Indeed).
+Indeed weer. Het eerste wat duidelijk wordt is dat het loon bij HoB
+boven modaal ligt. Daarnaast is het salaris in jaar 3 hoger dan 50% van
+de salarissen geboden op Indeed.
 
 ```{r plot indeed salary distribution vs hob salary, echo=FALSE}
 plot_hob_salary_vs_indeed_salary_dist(
@@ -336,19 +335,15 @@ plot_hob_salary_vs_indeed_salary_dist(
 )
 ```
 
-Bovenstaande analyse zegt echter niet alles. Hierin wordt het 3
+Bovenstaande analyse zegt echter niet alles. Hierin worden 3
 verschillende maandsalarissen van HoB vergelijken met de gehele
-onderzoekspopulatie. Op Indeed worden diverse ervaringseisen gesteld.
-Dit gebeurt in de vorm van "1 -- 3 jaar ervaring" o.i.d. Tijdens het
-schonen is altijd de kleinste hoeveelheid opgeslagen (1 -- 3 is
-opgeslagen als 1).
+onderzoekspopulatie.
 
 Hieronder is de salaris verdeling te zien gesegmenteerd op gevraagde
-ervaring. Door de dataset op te delen in negen segmenten (gemiddeld 166
-observaties) is de verdeling gevoeliger en minder accuraat. Toch geeft
-het de indruk dat het salaris geboden door HoB doorgaans (2, 3, 8, en
-NA) beter is dan het salaris van Indeed (jaren 6 en 7 buiten beschouwing
-gelaten).
+ervaring in de vacatures. Door de dataset op te delen in negen segmenten
+(gemiddeld 166 observaties) is de verdeling gevoeliger en minder
+accuraat. Toch geeft het de indruk dat het salaris geboden door HoB
+doorgaans beter is dan het salaris op Indeed.
 
 ```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
 
@@ -368,10 +363,10 @@ excel, R, Python, SQL en PowerBI. In onderstaande drie grafieken is het
 mediaan salaris op Indeed weergegeven verdeeld over het gevraagde aantal
 skills. De zwarte lijn geeft het bijbehorende HoB salaris aan.
 
-De drie grafieken met elkaar vergeleken laat zien dat HoB vooral vanaf
-het 3e jaar echt een competatief salaris biedt. Hierbij kan verwacht
-worden dat een consultant zo'n vier tot zes vaardigheden bezit. Daarmee
-verslaat het de markt kijkend naar skill,-, loonratio.
+Vanaf het 3e jaar blijkt HoB echt een competitief salaris te bieden.
+Hierbij kan verwacht worden dat een consultant zo'n vier tot zes
+vaardigheden bezit. Daarmee verslaat het de markt kijkend naar skill,-,
+loonratio.
 
 #### 1ste jaars HoB
 
@@ -407,17 +402,16 @@ plot_indeed_median_salary_per_amount_skills(
 ### {.unlisted .unnumbered}
 
 Bovenstaande analyse zou nog verdiept kunnen worden in een vervolg
-onderzoek door het aantal jaren werkervaring mee te nemen. Dit levert nu
-echter te weinig observaties (11) per categorie op.
+onderzoek door het gevraagde aantal jaren werkervaring mee te nemen. Dit
+levert nu echter te weinig observaties (11) per categorie op.
 
 ### In hoeverre sluit het "curriculum" van HoB zich aan bij de ontwikkelende markt? {.tabset}
 
 Deze deelvraag behoeft twee analyses. Enerzijds is het van belang om te
 weten hoe het huidige aanbod van HoB aansluit op de huidige vraag.
 Daarnaast is het van belang om te weten hoe de vraag naar Skills zich
-ontwikkelt. Binnen dit onderzoek is het laatste lastig te realiseren.
-Een goede trend analyse zal \~3 jaar aan data behoeven. Hierin schiet de
-dataset te kort, dit zal impact hebben op de analyse.
+ontwikkelt. Door gebrek aan data is dit laatste lastig te analyseren
+toch wordt hiertoe een poging gedaan.
 
 Het eerste waar naar gekeken wordt, de huidige vraag naar skills.
 Hieronder zijn twee grafieken te vinden. De eerste grafiek geeft de top
@@ -500,54 +494,41 @@ df_indeed_skills %>%
 
 ### {.unlisted .unnumbered}
 
-Zoals gesteld zijn de consultants in de eerste 3 jaar voornamelijk bezig
-met de skills data modeling, excel, R, Python, SQL en PowerBI. Zoals te
-zien sluit HoB met vier van de skills aan bij de meest gewilde skills.
-Ook wordt er ingezet op cloud oplossingen binnen HoB wat aansluit op de
-gevraagde skills "azure" en "aws". Tableau is een onverwachte
-vaardigheid, in plaats daarvan was de verwachting namelijk dat PowerBI
-in de top zou staan hier zit dus een gat in vraag en aanbod. Daarnaast
-wordt duidelijk dat er op het gebied van data science een gat bestaat
-tussen HoB en de markt. Zo zijn data science vaardigheden (ai, machine
-learning, spark, scala, go) niet direct onderdeel van het curriculum.
+Gezien bij HoB momenteel de nadruk wordt gelegd op Python, SQL, R, SAS,
+PowerBi en cloud (AWS, Azure) technologie, sluit dit goed aan op de
+huidige vraag binnen de markt. Een gat blijkt te zitten in de specifieke
+vaardigheid "Tableau" waar geen cursus voor wordt geboden door HoB en de
+afwezigheid van opleidingen in de richting van big data en specifieke
+data science skills (spark, ai, (neural) networks, etc.)
 
-De minst gevraagde skills zijn voor dit onderzoek minder relevant. Toch
-is het goed om kaart te hebben welke skills het minst gevraagd worden.
-Dit zijn voornamelijk skills om te vermijden.
+Gezien er geen overlap zit tussen de opleidingen die HoB biedt en de
+minst gevraagde skills lijkt er momenteel geen reden te zijn om met
+bepaalde opleidingen te stoppen.
 
-Interessant om nog op te merken dat het voornaamste aandeel van
-gevraagde skills zich rond de top 5 bevindt. Dit zijn dan ook gebieden
-waar HoB zich het best op kan focussen om relevant te blijven voor de
-markt. Wilt HoB uitbreiden richting minder gevraagde maar toch relevante
-skills? Dan is een tweede stap om ontwikkeling te bieden in de top 20.
-Dit kan voor programmeertalen en frameworks een cursus zijn, voor
-concepten zoals "rest" (API's) zijn dit informatie avonden.
+Interessant om nog op te merken: SQL en Python beslaan 24% van de totale
+vacatures, wordt R ook meegenomen dan is dit 32%. Een focus op alleen
+dit deel van de vaardigheden lijkt een goed deel van de markt te dekken.
+Dit zijn dus absoluut skills waar de focus op moet blijven liggen.
 
 ### Ontwikkeling skill behoeften {.tabset}
 
-De vraag "in hoeverre sluit het "curiculum" van HoB aan op de
-ontwikkelende markt" is in de ten delen beantwoord. Het is duidelijk wat
-de huidige vraag is. Met de huidige ontwikkelingen op het gebied van big
-data en cloud technologie die in de praktijk zichtbaar zijn is het
-aannemelijk dat deze top 20 skills ook belangrijk zullen zijn om verder
-in de gaten te gaan houden.
+Het is duidelijk wat de huidige vraag is. Met de huidige ontwikkelingen
+op het gebied van big data en cloud technologie die in de praktijk
+zichtbaar zijn is het aannemelijk dat het merendeel van deze top 20
+alleen maar belangrijker gaan worden.
 
 Om een sterke trend analyse te doen is minstens \~3 jaar aan data nodig.
 Dit is een beperking die verder in het hoofdstuk "discussie" wordt
-besproken. Wat wel aangeleverd kan worden is de functionaliteit om deze
-analyse op een later moment te doen.
+besproken.
 
-Onderstaande grafieken, met de verloop per skill, en de bijbehorende
-code generen de inzichten om een simpele trend analyse te doen. In
-onderstaande figuren wordt duidelijk dat er momenteel een neerwaartse
-trend is, de aannamen is dat dit wanneer er meer data beschikbaar is
-door scrapen de trend een positief verloop laat zien.
+Hieronder zijn 6 vaardigheden gekozen die in iedergeval in de gaten
+gehouden kunnen worden. Momenteel vertellen de grafieken dat de vraag
+doorgaans dalende is (groene trendlijn) echter is de aannamen dat na het
+verzamelen van meer data een duidelijke opwaartse trend zichtbaar zal
+worden.
 
-De onderstaande grafieken geven de dagelijks vraag naar skills aan en
-geven de algehele trend weer. Op het moment van schrijven zijn dit enkel
-negatieve trends. De aannamen is dat, na verloop van tijd, wanneer meer
-data gescraped wordt deze skills in iedergeval een positieve trend
-zullen laten zien.
+Mocht de behoeften aanwezig zijn om andere vaardigheden te onderzoeken
+dan kan de bijbehorende code makkelijk worden aangepast.
 
 #### SQL
 
@@ -588,55 +569,13 @@ plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "aws")
 
 ### Welke opdrachtgevers worden nog niet bediend door HoB? {.tabset}
 
-Voor deze deelvraag was het naast de huidige situatie ook de bedoeling
-een trend analyse te doen. Helaas is duidelijk geworden dat er te weinig
-data beschikbaar is om een betrouwbare analyse hierop te doen. Des
-ondanks wordt deze deelvraag ingeleid met onderstaande twee grafieken om
-daarna in te gaan op de huidige staat van de markt. De bedoeling is
-hiermee alvast een aanzet te doen voor toekomstige analyses.
-
-In de eerste grafiek hieronder is een negatieve trend te zien wanneer er
-gekeken wordt naar de totale instroom aan "data" vacatures. De tweede
-grafiek toont een autocorrelatie. Op de x-as zijn de dagen vanaf het
-huidige datapunt gemeten (0 is dezelfde dag). Op de y-as is de mate van
-correlatie. Alle punten boven of onder de blauwe lijnen zouden statisch
-significant moeten zijn. Op het moment van schrijven lijkt er een
-significant patroon op te treden iedere 6 dagen. Echter is de correlatie
-slechts 0.3 wat aanduidt dat het patroon erg zwak is.
-
-#### Instroom vanaf 5 februari 2022
-
-```{r date counts}
-
-# filter data to contain only points after 5th of february
-plot_indeed_timeseries_data(df_indeed_final_date_filtered)
-
-```
-
-#### Auto-correlatie instroom
-
-```{r}
-#create listing date table
-listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
-
-#calculate autocorrelation
-acf(listing_date_table, main= "Instroom autocorrelatie")
-```
-
-### {.unlisted .unnumbered}
-
-Hoewel de dataset te klein is om momenteel een gegronde analyse te doen
-zijn bovenstaande grafieken en code zeker bruikbaar voor een latere
-analyse indien gewenst.
-
-### Ontwikkeling opdrachtgevers {.tabset}
-
 De laatste deelvraag binnen dit onderzoek richt zich op de mogelijke
 opdrachtgevers. Hiervan was het oorspronkelijk de bedoeling om een trend
-analyse te doen bij opdrachtgevers. Echter is dit door het tekort aan
-data niet te realiseren. In plaats daarvan wordt hier gekeken naar de
-huidige gap tussen de organisaties die vacatures uit hebben staan op
-Indeed en de organisaties die HoB bedient.
+analyse te doen per bedrijf. Echter is dit door het tekort aan data niet
+te realiseren. In plaats daarvan wordt hier gekeken naar de huidige gap
+tussen de organisaties die vacatures uit hebben staan op Indeed en de
+organisaties die HoB bedient. Wel is in de bijlagen "Addendum" een stuk
+over de trend van de algehele markt te vinden.
 
 Allereerst wordt in de eerste hieronder de top 25 bedrijven getoond op
 basis van het aantal geplaatste vacatures vanaf de eerste datum in de
@@ -950,4 +889,50 @@ df_indeed_final_date_filtered %>%
 
 ```
 
-## 
+### Ontwikkeling vraag naar data professionals
+
+Voor de deelvraag "In hoeverre sluit het "curriculum" van HoB zich aan
+bij de ontwikkelende markt?" was het naast de huidige situatie ook de
+bedoeling een trend analyse te doen. Helaas is duidelijk geworden dat er
+te weinig data beschikbaar is om een betrouwbare analyse hierop te doen.
+Hoewel dit tijdens het onderzoek is gebleken zijn de artefacten
+hieronder aangeboden voor analyses op een later moment. Zo kan er
+bijvoorbeeld achterhaald worden of er bepaalde momenten in het jaar zijn
+waar er meer wordt gezocht naar data professionals.
+
+In de eerste grafiek hieronder is een negatieve trend te zien wanneer er
+gekeken wordt naar de totale instroom aan "data" vacatures. De tweede
+grafiek toont een autocorrelatie. Op de x-as zijn de dagen vanaf het
+huidige datapunt gemeten (0 is dezelfde dag). Op de y-as is de mate van
+correlatie. Alle punten boven of onder de blauwe lijnen zouden statisch
+significant moeten zijn. Op het moment van schrijven lijkt er een
+significant patroon op te treden iedere 6 dagen. Echter is de correlatie
+slechts 0.3 wat aanduidt dat het patroon erg zwak is.
+
+#### Instroom vanaf 5 februari 2022
+
+```{r date counts}
+
+# filter data to contain only points after 5th of february
+plot_indeed_timeseries_data(df_indeed_final_date_filtered)
+
+```
+
+#### Auto-correlatie instroom
+
+```{r}
+#create listing date table
+listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
+
+#calculate autocorrelation
+acf(listing_date_table, main= "Instroom autocorrelatie")
+```
+
+Zoals gesteld kan er met de huidige data weinig betekenis worden gehaald
+uit de trendanalyse. Wel biedt de code mogelijkheid voor latere
+toepassing. Zo kan er na een langere termijn van scraping een analyse
+worden gedaan per opdracht gever of functietype. Ook kan er gekeken
+worden naar de algehele markt ontwikkeling en de beste momenten om
+opdrachtgevers te benaderen. Dit zouden dan ook aanbevelingen zijn voor
+een vervolgonderzoek of toepassing van de bovenstaande grafieken en
+bijbehorende code.
