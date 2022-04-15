@@ -7,7 +7,13 @@ library(stringr)
 library(textTinyR)
 
 
-merge_scraped_data <- function(){
+merge_scraped_data <- function(location="./Data_raw/D002", max_file_date=""){
+  #' merge .csv files from specified location up to a specified date keeping unique rows
+  #' if no date is specified then current date will be the latest file allowed
+  #' @param location the relative directory path to the data files
+  #' @param max_file_date the max date of the filenames to be merged, format "yyyy-mm-dd"
+  #' @returns dataframe based on union of input files, without duplicates
+  
   ### MERGE SCRAPED DATA
   # create starting dataframe
   df_jobs <- data.frame(
@@ -21,30 +27,45 @@ merge_scraped_data <- function(){
     listing_date= Date()
   )
   
+  max_date <- ifelse(max_file_date=="", today(), max_file_date)
+  
   # loop over files and union onto base dataframe
-  for (f in list.files("./Data_raw/D002")){
-    df_temp <- read.csv(paste("./Data_raw/D002", f,sep = "/"),header = TRUE)
-    # Two files do not contain the collumn listing_date this needs to be amended
-    if(!"listing_date" %in% colnames(df_temp)){
-      # take the date of the file from the filename
-      f_date <- f %>%
-        substr(1,10) %>%
-        as.Date()
-      
-      # use this date to calculating the placement date per job listing
-      df_temp$listing_date <- f_date - as.numeric(df_temp$days_online)
-    }
+  for (f in list.files(location)){
+    file_date <- f %>%
+      substr(1,10) %>%
+      as.Date()
     
-    # union the temp dataframe onto the main dataframe
-    df_jobs <- rbind(df_jobs, df_temp)
-  }
+    # use the date of the file and user input to determine if df's should be appended
+    if (file_date <= max_date){
+      df_temp <- read.csv(
+        paste(
+          location,
+          f,
+          sep = "/"
+          ),
+        header = TRUE
+        )
+      
+      # Two files do not contain the collumn listing_date this needs to be amended
+      if(!"listing_date" %in% colnames(df_temp)){
+        
+        # use file date calculate the placement date per job listing
+        df_temp$listing_date <- file_date - as.numeric(df_temp$days_online)
+      }
+      
+      # union the temp dataframe onto the main dataframe
+      df_jobs <- rbind(df_jobs, df_temp)
+      }
+    }
   
   # remove duplicate columns based on job listing url
   df_jobs_unduped <- df_jobs %>%
     distinct(job_link, .keep_all = TRUE)
   
   # only keep rows where job_link starts with https
-  df_jobs_removed_wrong_rows <- df_jobs_unduped[(grepl("https", df_jobs_unduped$job_link)),]
+  df_jobs_removed_wrong_rows <- df_jobs_unduped[
+    (grepl("https", df_jobs_unduped$job_link)),
+    ]
   
   df_merged_data <- df_jobs_removed_wrong_rows
   
@@ -52,12 +73,17 @@ merge_scraped_data <- function(){
 }
 
 clean_scraped_date <- function(df_merged_data){
-  ### CLEAN MERGED DATAFRAME
+  #' cleans columns: salary and skills. of input dataframe
+  #' salary: non-numeric symbols will be removed and salary will be converted to monthly salary based on businessrules
+  #' skills: skills machine learning and deep learning will be recreated based on the appearance in selected vector
+  #' @param df_merged_data dataframe containing scraped indeed data
+  #' @returns dataframe with cleaned salary and skill column
   
-  ## clean salary
+  ### CLEAN MERGED DATAFRAME ###
+  ### CLEAN salary COLUMN ###
   tbl_jobs_cleaned_salary <- tibble(df_merged_data)
   
-  #remove non-digits in salary string
+  # remove non-digits in salary string
   tbl_jobs_cleaned_salary$salary <- tbl_jobs_cleaned_salary$salary %>%
     str_replace_all("[^[:digit:]]", "")
  
@@ -65,18 +91,25 @@ clean_scraped_date <- function(df_merged_data){
   tbl_jobs_cleaned_salary <- tbl_jobs_cleaned_salary %>%
     transform(salary = as.numeric(salary))
   
+  # check salary type (hour, month, year, other)
   for (i in 1:nrow(tbl_jobs_cleaned_salary)){
-    if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] > 10000){
+    if(!is.na(tbl_jobs_cleaned_salary[i, 4]) &
+       tbl_jobs_cleaned_salary[i, 4] > 10000){ # if year salary (>10000) then /12
       tbl_jobs_cleaned_salary[i, 4] <- (tbl_jobs_cleaned_salary[i, 4] / 12)
-    } else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] < 100){
-      tbl_jobs_cleaned_salary[i, 4] <- NA #(tbl_jobs_cleaned_salary[i, 4] * 168)
-    } else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) & tbl_jobs_cleaned_salary[i, 4] > 100 & tbl_jobs_cleaned_salary[i, 4] < 1000){
+    }
+    else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) &
+              tbl_jobs_cleaned_salary[i, 4] < 100){ # if hour salary (<100) then *162 (est. hours of work per month)
+      tbl_jobs_cleaned_salary[i, 4] <- (tbl_jobs_cleaned_salary[i, 4] * 168)
+    }
+    else if(!is.na(tbl_jobs_cleaned_salary[i, 4]) &
+              tbl_jobs_cleaned_salary[i, 4] >= 100 &
+              tbl_jobs_cleaned_salary[i, 4] < 1000){ # if other salary (100 - 1000) then NA
       tbl_jobs_cleaned_salary[i, 4] <- NA
     }
   }
   
 
-  ## clean skills
+  ### CLEAN skills COLUMN ###
   # if machine and learning  or deep learning appear as skill make this into one skill 
   tbl_job_skills_corrected <- tibble(tbl_jobs_cleaned_salary)
   tbl_job_skills_corrected$skills <- tolower(tbl_job_skills_corrected$skills)
@@ -154,15 +187,17 @@ clean_scraped_date <- function(df_merged_data){
 }
 
 enrich_scraped_date <- function(tbl_cleaned_data){
-  ### ENRICH DATA
+  #'Enriches a cleaned tible based on needed columns
+  #'Columns skill_count, job_type, werkervaring will be added
+  #'@param tbl_cleaned_data a cleaned dataframe with scraped indeed data
+  #'@returns a dataframe with new columns added
   
-  ## add jobtype (data analist, data engineer, data scientist) based on highest cosine distance (levenstein distance/ration only for one word)
   
-  ## add skill count collumn
+  ### CREATE skill_count COLUMN ###
   #create new tibble
   tbl_job_skill_counts <- tibble(tbl_cleaned_data)
   
-  # if skills are empty then 0 else count(comma's) + 1
+  # if skills are empty then 0 else count(comma's) +1 for number of skills
   tbl_job_skill_counts$skill_count <- ifelse(
     tbl_job_skill_counts$skills =="",
     0,
@@ -172,6 +207,8 @@ enrich_scraped_date <- function(tbl_cleaned_data){
   tbl_enriched_data <- tbl_job_skill_counts
   
   
+  ### CREATE job_type COLUMN ###
+  # create placeholder columns to compute job_name distance to job_type
   tbl_enriched_data$dist_data_analist <- NA
   tbl_enriched_data$dist_data_engineer <- NA
   tbl_enriched_data$dist_data_scientist <- NA
@@ -222,9 +259,10 @@ enrich_scraped_date <- function(tbl_cleaned_data){
     
   }
   
+  # column with NA placeholders to determine job_type
   tbl_enriched_data$job_type <- NA
   
-  
+  # check which column has the lowest distance and fill job_type accordingly
   tbl_enriched_data$job_type <- ifelse(
     (tbl_enriched_data$dist_data_analist < tbl_enriched_data$dist_data_engineer &
        tbl_enriched_data$dist_data_analist < tbl_enriched_data$dist_data_scientist),
@@ -237,14 +275,19 @@ enrich_scraped_date <- function(tbl_cleaned_data){
     )
   )
   
+  #### CREATE werkervaring COLUMN ###
+  # Check if desciption contains "werkervaring"
   tbl_enriched_data$contains_werkervaring <- grepl(
     "werkervaring",
     tbl_enriched_data$job_desc,
     ignore.case = T
   )
   
+  # Create empty column to hold werkervaring description
   tbl_enriched_data$raw_werkervaring <- NA
   
+  # grab large text size surounding the instance of werkervaring
+  # sometimes we see text like: "minimaal 5 jaar aan vergelijkbare werkervaring"
   for (i in 1:nrow(tbl_enriched_data)){
     if(tbl_enriched_data$contains_werkervaring[i]){
       tbl_enriched_data$raw_werkervaring[i] <- substring(
@@ -275,6 +318,10 @@ enrich_scraped_date <- function(tbl_cleaned_data){
 }
 
 unnest_skills <- function(tbl_enriched_data){
+  #'Create an exploded dataframe where every skill within a vector of skills gets a new row
+  #'@param tbl_enriched_data an enriched dataframe with scraped data from indeed
+  #'@return exploded dataframe of skills
+  
   #create an unnested skills table
   tbl_indeed_skills <- tbl_enriched_data %>% 
     mutate(skills = strsplit(as.character(skills), ",")) %>%
@@ -291,9 +338,14 @@ unnest_skills <- function(tbl_enriched_data){
   return(tbl_indeed_skills)
 }
 
-filter_dates <- function(tbl_enriched_data){
+filter_dates <- function(tbl_enriched_data, start_date="2022-02-05"){
+  #'create a dataframe with filtered dates for better time analysis and remove empty rows
+  #'@param tbl_enriched_data enriched dataframe of scraped indeed data
+  #'@param start_date the first date that should appear in the output dataframe
+  #'@returns dataframe with earlier dates removed
+  
   # filter final tables based on relevant dates
-  tbl_indeed_dates_filtered <- tbl_enriched_data[tbl_enriched_data$listing_date >= "2022-02-05", ]
+  tbl_indeed_dates_filtered <- tbl_enriched_data[tbl_enriched_data$listing_date >= start_date, ]
   
   # remove empty rows from final tables
   tbl_indeed_dates_filtered <- filter(

@@ -1,0 +1,228 @@
+---
+title: "Capstone_MaelvDijk_DMaE_Addendum"
+author: "Maël"
+date: '2022-04-14'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    highlight: tango
+    theme: journal
+    code_folding: hide
+    # number_sections: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+  )
+
+# make notebook output scrollable
+options(width = 60)
+local({
+  hook_output <- knitr::knit_hooks$get('output')
+  knitr::knit_hooks$set(output = function(x, options) {
+    if (!is.null(options$max.height)) options$attr.output <- c(
+      options$attr.output,
+      sprintf('style="max-height: %s;"', options$max.height)
+    )
+    hook_output(x, options)
+  })
+})
+
+library("tidyverse")
+library("stringr") # textmining toepassingen
+library("tseries") # tijdseries plotten
+library("Hmisc") # basale data beschrijvingen
+
+
+#custom functions
+source('./supporting_code/Scraped_indeed_data_wrangler.R')
+source('./supporting_code/Scraped_indeed_plotter.R')
+source('./supporting_code/Kaggle_indeed_plotter.R')
+
+#implement color palette for plots
+HoB_color_palet <- c("#07E597", "#FE4F00", "#2C435E", "#2E7D7B", "#0B191D")
+```
+
+```{r clean and enrich D002, echo=FALSE}
+
+# max file data for reproducability
+max_file_date <- "2022-04-13"
+
+# union datasets
+df_indeed_merged <- merge_scraped_data(
+  location="./Data_raw/D002",
+  max_file_date= max_file_date
+  )
+
+# clean data
+df_indeed_cleaned <- clean_scraped_date(df_indeed_merged)
+
+# geschoonde en verrijkte dataset
+df_indeed_final <- enrich_scraped_date(df_indeed_cleaned)
+
+# dataset voor tijdserie analyse
+df_indeed_final_date_filtered <- filter_dates(
+  df_indeed_final,
+  start_date="2022-02-05"
+  )
+
+rm(
+  df_indeed_merged,
+  df_indeed_cleaned
+)
+```
+
+## Addendum
+
+In deze bijlagen worden nog een paar analyses gedeeld die geen onderdeel
+meer uitmaken van de hoofdtekst. De overwegingen hiervoor zijn ruimte
+gebrek, data gebrek en een lage statische betrouwbaarheid. Toch worden
+de code, grafieken en analyses hieronder nog meegenomen ter referentie
+en om de mogelijkheid te bieden om deze later toe te passen. De
+grafieken zijn verder niet voorzien van opmaak in tegenstelling tot de
+grafieken in de hoofdtekst gezien deze dienen voor exploratie doeleinden
+en zijn niet bedoelt voor presentaties o.i.d.
+
+Analyse D001
+
+D001 is weinig behandelt in de hoofdtekst omdat de focus van dit
+onderzoek de Nederlandse banenmarkt heeft. Toch bevat D001 interessante
+inzichten. Hoewel de vertaling naar de Nederlandse markt niet makkelijk
+te maken is. Zo is loon nagenoeg niet vergelijkbaar (bijv. door
+afwezigheid van medische voorzieningen in het Amerikaanse salaris). Toch
+kan kunnen overkoepelende inzichten verhelderend werken
+
+Neem de eerste van onderstaande drie grafieken. Hierin kan uit de
+verdeling worden afgeleid dat een data analist een doorgaans lichter
+profiel (minder skills) nodig heeft dan een data engineer of data
+scientist. Wanneer vervolgens de tweede grafiek beoordeeld wordt komt er
+nog iets interessants naar boven. Het feit dat data scientisten meer
+verdienen dan data engineers. Gezien het grote gat tussen de vraag naar
+data engineers en data scientisten in deze set is dit misschien niet
+geheel onverwacht. Maar, een hypothese bij aanvang van dit onderzoek was
+dat data engineers het hoogste salaris zouden genieten van deze drie
+rollen.
+
+een laatste interessante ontdekking is dat het aantal gevraagde skills
+nauwelijks toeneemt naarmate het aangeboden salaris stijgt. De curve in
+de derde grafiek verschuift nagenoeg niet naar rechts naarmaten er in
+hogere salaris groepen wordt gekeken. Hier zou een aannamen zijn dat
+werknemers in het data veld worden beloond op basis van diepgaande
+kennis en specialisatie in plaats van een breed en oppervlakkig kennis
+gebied. Het kantel punt lijkt hier te liggen op ongeveer zeven á acht
+skills.
+
+```{r D001 exploration, echo=FALSE}
+
+df_indeed_kaggle <- read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
+
+kaggle_plots <- plot_kaggle_distribution(df_indeed_kaggle)
+
+rm(kaggle_plots)
+
+```
+
+### Ontwikkeling functie type opdrachtgevers {.tabset}
+
+Ondanks dat het niet mogelijk is om nu nog een uitspraak te doen over de
+ontwikkeling van vraag bij opdrachtgevers wordt er wel vast een artefact
+aangeleverd in de vorm van een tijdserie op basis van functietype. Deze
+grafiek en de bijbehorende code zijn hieronder terug te vinden voor
+toekomstig gebruik. Omdat er te weinig data is om een goede tijdsreeks
+analyse te maken zal de grafiek verder niet van commentaar worden
+voorzien.
+
+Er is hier wel overwogen een tweede artefact mee te leveren, namelijk
+een stuk code om het verloop van de vraag door individuele opdracht
+gevers weer te geven. Echter zegt de grafiek door de geringe hoeveelheid
+data te weinig. Om verkeerde interpetaties van de data te voorkomen
+wordt deze code dan ook niet meegeleverd. Zodra er genoeg data verzamelt
+is kan aan de hand van deze file een nieuw onderdeel worden toegevoegd
+om deze verandering over de tijd weer te geven.
+
+```{r}
+df_indeed_final_date_filtered %>%
+  group_by(
+    listing_date,
+    job_type) %>%
+  summarise(
+    req_per_day= n(),
+    .groups= "keep") %>%
+  ggplot(
+    aes(
+      x= listing_date,
+      y= req_per_day
+      )) +
+  geom_line() +
+  facet_wrap(
+    vars(job_type),
+    ncol=1) +
+  stat_smooth(
+    method = "lm",
+    se= FALSE
+    ) +
+  scale_x_date(
+    date_labels = "%a\n%d-%m",
+    date_breaks = "week"
+               ) +
+  labs(
+    title= "Ontwikkeling vraag per functie type"
+  )
+
+
+```
+
+### Ontwikkeling vraag naar data professionals
+
+Voor de deelvraag "In hoeverre sluit het "curriculum" van HoB zich aan
+bij de ontwikkelende markt?" was het naast de huidige situatie ook de
+bedoeling een trend analyse te doen. Helaas is duidelijk geworden dat er
+te weinig data beschikbaar is om een betrouwbare analyse hierop te doen.
+Hoewel dit tijdens het onderzoek is gebleken zijn de artefacten
+hieronder aangeboden voor analyses op een later moment. Zo kan er
+bijvoorbeeld achterhaald worden of er bepaalde momenten in het jaar zijn
+waar er meer wordt gezocht naar data professionals.
+
+In de eerste grafiek hieronder is een negatieve trend te zien wanneer er
+gekeken wordt naar de totale instroom aan "data" vacatures. De tweede
+grafiek toont een autocorrelatie. Op de x-as zijn de dagen vanaf het
+huidige datapunt gemeten (0 is dezelfde dag). Op de y-as is de mate van
+correlatie. Alle punten boven of onder de blauwe lijnen zouden statisch
+significant moeten zijn. Op het moment van schrijven lijkt er een
+significant patroon op te treden iedere 6 dagen. Echter is de correlatie
+slechts 0.3 wat aanduidt dat het patroon erg zwak is.
+
+#### Instroom vanaf 5 februari 2022
+
+```{r date counts}
+
+# filter data to contain only points after 5th of february
+plot_indeed_timeseries_data(df_indeed_final_date_filtered)
+
+```
+
+#### Auto-correlatie instroom
+
+```{r}
+#create listing date table
+listing_date_table <- table(df_indeed_final_date_filtered$listing_date)
+
+#calculate autocorrelation
+acf(listing_date_table, main= "Instroom autocorrelatie")
+```
+
+Zoals gesteld kan er met de huidige data weinig betekenis worden gehaald
+uit de trendanalyse. Wel biedt de code mogelijkheid voor latere
+toepassing. Zo kan er na een langere termijn van scraping een analyse
+worden gedaan per opdracht gever of functietype. Ook kan er gekeken
+worden naar de algehele markt ontwikkeling en de beste momenten om
+opdrachtgevers te benaderen. Dit zouden dan ook aanbevelingen zijn voor
+een vervolgonderzoek of toepassing van de bovenstaande grafieken en
+bijbehorende code.
