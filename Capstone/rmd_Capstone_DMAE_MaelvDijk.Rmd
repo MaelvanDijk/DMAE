@@ -39,8 +39,6 @@ library("tidyverse")
 library("stringr") # textmining toepassingen
 library("tseries") # tijdseries plotten
 library("Hmisc") # basale data beschrijvingen
-library("docstring") # gebruik '?<functie_naam>' voor custom functies
-
 
 #custom functions
 source('./supporting_code/Scraped_indeed_data_wrangler.R')
@@ -152,7 +150,7 @@ informatie over de datasets in de ruwe vorm (te vinden in
 ".\\Data_raw")".
 
 | ID   | dataset name                   | format | beschrijving                                                                         | dataset owner | Locatie                                                                                         |
-|------|--------------------------------|--------|--------------------------------------------------------------------------------------|---------------|-------------------------------------------------------------------------------------------------|
+|----------|----------|----------|----------------|----------|-------------------|
 | D001 | indeed_job_dataset.csv         | CSV    | dataset met job post data vanuit de VS voor data anlysten, scientisten en engineers. | Elroy         | extern: <https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer> |
 | D002 | <DATE> scraped indeed data.csv | CSV    | scraped data voor functies met het woord "data" in nederland                         | Maël          | scraper: ./Supporting_code/indeed_scraper.R                                                     |
 
@@ -186,7 +184,7 @@ df_indeed_kaggle <-read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 describe(df_indeed_kaggle)
 ```
 
-het overzicht hierboven toont onder andere dat het aantal unieke
+Het overzicht hierboven toont onder andere dat het aantal unieke
 "Skills" bijna gelijk is aan het aantal unieke rijen. Hier zit echter
 een fout. Het is namelijk zo dat [SQL, Python] en [Python, SQL]
 hetzelfde betekenen maar wordt gezien als twee unieke rijen. Daarnaast
@@ -238,7 +236,7 @@ verder wegens beperkte tijd en de afwezigheid van een ML model is er
 voor gekozen om de missende waarden niet onderhanden te nemen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|---------------------|-------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------|----------|---------------------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
 | ETL (midden-rechts) | job_type          | Er zijn drie type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                   |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 162 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
@@ -764,30 +762,27 @@ observaties.
 
 Datakwaliteit is al kort aangestipt door het project heen. Het ontbreken
 van een API en de tijdsdruk voor dit onderzoek heeft betekend dat er
-keuzes zijn gemaakt ik en het scrapen, schonen en verrijken van de data.
-De belangrijkste om hier te benoemen zijn: functie type en skills.
+keuzes zijn gemaakt in het scrapen, schonen en verrijken van de data. De
+belangrijkste issues zitten in functietype en skills.
 
-Allereerst zijn er fouten aanwezig in de functie type. Er is onderscheid
-gemaakt tussen data analist, data engineers, en data scientisten. Hoewel
-er vacatures kunnen zijn voor hele andere data functies is iedere
-functie geforceerd in een van deze catagorieën.
+Er is onderscheid gemaakt tussen analist, engineers, en scientisten.
+Hoewel er vacatures kunnen zijn voor hele andere data functies is iedere
+functie in een van deze catagorieën geforceerd.
 
 De tweede kwaliteit issue zit in de skills. Een goed voorbeeld is de
 vaardigheid "network". Dit had waarschijnlijk "neural network" moeten
-zijn. Wanneer er gezocht wordt op "power bi" zal "powerbi" niet worden
-gevonden hierdoor mist er data. Ook zijn skills zoals "sql" in veel
-verschillende varianten te vinden zoals "mysql". Deze skills zijn apart
-opgeslagen, dit geeft een vertekende weergaven van de vraag naar de
-echte skills.
+zijn. Ook zijn skills zoals "sql" in veel verschillende varianten te
+vinden zoals "mysql". Deze skills zijn apart opgeslagen, dit geeft een
+vertekende weergaven van de vraag naar de echte skills. Dit geldt ook
+van typefouten in de vacaturetekst.
 
 ### Data scraping
 
 Als laatste zijn er twee kanttekeningen bij het data scrapen. Allereerst
-is alleen Indeed als bron gebruikt. Qua website omvang is dit misschien
-een goede representatie maar het zou kunnen dat hier nog een beter
-alternatief voor is. Het gevaar van dubbele vacatures binnenhalen bij
-het gebruik van meerdere scrapers is dan natuurlijk een gevaar. Wegens
-tijdsgebrek is hier geen verder onderzoek.
+is alleen Indeed als bron gebruikt. Deze bron lijkt representatief en
+goed te benutten. De keuze om niet meerdere scrapers voor verschillende
+vacaturebanken te gebruiken is het gebrek aan tijd en het risico van
+dubbele vacatures.
 
 Het tweede punt betreft de query. De scraper is gericht op een zo breed
 mogelijk profiel. Om deze reden is als zoekopdracht "data" gebruikt. Een
@@ -799,18 +794,17 @@ scientisten. Dit sluit aan op de verdere kritiek onder "data kwaliteit".
 
 ### Deployment
 
-Als laatste deployement. Bij dit onderzoek worden een aantal artefacten
-aangeleverd die gebruikt kunnen worden voor ad-hoc analyses. De scripts
-en code zijn zonder de markdown te gebruiken en makkelijk te bewerken.
-De code is voorzien van commentaar en kan relatief makelijk worden
-uitgebreid met nieuwe functionaliteiten waar nodig.
+Bij dit onderzoek worden een aantal artefacten aangeleverd die gebruikt
+kunnen worden voor analyses. De code is voorzien van commentaar en kan
+relatief makkelijk worden uitgebreid met nieuwe functionaliteiten waar
+nodig.
 
-Gezien HoB haar IT landschap aankoopt en niet zelf ontwikkelt is de
-verwachting dat de artefacten hier aangeleverd niet standaard draaien in
-een productie omgeving. Waarschijnlijker is dat de artefacten voor
-ad-hoc analyses toegepast kan worden voor verder onderzoek wanneer
-nodig. Tot die tijd zal de code te vinden zijn in een publieke repo op
-GitHub: <https://github.com/MaelvanDijk/DMAE>.
+Gezien HoB haar IT landschap aankoopt en niet zelf ontwikkelt zullen de
+artefacten niet standaard in de een productie omgeving draaien.
+Waarschijnlijker is dat de artefacten voor ad-hoc analyses toegepast kan
+worden voor verder onderzoek wanneer nodig. Tot die tijd zal de code te
+vinden zijn in een publieke repo op GitHub:
+<https://github.com/MaelvanDijk/DMAE>.
 
 ## Conclusie
 
@@ -833,7 +827,7 @@ bedient een groot deel van de bedrijven die de meeste vacatures uit
 hebben staan. Hierin bestaat voor HoB de kans om met Amarant en
 Bertelsmann zaken te gaan doen. Wat betreft de skills is het belangrijk
 dat HoB blijft inzetten op de belangrijkste skills (sql, python en r)
-maar ook de verdieping aanbiedt op het gebied ai, neuralenetwerken en
+maar ook de verdieping aanbiedt op het gebied ai, neurale netwerken en
 big data oplossingen (scala, spark en hive).
 
 Kortom HoB lijkt competitief zowel op loon als aanbod waarbij kansen

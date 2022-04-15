@@ -339,10 +339,10 @@ unnest_skills <- function(tbl_enriched_data){
 }
 
 filter_dates <- function(tbl_enriched_data, start_date="2022-02-05"){
-  #'create a dataframe with filtered dates for better time analysis and remove empty rows
+  #'Create a dataframe with filtered dates for better time analysis and remove empty rows
   #'@param tbl_enriched_data enriched dataframe of scraped indeed data
   #'@param start_date the first date that should appear in the output dataframe
-  #'@returns dataframe with earlier dates removed
+  #'@return dataframe with earlier dates removed
   
   # filter final tables based on relevant dates
   tbl_indeed_dates_filtered <- tbl_enriched_data[tbl_enriched_data$listing_date >= start_date, ]
