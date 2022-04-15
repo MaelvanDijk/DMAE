@@ -230,6 +230,8 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
       )
   }
   else{
+    var_title <- paste("Instroom vacatures voor de vaardigheid", skill)
+      
     max_count <- df_indeed_skills_date_filtered %>%
       group_by(listing_date, skills) %>%
       summarise(req_per_day= n(), .groups= "keep") %>%
@@ -252,7 +254,7 @@ plot_indeed_timeseries_data <- function(df_indeed_skills, skill=""){
                   color="#07E597"
                   )+
       labs(
-        title = "Instroom vacatures voor geselecteerde vaardigheid",
+        title = var_title,
         y = "Aantal vacatures",
         x = "plaatsingsdatum"
       )+

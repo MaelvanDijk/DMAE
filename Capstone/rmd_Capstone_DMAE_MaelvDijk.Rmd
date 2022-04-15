@@ -336,10 +336,11 @@ verschillende maandsalarissen van HoB vergelijken met de gehele
 onderzoekspopulatie.
 
 Hieronder is de salaris verdeling te zien gesegmenteerd op gevraagde
-ervaring in de vacatures. Door de dataset op te delen in negen segmenten
-(gemiddeld 166 observaties) is de verdeling gevoeliger en minder
-accuraat. Toch geeft het de indruk dat het salaris geboden door HoB
-doorgaans beter is dan het salaris op Indeed.
+ervaring in de vacatures. Door dataset D002 (1614 observaties) op te
+delen in negen segmenten op basis van gevraagde jaren werkervaring is de
+verdeling gevoeliger en minder accuraat. Toch geeft het de indruk dat
+het salaris geboden door HoB doorgaans beter is dan het salaris op
+Indeed.
 
 ```{r plt_hob_vs_indeed_salary_dist_per_experience, echo=FALSE}
 
@@ -355,10 +356,12 @@ Het salaris bij HoB wordt niet alleen bepaalt door werkervaring. Ook het
 afronden van cursussen en het opdoen van skills wordt beloond. Wat
 betreft hard skills kan er vanuit worden gegaan dat een consultant vier
 tot zes skills bezit na de eerste drie jaar bij HoB. Dit zijn data
-modeling, excel, R, Python, SQL en PowerBI. In onderstaande drie
-grafieken is het mediaan salaris op Indeed weergegeven verdeeld over het
-gevraagde aantal skills. De zwarte lijn geeft het bijbehorende HoB
-salaris aan.
+modeling, excel, R, Python, SQL en PowerBI.
+
+In onderstaande drie grafieken is het mediaan salaris op Indeed
+weergegeven verdeeld over het gevraagde aantal skills. De zwarte lijn
+geeft het bijbehorende HoB salaris aan. De balken kleuren groen op het
+moment dat het salaris van HoB hier boven ligt.
 
 Vanaf het derde jaar blijkt HoB echt een competitief salaris te bieden.
 Hierbij kan verwacht worden dat een consultant zo'n vier tot zes skills
@@ -478,7 +481,12 @@ df_indeed_skills %>%
   theme(
     axis.text.y = element_text(
       face= 'bold',
-      size= 14)) + # Rotate x-labels and change font
+      size= 14)) + # Rotate x-labels and change font+
+  scale_y_continuous(
+      breaks= seq(0, 3, 1),
+      labels=seq(0, 3, 1),
+      limits= c(0,3)
+    )+
       coord_flip() +
   labs(
     title= "Functie verdeling over 20 minst gevraagde skills",
@@ -507,7 +515,7 @@ vacatures, wordt R ook meegenomen dan is dit 32%. Een focus op alleen
 dit deel van de skills lijkt een goed deel van de markt te dekken. Dit
 zijn dus absoluut skills waar de focus op moet blijven liggen.
 
-### Welke werkgevers die actief zijn op de Nederlandse arbeidsmarkt van data professionals worden nog niet bediend door HoB? {.tabset}
+#### Ontwikkeling skillbehoeften
 
 Het is duidelijk wat de huidige vraag is. Met de huidige ontwikkelingen
 op het gebied van big data en cloud technologie die in de praktijk
@@ -522,10 +530,14 @@ Hieronder zijn zes skills gekozen die in iedergeval in de gaten gehouden
 kunnen worden. Momenteel vertellen de grafieken dat de vraag doorgaans
 dalende is (groene trendlijn) echter is de aannamen dat na het
 verzamelen van meer data een duidelijke opwaartse trend zichtbaar zal
-worden.
+worden. Deze aannamen is op basis van ervaring binnen de consultancy
+waar minder opdrachten beschikbaar zijn, vaak als gevolg van nieuwe
+budgetering en invulling van deze budgetten door organisaties.
 
 Mocht de behoeften aanwezig zijn om andere skills te onderzoeken dan kan
 de bijbehorende code makkelijk worden aangepast.
+
+###  {.tabset .unlisted .unnumbered}
 
 #### SQL
 
@@ -564,7 +576,7 @@ plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "azure")
 plot_indeed_timeseries_data(df_indeed_skills_date_filtered, "aws")
 ```
 
-### Welke opdrachtgevers worden nog niet bediend door HoB? {.tabset}
+### Welke werkgevers die actief zijn op de Nederlandse arbeidsmarkt van data professionals worden nog niet bediend door HoB? {.tabset}
 
 De laatste deelvraag binnen dit onderzoek richt zich op de mogelijke
 opdrachtgevers. Hiervan was het oorspronkelijk de bedoeling om een trend
@@ -574,37 +586,40 @@ tussen de organisaties die vacatures uit hebben staan op Indeed en de
 organisaties die HoB bedient. Wel is in de bijlagen "Addendum" een stuk
 over de trend van de algehele markt te vinden.
 
-In de eerste grafiek hieronder wordt de top 25 bedrijven getoond op
-basis van het aantal geplaatste vacatures. Grofweg 50% van deze
-organisaties betreffen detacheerders (waaronder House of Bèta). Dit is
-een interessant gegeven, de aannamen hier is namelijk dat de reden dat
-er zoveel vraag vanuit detacheerders en consultants is komt door de
-grote vraag naar data professionals in het algemeen.
+In de grafiek "top 20 bedrijven - functie types" hieronder wordt de top
+25 bedrijven getoond op basis van het aantal geplaatste vacatures.
+Grofweg 50% van deze organisaties betreffen detacheerders (waaronder
+House of Bèta). Dit is een interessant gegeven, de aannamen hier is
+namelijk dat de reden dat er zoveel vraag vanuit detacheerders en
+consultants is komt door de grote vraag naar data professionals in het
+algemeen.
 
-Buiten de bevestiging van de grote vraag naar data professionals is het
-vooral interessant om te kijken naar de organisaties met de hoogste
-vraag die niet vallen onder consultancy of detacheerders. In de tweede
-grafiek is een subset gemaakt van deze 25 bedrijven zonder consultancies
-of detacheerders. Uit deze grafiek zijn op dit moment twee partijen waar
-HoB geen personeel aan levert: Bertelsmann SE & Co, en Amarant.
+Buiten dat de data lijkt uit te wijzen dat er grote vraag naar data
+professionals is, is het vooral interessant om te kijken naar de
+organisaties met de hoogste vraag die niet vallen onder consultancy of
+detacheerders. In de grafiek "top 10 bedrijven (excl. detachering) -
+functie types" is een subset gemaakt van deze 25 bedrijven zonder
+consultancies of detacheerders. Uit deze grafiek zijn op dit moment twee
+partijen waar HoB geen personeel aan levert: Bertelsmann SE & Co, en
+Amarant.
 
 Uiteraard is dit een summiere analyse om een daadwerkelijke gap aan te
-tonen vandaar nog twee aanvullende analyses. De derde grafiek laat zien
-dat voornamelijk python, sql, R, ai en (neural) network skills veel
-gezocht wordt door de subset van bedrijven. De tweede grafiek laat
-eenzelfde verdeling zien maar dan vanuit een andere invalshoek. De
-eerste grafiek beschouwt de meest gevraagde skills vanuit de hele
-onderzoeks populatie. De vierde grafiek daarentegen laat toont alleen de
-top skills die daadwerkelijk door deze bedrijven worden gezocht. Uit
-deze laatste grafiek komen drie inzichten naar voren. De belangrijkste
-skills blijven ongewijzigd, SAS (HoB focust hier sinds kort op) komt
-naar voren op de 5e plek. De overige vijf skills hebben veelal te maken
-met big data toepassingen.
+tonen vandaar nog twee aanvullende analyses. De grafiek "top 10
+bedrijven - top 10 skills (gehele populatie)" laat zien dat voornamelijk
+python, sql, R, ai en (neural) network skills veel gezocht wordt door de
+subset van bedrijven. De grafiek "Top 10 bedrijven - top 10 skills
+(binnen top 10 bedrijven)" laat eenzelfde verdeling zien maar dan vanuit
+een andere invalshoek. De eerste van deze twee grafieken beschouwt de
+meest gevraagde skills vanuit de hele onderzoeks populatie. De tweede
+grafiek daarentegen laat toont alleen de top skills die daadwerkelijk
+door deze bedrijven worden gezocht. Uit deze laatste grafiek komen drie
+inzichten naar voren. De belangrijkste skills blijven ongewijzigd, SAS
+(HoB focust hier sinds kort op) komt naar voren op de 5e plek. De
+overige vijf skills hebben veelal te maken met big data toepassingen.
 
-#### top 20 bedrijven - functie types
+#### top 25 bedrijven - functie types
 
 ```{r}
-
 top_companies <- table(df_indeed_final$Company) %>%
   sort() %>%
   tail(25) %>%
@@ -653,7 +668,6 @@ plot_skills_per_company(
 #### Top 10 bedrijven - top 10 skills (binnen top 10 bedrijven)
 
 ```{r}
-
 df_important_companies <- df_indeed_skills_date_filtered %>%
   filter(Company %in% companies_of_interest) 
 
@@ -672,14 +686,20 @@ plot_skills_per_company(
 ###  {.unlisted .unnumbered}
 
 Een kanttekening: Bertelsmann SE & Co. lijkt de uitslag van de top 10
-analyses te beïnvloeden door hun sterke aanwezigheid (NN heeft dit
-effect ook maar in mindere maten).
+analyses te beïnvloeden door hun sterke aanwezigheid. NN Group heeft
+deze invloed blijkbaar minder ondanks het hoger aantal geplaatste
+vacatures. Dit lijkt te komen omdat NN in al haar vacatures minder vaak
+skills benoemd (totaal 152) dan Bertelsmann (totaal 388).
 
-Ook inzicht in de concurrentie kan waardevol zijn. In de grafiek zijn de
-meest gevraagde skills onder de top 10 detacheerders getoond. Hieruit
-lijken drie nieuwe skills naar voren te komen, namelijk: Stata, Matlab
-en Gis. Omdat niet veel partijen hier op in zetten lijkt dit niet een
-belangrijke set skills voor algehele marktbediening.
+Ook inzicht in de concurrentie kan waardevol zijn, dit kan namelijk de
+vraag naar vaardigheden weergeven van organisaties die openstaan voor
+consultancy of detachering. De aannamen is dat andere detacheerders
+vragen naar skills die hun opdrachtgevers zoeken, nu en toekomstig. In
+de grafiek hieronder zijn de meest gevraagde skills onder de top 10
+detacheerders getoond. Hieruit lijken drie nieuwe skills naar voren te
+komen, namelijk: Stata, Matlab en Gis. Omdat niet veel partijen hier op
+in zetten lijkt dit niet een belangrijke set skills voor algehele
+marktbediening.
 
 #### Top 10 skills per detacheerder
 
@@ -713,9 +733,10 @@ plot_skills_per_company(
 ```
 
 Om deze deelvraag kort samen te vatten: HoB heeft een kans om bij
-Bertelsmann SE &Co. en Amarant nieuwe kansen te creëren. Om haar positie
-bij partijen te versterken is het naast bestaande cursussen nog
-waardevol om te kijken naar big data en gevorderde data science skills.
+Bertelsmann SE &Co. en Amarant nieuwe opdrachten binnen te halen, mits
+zij openstaan voor detachering en/of consultancy. Om haar positie bij
+partijen te versterken is het naast bestaande cursussen nog waardevol om
+te kijken naar big data en gevorderde data science skills.
 
 ## Discussie
 
@@ -740,7 +761,7 @@ observaties.
 
 Datakwaliteit is al kort aangestipt door het project heen. Het ontbreken
 van een API en de tijdsdruk voor dit onderzoek heeft betekend dat er
-keuzes zijn gemaakt ik en het scrapen, schonen en vereiken van de data.
+keuzes zijn gemaakt ik en het scrapen, schonen en verrijken van de data.
 De belangrijkste om hier te benoemen zijn: functie type en skills.
 
 Allereerst zijn er fouten aanwezig in de functie type. Er is onderscheid
@@ -796,10 +817,14 @@ opzichten van de Nederlandse arbeidsmarkt op het gebied van data
 professionals kijkend naar loon, skills en potentiële opdrachtgevers?"
 
 Het is duidelijk geworden data HoB een competatief salaris biedt aan
-haar medewerkers,In iedergeval vanaf jaar drie waar zij meer dan 50% van
-de vacatures in loon voorbijgaan. Voor zowel jaar een, twee, en drie
+haar medewerkers, In iedergeval vanaf jaar drie waar zij meer dan 50%
+van de vacatures in loon voorbijgaan. Voor zowel jaar een, twee, en drie
 verdient een HoB consultant boven modaal. Kijkende naar de gehele
-onderzoeks populatie.
+onderzoeks populatie. Hierin lijkt er, afgaande op het markt aanbod van
+monetair salaris, niet direct een aanleiding te zijn voor uitstroom bij
+HoB. Hierbij moet wel gesteld worden dat aanbiedingen van opdrachtgevers
+om collega's direct over te nemen na hun opdracht niet meetbaar zijn en
+daarbij kunnen afwijken van de aanbiedingen zichtbaar op Indeed.
 
 Op het gebied van skills en opdrachtgevers doet HoB het erg goed. Zij
 bedient een groot deel van de bedrijven die de meeste vacatures uit
