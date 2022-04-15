@@ -1,4 +1,8 @@
 plot_kaggle_distribution <- function(df_indeed_kaggle){
+  #'plot indeed data based on kaggle dataset
+  #'@param df_indeed_kaggle a dataframe based on: https://www.kaggle.com/datasets/elroyggj/indeed-dataset-data-scientistanalystengineer
+  #'@return 3 variations on density/distribution plots
+  
   # D001
   # maak de grafieken breeder
   options(repr.plot.width=20, repr.plot.height=8)
