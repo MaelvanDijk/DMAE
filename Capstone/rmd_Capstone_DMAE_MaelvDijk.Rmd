@@ -51,98 +51,92 @@ HoB_color_palet <- c("#07E597", "#FE4F00", "#2C435E", "#2E7D7B", "#0B191D")
 
 ```
 
-## Samenvating
+## Samenvatting
 
-House of Bèta (HoB) blijkt vanaf haar 3e jaar een competitief salaris te
-bieden waarin het meer dan 50% van de markt verslaat. In de eerste 2
-jaren verdienen werknemers boven het modale loon. Hierin is zeker te
-stellen dat HoB een competitief salaris biedt. Het blijkt echter dat HoB
-nog ruimte heeft om de hard skills van haar personeel te ontwikkeling.
-Het belangrijkste zijn skills m.b.t cloud, big data, en geavanceerde
-data science skills. Deze skills worden steeds meer gevraagd onder de
-huidige opdrachtgevers en potentiële nieuwe opdrachtgevers. Wat betreft
-nieuwe opdrachtgevers blijken er kansen te liggen bij Bertelsmann en
-Amarant. Als laatste is het belangrijk om de skills sql, python en R te
-blijven aanbieden en aansterken.
+House of Bèta (HoB) blijkt vanaf haar derde jaar een competitief salaris
+te bieden waarin het meer dan 50% van de markt verslaat. In de eerste
+tweede jaren verdienen werknemers boven het modale loon. Hierin is zeker
+te stellen dat HoB een competitief salaris biedt. Het blijkt echter dat
+HoB nog ruimte heeft om de hard skills van haar personeel te
+ontwikkelen. Het belangrijkste zijn skills m.b.t cloud, big data, en
+geavanceerde data science skills. Deze skills worden steeds meer
+gevraagd door de huidige opdrachtgevers en potentiële nieuwe
+opdrachtgevers. Wat betreft nieuwe opdrachtgevers blijken er kansen te
+liggen bij Bertelsmann en Amarant. Als laatste is het belangrijk om de
+skills sql, python en R te blijven aanbieden en aansterken.
 
 ## Inleiding
 
-Dit onderzoek richt zich op de vraag hoe competitief HoB is op de markt
-voor data professionals. Hierin wordt gekeken naar zowel het salaris
-(dus wat HoB biedt aan het personeel) als de mogelijkheden voor HoB om
-een groter deel van de markt te bedienen (gevraagde vaardigheden en
-potentiële opdrachtgevers).
+Dit onderzoek richt zich op de vraag hoe competitief House of Bèta (HoB)
+is op de markt voor data professionals. Hierin wordt gekeken naar zowel
+het monetair salaris (dus wat HoB biedt aan het personeel) als de
+mogelijkheden voor HoB om een groter deel van de markt te bedienen
+(gevraagde skills en potentiële opdrachtgevers).
 
 HoB heeft al langer de wens om inzichten te krijgen in de reden van
 uitstroom van haar consultants, gezien dit een belangrijke asset is van
 de organisatie. Wegens juridische en technische beperkingen is het
 momenteel niet mogelijk hier onderzoek naar te doen.
 
+Deze wens is meer urgent geworden na de uitstroom die het moederbedrijf
+van HoB, Talent&Pro, in 2021 heeft gezien. HoB verwacht dat deze
+uitstroom op den duur ook binnen haar eigen consultants zal optreden.
+
 Een tweede wens is om de markt beter te kunnen bedienen en te groeien
-als de leverancier van IT personeel. Na overleg is gebleken dat beide
-wensen gekoppeld kunnen worden in dit onderzoek. Het onderzoek helpt HoB
-inzichten te krijgen in een ontwikkelende markt, haar eigen
-arbeidsvoorwaarden op waarden te schatten en biedt een basis voor
-verdere analyse aangaande de churn van haar personeel.
-
-### House of Bèta
-
-HoB is een detacheerder op het gebied van (business) IT. HoB probeert
-voornamelijk starters op de arbeidsmarkt aan te trekken en probeert deze
-te matchen aan passende opdrachtgevers. De consultants hebben de
-mogelijkheid zich na verloop van tijd te specialiseren waarin HoB de
-trainingen en opleiding faciliteert of betaald.
-
-HoB is een relatief nieuwe naam op de markt maar voert al sinds 2015
-haar werkzaamheden uit onder het moederbedrijf Talent&Pro. De consultant
-uitstroom die T&P heeft gezien over 2021 is de aanleiding geweest om
-meer grip hierop te willen krijgen.
-
-Tijdens een informatie avond heeft HoB haar 2022 doelstellingen bekend
-gemaakt. Meer opdrachtgevers bedienen en het consultant team met 30
-personen uitbreiden staan hier centraal. De uitstroom en doelstellingen
-vormen de aanleiding voor dit onderzoek.
+als de leverancier van IT personeel, zo zijn de doelstellingen van 2022
+voor HoB ook gepresenteerd. Deze groei moet plaats vinden op het gebied
+van het aantal consultant en opdrachten en de diversiteit van deze
+opdrachten. Na overleg is gebleken dat beide wensen gekoppeld kunnen
+worden in dit onderzoek. Het onderzoek helpt HoB inzichten te krijgen in
+een ontwikkelende markt, haar eigen monetaire arbeidsvoorwaarden op
+waarde te schatten en biedt een basis voor verdere analyse aangaande de
+uitstroom van haar personeel.
 
 ### Businessvraag
 
-Dit onderzoek en de wensen van HoB kunnen worden vastgelegd in een
-centrale vraag: "Hoe positioneert HoB zich ten opzichten van de
+De wensen van HoB worden met de volgende onderzoeksvraag onderzocht:
+"Hoe positioneert HoB zich ten opzichte van andere werkgevers op de
 Nederlandse arbeidsmarkt van data professionals kijkend naar loon,
-vaardigheden en potentiële opdrachtgevers?"
+skills en potentiële opdrachtgevers?"
 
-Deze vraag kan verder worden opgedeeld in 3 deelvragen:
+Deze vraag kan verder worden opgedeeld in drie deelvragen:
 
-1\. Hoe verhoudt het salaris van HoB zich tot de Nederlandse markt?
+1\. Hoe verhoudt het salaris van HoB zich tot andere werkgevers op de
+Nederlandse arbeidsmarkt van data professionals?
 
-2\. In hoeverre sluit het "curriculum" van HoB zich aan bij de
-ontwikkelende markt?
+2\. In hoeverre sluit het cursus,- en opleidingsaanbod van HoB zich aan
+op de vraag van andere werkgevers op de Nederlandse arbeidsmarkt van
+data professionals?
 
-3\. Welke opdrachtgevers actief op de markt worden nog niet bediend door
-HoB?
+3\. Welke werkgevers die actief zijn op de Nederlandse arbeidsmarkt van
+data professionals worden nog niet bediend door HoB?
 
 ### Data mining goals
 
 Om tot de businessdoelen te komen zijn er een aantal data mining doelen
-gesteld. Gezien HoB nog geen datamining activiteiten uitvoert betekent
+opgesteld. Gezien HoB nog geen datamining activiteiten uitvoert betekent
 dit dat een groot deel van dit onderzoek besteed wordt aan (externe)
 data ophalen.
 
-beginnend bij een dataset ophalen die een corpus van vaardigheden bevat.
-Vervolgens moeten er vacatures gescraped worden van een representatieve
-vacaturebank. Ten derde moet er textmining plaatsvinden om tot tabulaire
-data te komen. Om verdere inzichten te verkrijgen moet de data verrijkt
-gaan worden met kenmerken die het mogelijk maken de dataset verder te
-segmenteren (clusteren). als laatste moeten er analyses plaats vinden om
-de vraag van de business te kunnen beantwoorden.
+Ten eersten moet er een dataset opgehaald worden die een corpus van
+skills bevat. Vervolgens moeten er vacatures gescraped worden van een
+representatieve vacaturebank. Daarna moet er textmining plaatsvinden om
+tot tabulaire data te komen. Om verdere inzichten te verkrijgen moet de
+data verrijkt gaan worden met kenmerken die het mogelijk maken de
+dataset verder te segmenteren (clusteren). als laatste moeten er
+analyses plaats vinden om de vraag van de business te kunnen
+beantwoorden.
 
 ### Business Success criteria
 
-De volgende kwalitatieve eisen worden gesteld: er moet een analyse komen
-van HoB versus markt inkomen, een analyse over de vraag verdeling over
-bedrijven en een over skills. Daarnaast moet er een bruikbare scraper
-voor vervolg onderzoek worden opgeleverd.
+De volgende kwalitatieve eisen zijn door HoB gesteld: er moet een
+analyse komen van HoB versus marktinkomen, en een verdeling van de vraag
+(naar skills) onder bedrijven.
 
-## Methoden
+Daarnaast wordt er een bruikbare scraper en andere data analyse
+artefacten voor vervolg onderzoek opgeleverd.
+
+## Methode
 
 Dit hoofdstuk behandelt de data en het gebruik. In "data understanding"
 worden kenmerken van de dataset besproken, "data preperation en
@@ -169,13 +163,13 @@ informatie over de datasets in de ruwe vorm (te vinden in
 : datalog (shortened)
 
 D001 is gekozen als basis dataset (zie ook hoofdstuk "Addendum" voor
-aansluitende analyses). Hierin staan onder andere vaardigheden en
-functietypeDit legt een goede basis voor dit onderzoek, de functietype
-sluiten namelijk aan op de specialisaties binnen HoB. Andere datasets
-hadden te weinig observaties of miste cruciale gegevens (vaardigheden),
-vandaar de keuze voor D001.
+aansluitende analyses). Hierin staan onder andere skills en
+functietypen. Dit legt een goede basis voor dit onderzoek, de
+functietypen sluiten namelijk aan op de specialisaties binnen HoB.
+Andere datasets hadden te weinig observaties of misten cruciale gegevens
+(skills), vandaar de keuze voor D001.
 
-D002 is gescrapte data van Indeed. Het rationaal achter het scrapen van
+D002 is gescrapte data van Indeed. De rationale achter het scrapen van
 Indeed komt voort uit het tekortschieten van bestaande API's en
 afwezigheid van relevante datasets. Indeed is gekozen omdat dit een van
 de grotere vacaturebanken is. Ook kan de scraper andere functies binnen
@@ -188,7 +182,7 @@ Beginnend bij de beschrijving van D001. Deze dataset is al erg
 opgeschoond. De basale kenmerken zijn in onderstaande overzicht te
 vinden. Voor dit onderzoek lijken gelijk twee kolommen interessant. Dit
 zijn "Skill" en "Job_Type". Hierin staan respectievelijk een lijst van
-(hard)skills en de functie soort per observatie.
+(hard)skills en de functietypen per observatie.
 
 ```{r basic D001 data, echo=FALSE, max.height='400px', comment= NA}
 # kenmerken D001 dataset
@@ -197,17 +191,17 @@ df_indeed_kaggle <-read.csv(".\\Data_raw\\D001\\indeed_job_dataset.csv")
 describe(df_indeed_kaggle)
 ```
 
-het overzicht hierboven toont onder anderen dat het aantal unieke
+het overzicht hierboven toont onder andere dat het aantal unieke
 "Skills" bijna gelijk is aan het aantal unieke rijen. Dit betekent
 echter niet dat er zoveel verschil zit tussen de vacatures. Het is
 namelijk zo dat [SQL, Python] en [Python, SQL] hetzelfde betekenen maar
 wordt gezien als twee unieke rijen. Deze informatie wordt gebruikt in
-latere ETL stappen. Daarnaast is opvallend dat de verdeling tussen data
-analist (31%), data engineer (24%) en data scientist (45%) niet volledig
-evenredig is.
+latere ETL stappen. Daarnaast is het opvallend dat de verdeling tussen
+data analist (31%), data engineer (24%) en data scientist (45%) niet
+volledig evenredig is.
 
 Dataset D002 bevat Indeed data. Hiervoor is er gezocht op functies met
-het woord "data". D002 bestaat uit meerdere losse bestanden (een voor
+het woord "data". D002 bestaat uit meerdere losse bestanden (één voor
 elke dag dat er een run is geweest van de scraper). Hieronder de
 voornaamste kenmerken van de run van 2022-03-08:
 
@@ -220,20 +214,20 @@ describe(df_indeed_scraped)
 
 Afgaande op de kenmerken wordt duidelijk dat:
 
-1.  de dataset heeft als vroegste datum 6 februari 2022
+1.  De dataset heeft als vroegste datum 6 februari 2022
 2.  Er zijn geen volledige dubbele rijen.
 3.  283 rijen unieke URL's en 266 rijen unieke beschrijvingen bevatten.
-    Dit duidt mogelijk op dubbele vacature
+    Dit duidt mogelijk op dubbele vacatures.
 4.  Er zijn 226 bedrijven in de dataset aanwezig.
-5.  Het salaris lijkt foute symbolen te bevatten en lijk zowel uur-,
+5.  Het salaris lijkt foute symbolen te bevatten en lijkt zowel uur-,
     maand-, en jaarsalarissen te bevatten.
 6.  Een vacature lijkt gemiddeld 22 dagen online te staan met een
     mediaan van 30 dagen. Wat aangeeft dat er relatief weinig nieuwe
     vacatures op de dag van scrapen zijn geplaatst.
 
-Uiteindelijk lijkt de dataset vrij goed geconstrueert op de kolommen met
-vaardigheden en salaris na. Deze worden dan ook het meest onderhanden
-genomen in de volgende stappen.
+Uiteindelijk lijkt de dataset vrij goed geconstrueerd op de kolommen met
+skills en salaris na. Deze worden dan ook het meest onder handen genomen
+in de volgende stappen.
 
 ### Data preperation en modeling
 
@@ -247,14 +241,15 @@ waarin het eindresultaat weergegeven wordt.
 ![Data process flow](Images/data%20flow%20process.png)
 
 Omdat de tijd en scope beperkt is voor dit onderzoek zijn er een aantal
-aannames gedaan om problemen en complexiteit te voorkomen, verder wegens
-beperkte tijd en de afwezigheid van een ML model is er voor gekozen om
-de missende waarden niet onderhanden te nemen:
+aannames gedaan om problemen te voorkomen en de complexiteit te
+verkleinen, verder wegens beperkte tijd en de afwezigheid van een ML
+model is er voor gekozen om de missende waarden niet onderhanden te
+nemen:
 
 | Process stap        | Betreffende kolom | Versimpelde weergaven                                                                                                                                                                                                                |
-|-----------------|-----------------|--------------------------------------|
+|------------------|------------------|-------------------------------------|
 | Scraping            | Salary            | Er is bij weergaven salarissen altijd voor het laagste salaris gegaan                                                                                                                                                                |
-| ETL (midden-rechts) | job_type          | Er zijn 3 type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                      |
+| ETL (midden-rechts) | job_type          | Er zijn drie type (analist, engineer, scientist). De dataset wordt verrijkt met een van deze type zelfs al wijkt dit af. Zo kan de functie "data entry" als "data analist" worden geclassificeerd.                                   |
 | ETL (midden-rechts) | salary            | Salaris \> 10.000 is jaarsalaris of salaris \< 100 is uur tarief. Dit wordt omgerekend naar maandsalaris (delen door 12 of maal 168 respectievelijk). Alles tussen de 100 en 1000 wordt als scraping fout gezien en omgezet naar NA. |
 
 : Aannamens tijdens process stappen,
@@ -316,18 +311,18 @@ rm(
 )
 ```
 
-### Hoe verhoudt het loon van HoB zich tot de Nederlandse banenmarkt op het gebied van data specialisten? {.tabset}
+### Hoe verhoudt het salaris van HoB zich tot andere werkgevers op de Nederlandse arbeidsmarkt van data professionals? {.tabset}
 
 HoB heeft op haar website aangegeven wat een collega kan verdienen in
-jaar 1, 2 en 3 (€2.763,- , €3.087,- , €3.591,- respectievelijk). Om deze
-deelvraag te beantwoorden worden deze drie salarissen gebruikt.
+jaar een, twee en drie (€2.763,- , €3.087,- , €3.591,- respectievelijk).
+Om deze deelvraag te beantwoorden worden deze drie salarissen gebruikt.
 
 De grafiek hieronder geeft de salaris verdeling van data vacatures op
 Indeed weer. Het eerste wat duidelijk wordt is dat het loon bij HoB
-boven modaal ligt. Daarnaast is het salaris in jaar 3 hoger dan 50% van
-de salarissen geboden op Indeed.
+boven modaal ligt. Daarnaast is het salaris in jaar drie hoger dan 50%
+van de salarissen geboden op Indeed.
 
-```{r plot indeed salary distribution vs hob salary, echo=FALSE}
+```{r plot_hob_salary_vs_indeed_salary_dist, echo=FALSE}
 plot_hob_salary_vs_indeed_salary_dist(
   df_indeed_final,
   first_salary= 2763,
@@ -336,7 +331,7 @@ plot_hob_salary_vs_indeed_salary_dist(
 )
 ```
 
-Bovenstaande analyse zegt echter niet alles. Hierin worden 3
+Bovenstaande analyse zegt echter niet alles. Hierin worden drie
 verschillende maandsalarissen van HoB vergelijken met de gehele
 onderzoekspopulatie.
 
@@ -346,7 +341,7 @@ ervaring in de vacatures. Door de dataset op te delen in negen segmenten
 accuraat. Toch geeft het de indruk dat het salaris geboden door HoB
 doorgaans beter is dan het salaris op Indeed.
 
-```{r HoB salaris vs Indeed verdeling per ervaringsjaar, echo=FALSE}
+```{r plt_hob_vs_indeed_salary_dist_per_experience, echo=FALSE}
 
 plt_hob_vs_indeed_salary_dist_per_experience(
   df_indeed_final,
@@ -358,16 +353,16 @@ plt_hob_vs_indeed_salary_dist_per_experience(
 
 Het salaris bij HoB wordt niet alleen bepaalt door werkervaring. Ook het
 afronden van cursussen en het opdoen van skills wordt beloond. Wat
-betreft hard skills kan er vanuit worden gegaan dat een consultant 4 tot
-6 skills bezit na de eerste 3 jaar bij HoB. Dit zijn data modeling,
-excel, R, Python, SQL en PowerBI. In onderstaande drie grafieken is het
-mediaan salaris op Indeed weergegeven verdeeld over het gevraagde aantal
-skills. De zwarte lijn geeft het bijbehorende HoB salaris aan.
+betreft hard skills kan er vanuit worden gegaan dat een consultant vier
+tot zes skills bezit na de eerste drie jaar bij HoB. Dit zijn data
+modeling, excel, R, Python, SQL en PowerBI. In onderstaande drie
+grafieken is het mediaan salaris op Indeed weergegeven verdeeld over het
+gevraagde aantal skills. De zwarte lijn geeft het bijbehorende HoB
+salaris aan.
 
-Vanaf het 3e jaar blijkt HoB echt een competitief salaris te bieden.
-Hierbij kan verwacht worden dat een consultant zo'n vier tot zes
-vaardigheden bezit. Daarmee verslaat het de markt kijkend naar skill,-,
-loonratio.
+Vanaf het derde jaar blijkt HoB echt een competitief salaris te bieden.
+Hierbij kan verwacht worden dat een consultant zo'n vier tot zes skills
+bezit. Daarmee verslaat het de markt kijkend naar skill,-, loonratio.
 
 #### 1ste jaars HoB
 
@@ -400,14 +395,14 @@ plot_indeed_median_salary_per_amount_skills(
 
 ```
 
-### {.unlisted .unnumbered}
+###  {.unlisted .unnumbered}
 
 Bovenstaande analyse zou nog verdiept kunnen worden in een vervolg
 onderzoek door het gevraagde aantal jaren werkervaring mee te nemen als
 extra dimensie. Dit levert nu echter te weinig observaties (11) per
 categorie op.
 
-### In hoeverre sluit het "curriculum" van HoB zich aan bij de ontwikkelende markt? {.tabset}
+### In hoeverre sluit het cursus,- en opleidingsaanbod van HoB zich aan op de vraag van andere werkgevers op de Nederlandse arbeidsmarkt van data professionals? {.tabset}
 
 Deze deelvraag behoeft twee analyses. Enerzijds is het van belang om te
 weten hoe het huidige aanbod van HoB aansluit op de huidige vraag.
@@ -417,7 +412,7 @@ toch wordt hiertoe een poging gedaan.
 
 Het eerste waar naar gekeken wordt, de huidige vraag naar skills.
 Hieronder zijn twee grafieken te vinden. De eerste grafiek geeft de top
-20 vaardigheden weer, de tweede grafiek de minst gevraagde 20.
+20 skills weer, de tweede grafiek de minst gevraagde 20.
 
 #### top skills
 
@@ -451,7 +446,7 @@ df_indeed_skills %>%
       size= 14)) + # Rotate x-labels and change font
       coord_flip() +
   labs(
-    title= "Functie verdeling over 20 meest gevraagde vaardigheden",
+    title= "Functie verdeling over 20 meest gevraagde skills",
     y= "aantal"
   )+
   theme_classic()+
@@ -486,7 +481,7 @@ df_indeed_skills %>%
       size= 14)) + # Rotate x-labels and change font
       coord_flip() +
   labs(
-    title= "Functie verdeling over 20 minst gevraagde vaardigheden",
+    title= "Functie verdeling over 20 minst gevraagde skills",
     y= "aantal"
   )+
   theme_classic()+
@@ -494,7 +489,7 @@ df_indeed_skills %>%
   scale_fill_manual(values=HoB_color_palet)
 ```
 
-### {.unlisted .unnumbered}
+###  {.unlisted .unnumbered}
 
 Gezien bij HoB momenteel de nadruk wordt gelegd op Python, SQL, R, SAS,
 PowerBi en cloud (AWS, Azure) technologie, sluit dit goed aan op de
@@ -509,10 +504,10 @@ bepaalde opleidingen te stoppen.
 
 Interessant om nog op te merken: SQL en Python beslaan 24% van de totale
 vacatures, wordt R ook meegenomen dan is dit 32%. Een focus op alleen
-dit deel van de vaardigheden lijkt een goed deel van de markt te dekken.
-Dit zijn dus absoluut skills waar de focus op moet blijven liggen.
+dit deel van de skills lijkt een goed deel van de markt te dekken. Dit
+zijn dus absoluut skills waar de focus op moet blijven liggen.
 
-### Ontwikkeling skill behoeften {.tabset}
+### Welke werkgevers die actief zijn op de Nederlandse arbeidsmarkt van data professionals worden nog niet bediend door HoB? {.tabset}
 
 Het is duidelijk wat de huidige vraag is. Met de huidige ontwikkelingen
 op het gebied van big data en cloud technologie die in de praktijk
@@ -523,14 +518,14 @@ Om een sterke trend analyse te doen is minstens \~3 jaar aan data nodig.
 Dit is een beperking die verder in het hoofdstuk "discussie" wordt
 besproken.
 
-Hieronder zijn 6 vaardigheden gekozen die in iedergeval in de gaten
-gehouden kunnen worden. Momenteel vertellen de grafieken dat de vraag
-doorgaans dalende is (groene trendlijn) echter is de aannamen dat na het
+Hieronder zijn zes skills gekozen die in iedergeval in de gaten gehouden
+kunnen worden. Momenteel vertellen de grafieken dat de vraag doorgaans
+dalende is (groene trendlijn) echter is de aannamen dat na het
 verzamelen van meer data een duidelijke opwaartse trend zichtbaar zal
 worden.
 
-Mocht de behoeften aanwezig zijn om andere vaardigheden te onderzoeken
-dan kan de bijbehorende code makkelijk worden aangepast.
+Mocht de behoeften aanwezig zijn om andere skills te onderzoeken dan kan
+de bijbehorende code makkelijk worden aangepast.
 
 #### SQL
 
@@ -590,21 +585,21 @@ Buiten de bevestiging van de grote vraag naar data professionals is het
 vooral interessant om te kijken naar de organisaties met de hoogste
 vraag die niet vallen onder consultancy of detacheerders. In de tweede
 grafiek is een subset gemaakt van deze 25 bedrijven zonder consultancies
-of detacheerders. Uit deze grafiek zijn op dit moment 2 partijen waar
+of detacheerders. Uit deze grafiek zijn op dit moment twee partijen waar
 HoB geen personeel aan levert: Bertelsmann SE & Co, en Amarant.
 
 Uiteraard is dit een summiere analyse om een daadwerkelijke gap aan te
 tonen vandaar nog twee aanvullende analyses. De derde grafiek laat zien
-dat voornamelijk python, sql, R, ai en (neural) network vaardigheden
-veel gezocht wordt door de subset van bedrijven. De tweede grafiek laat
+dat voornamelijk python, sql, R, ai en (neural) network skills veel
+gezocht wordt door de subset van bedrijven. De tweede grafiek laat
 eenzelfde verdeling zien maar dan vanuit een andere invalshoek. De
 eerste grafiek beschouwt de meest gevraagde skills vanuit de hele
 onderzoeks populatie. De vierde grafiek daarentegen laat toont alleen de
 top skills die daadwerkelijk door deze bedrijven worden gezocht. Uit
 deze laatste grafiek komen drie inzichten naar voren. De belangrijkste
 skills blijven ongewijzigd, SAS (HoB focust hier sinds kort op) komt
-naar voren op de 5e plek. De overige 5 vaardigheden hebben veelal te
-maken met big data toepassingen.
+naar voren op de 5e plek. De overige vijf skills hebben veelal te maken
+met big data toepassingen.
 
 #### top 20 bedrijven - functie types
 
@@ -674,7 +669,7 @@ plot_skills_per_company(
 )
 ```
 
-### {.unlisted .unnumbered}
+###  {.unlisted .unnumbered}
 
 Een kanttekening: Bertelsmann SE & Co. lijkt de uitslag van de top 10
 analyses te beïnvloeden door hun sterke aanwezigheid (NN heeft dit
@@ -682,9 +677,9 @@ effect ook maar in mindere maten).
 
 Ook inzicht in de concurrentie kan waardevol zijn. In de grafiek zijn de
 meest gevraagde skills onder de top 10 detacheerders getoond. Hieruit
-lijken 3 nieuwe vaardigheden naar voren te komen, namelijk: Stata,
-Matlab en Gis. Omdat niet veel partijen hier op in zetten lijkt dit niet
-een belangrijke set vaardigheden voor algehele marktbediening.
+lijken drie nieuwe skills naar voren te komen, namelijk: Stata, Matlab
+en Gis. Omdat niet veel partijen hier op in zetten lijkt dit niet een
+belangrijke set skills voor algehele marktbediening.
 
 #### Top 10 skills per detacheerder
 
@@ -746,15 +741,15 @@ observaties.
 Datakwaliteit is al kort aangestipt door het project heen. Het ontbreken
 van een API en de tijdsdruk voor dit onderzoek heeft betekend dat er
 keuzes zijn gemaakt ik en het scrapen, schonen en vereiken van de data.
-De belangrijkste om hier te benoemen zijn: functie type en vaardigheden.
+De belangrijkste om hier te benoemen zijn: functie type en skills.
 
 Allereerst zijn er fouten aanwezig in de functie type. Er is onderscheid
 gemaakt tussen data analist, data engineers, en data scientisten. Hoewel
 er vacatures kunnen zijn voor hele andere data functies is iedere
 functie geforceerd in een van deze catagorieën.
 
-De tweede kwaliteit issue zit in de vaardigheden. Een goed voorbeeld is
-de vaardigheid "network". Dit had waarschijnlijk "neural network" moeten
+De tweede kwaliteit issue zit in de skills. Een goed voorbeeld is de
+vaardigheid "network". Dit had waarschijnlijk "neural network" moeten
 zijn. Wanneer er gezocht wordt op "power bi" zal "powerbi" niet worden
 gevonden hierdoor mist er data. Ook zijn skills zoals "sql" in veel
 verschillende varianten te vinden zoals "mysql". Deze skills zijn apart
@@ -787,7 +782,7 @@ De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
 | Artefact                                       | Gebruik                                                                                                  |
-|------------------------|-----------------------------------------------|
+|-------------------------|-----------------------------------------------|
 | rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
 | Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
 | Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
@@ -798,27 +793,25 @@ uitgebreid met nieuwe functionaliteiten waar nodig.
 
 Als laatste het antwoord op de vraag: "Hoe positioneert HoB zich ten
 opzichten van de Nederlandse arbeidsmarkt op het gebied van data
-professionals kijkend naar loon, vaardigheden en potentiële
-opdrachtgevers?"
+professionals kijkend naar loon, skills en potentiële opdrachtgevers?"
 
 Het is duidelijk geworden data HoB een competatief salaris biedt aan
-haar medewerkers,In iedergeval vanaf jaar 3 waar zij meer dan 50% van de
-vacatures in loon voorbijgaan. Voorzowel jaar 1, 2, en 3 verdient een
-HoB consultant boven modaal. Kijkende naar de gehele onderzoeks
-populatie.
+haar medewerkers,In iedergeval vanaf jaar drie waar zij meer dan 50% van
+de vacatures in loon voorbijgaan. Voor zowel jaar een, twee, en drie
+verdient een HoB consultant boven modaal. Kijkende naar de gehele
+onderzoeks populatie.
 
-Op het gebied van vaardigheden en opdrachtgevers doet HoB het erg goed.
-Zij bedient een groot deel van de bedrijven die de meeste vacatures uit
+Op het gebied van skills en opdrachtgevers doet HoB het erg goed. Zij
+bedient een groot deel van de bedrijven die de meeste vacatures uit
 hebben staan. Hierin bestaat voor HoB de kans om met Amarant en
-Bertelsmann zaken te gaan doen. Wat betrecft de vaardigheden is het
-belangrijk dat HoB blijft inzetten op de belangrijkste vaardigheden
-(sql, python en r) maar ook de verdieping aanbiedt op het gebied van
-data science (ai en neurale netwerken) en big data oplossingen (scala,
-spark en hive).
+Bertelsmann zaken te gaan doen. Wat betreft de skills is het belangrijk
+dat HoB blijft inzetten op de belangrijkste skills (sql, python en r)
+maar ook de verdieping aanbiedt op het gebied van data science (ai en
+neurale netwerken) en big data oplossingen (scala, spark en hive).
 
 Kortom HoB lijkt competitief zowel op loon als aanbod waarbij er kansen
 bestaan om vooral naar opdrachtgevers toe verder uit te breiden in zowel
-vaardigheden als partners.
+skills als partners.
 
 Om tot deze conclusie te komen zijn naast de analyses in het
 hoofddocument nog andere analyses gedaan. Door ruimte gebrek en het
@@ -858,14 +851,14 @@ geheel onverwacht. Maar, een hypothese bij aanvang van dit onderzoek was
 dat data engineers het hoogste salaris zouden genieten van deze drie
 rollen.
 
-een laatste interessante ontdekking is dat het aantal gevraagde
-vaardigheden nauwelijks toeneemt naarmate het aangeboden salaris stijgt.
-De curve in de derde grafiek verschuift nagenoeg niet naar rechts
-naarmaten er in hogere salaris groepen wordt gekeken. Hier zou een
-aannamen zijn dat werknemers in het data veld worden beloond op basis
-van diepgaande kennis en specialisatie in plaats van een breed en
-oppervlakkig kennis gebied. Het kantel punt lijkt hier te liggen op
-ongeveer 7 a 8 vaardigheden.
+een laatste interessante ontdekking is dat het aantal gevraagde skills
+nauwelijks toeneemt naarmate het aangeboden salaris stijgt. De curve in
+de derde grafiek verschuift nagenoeg niet naar rechts naarmaten er in
+hogere salaris groepen wordt gekeken. Hier zou een aannamen zijn dat
+werknemers in het data veld worden beloond op basis van diepgaande
+kennis en specialisatie in plaats van een breed en oppervlakkig kennis
+gebied. Het kantel punt lijkt hier te liggen op ongeveer zeven á acht
+skills.
 
 ```{r D001 exploration, echo=FALSE}
 
