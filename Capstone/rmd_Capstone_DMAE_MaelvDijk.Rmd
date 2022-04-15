@@ -791,13 +791,12 @@ en code zijn zonder de markdown te gebruiken en makkelijk te bewerken.
 De code is voorzien van commentaar en kan relatief makelijk worden
 uitgebreid met nieuwe functionaliteiten waar nodig.
 
-| Artefact                                       | Gebruik                                                                                                  |
-|-------------------------|-----------------------------------------------|
-| rmd_Capstone_DMAE_MaelvDijk.Rmd                | Markdown document met de analyses voor dit onderzoek.                                                    |
-| Data_cleaned / Data_raw                        | diverse .CSV bestanden met brondata.                                                                     |
-| Supporting_code/indeed_scraper.R               | webscraper voor de Indeed vacature website. Te gebruiken om nieuwe data binnen te halen.                 |
-| Supporting_code/Scraped_indeed_data_wrangler.R | script om de gescrapte data (opgeslagen in .csv format) op te schonen en verijken met nieuwe datapunten. |
-| Supporting_code/Scraped_indeed_plotter.R       | script om de gescrapte data na schonen en verrijken op een uniforme wijze te plotten.                    |
+Gezien HoB haar IT landschap aankoopt en niet zelf ontwikkelt is de
+verwachting dat de artefacten hier aangeleverd niet standaard draaien in
+een productie omgeving. Waarschijnlijker is dat de artefacten voor
+ad-hoc analyses toegepast kan worden voor verder onderzoek wanneer
+nodig. Tot die tijd zal de code te vinden zijn in een publieke repo op
+GitHub: <https://github.com/MaelvanDijk/DMAE>.
 
 ## Conclusie
 
